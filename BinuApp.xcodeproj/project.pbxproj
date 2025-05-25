@@ -15,12 +15,20 @@
 		78F6FB252DE31EDB002D834A /* BinuAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB242DE31EDB002D834A /* BinuAppUITests.swift */; };
 		78F6FB272DE31EDB002D834A /* BinuAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB262DE31EDB002D834A /* BinuAppUITestsLaunchTests.swift */; };
 		78F6FB762DE330FD002D834A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78F6FB752DE330FD002D834A /* GoogleService-Info.plist */; };
-		78F6FB792DE33EB5002D834A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 78F6FB782DE33EB5002D834A /* FirebaseAuth */; };
-		78F6FB7B2DE33EB5002D834A /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 78F6FB7A2DE33EB5002D834A /* FirebaseCore */; };
-		78F6FB7F2DE33F57002D834A /* AuthModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB7E2DE33F57002D834A /* AuthModel.swift */; };
+		78F6FB7F2DE33F57002D834A /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB7E2DE33F57002D834A /* AuthService.swift */; };
 		78F6FB832DE33F8D002D834A /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB822DE33F8D002D834A /* Login.swift */; };
 		78F6FB882DE33FC0002D834A /* FullWidthTextBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB872DE33FC0002D834A /* FullWidthTextBox.swift */; };
 		78F6FB8C2DE3441C002D834A /* TestAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB8B2DE3441C002D834A /* TestAuthView.swift */; };
+		78F6FB9A2DE34BB2002D834A /* PostImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB992DE34BB2002D834A /* PostImageModel.swift */; };
+		78F6FB9D2DE34E07002D834A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 78F6FB9C2DE34E07002D834A /* FirebaseAuth */; };
+		78F6FB9F2DE34E07002D834A /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 78F6FB9E2DE34E07002D834A /* FirebaseCore */; };
+		78F6FBA12DE34E07002D834A /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 78F6FBA02DE34E07002D834A /* FirebaseFirestore */; };
+		78F6FBA32DE34E75002D834A /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBA22DE34E75002D834A /* CommentModel.swift */; };
+		78F6FBA52DE34EFC002D834A /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBA42DE34EFC002D834A /* PostModel.swift */; };
+		78F6FBA82DE34F4C002D834A /* SentimentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBA72DE34F4C002D834A /* SentimentModel.swift */; };
+		78F6FBAB2DE3513B002D834A /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBAA2DE3513B002D834A /* ImagePickerView.swift */; };
+		78F6FBAE2DE358CD002D834A /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBAD2DE358CD002D834A /* UIImageExtension.swift */; };
+		78F6FBB02DE35B86002D834A /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBAF2DE35B86002D834A /* PostService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,11 +61,18 @@
 		78F6FB242DE31EDB002D834A /* BinuAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinuAppUITests.swift; sourceTree = "<group>"; };
 		78F6FB262DE31EDB002D834A /* BinuAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinuAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		78F6FB752DE330FD002D834A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
-		78F6FB7E2DE33F57002D834A /* AuthModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthModel.swift; sourceTree = "<group>"; };
+		78F6FB7E2DE33F57002D834A /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		78F6FB822DE33F8D002D834A /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		78F6FB872DE33FC0002D834A /* FullWidthTextBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullWidthTextBox.swift; sourceTree = "<group>"; };
 		78F6FB8B2DE3441C002D834A /* TestAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAuthView.swift; sourceTree = "<group>"; };
 		78F6FB8D2DE345B6002D834A /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		78F6FB992DE34BB2002D834A /* PostImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostImageModel.swift; sourceTree = "<group>"; };
+		78F6FBA22DE34E75002D834A /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
+		78F6FBA42DE34EFC002D834A /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		78F6FBA72DE34F4C002D834A /* SentimentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimentModel.swift; sourceTree = "<group>"; };
+		78F6FBAA2DE3513B002D834A /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		78F6FBAD2DE358CD002D834A /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		78F6FBAF2DE35B86002D834A /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,8 +80,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78F6FB7B2DE33EB5002D834A /* FirebaseCore in Frameworks */,
-				78F6FB792DE33EB5002D834A /* FirebaseAuth in Frameworks */,
+				78F6FB9F2DE34E07002D834A /* FirebaseCore in Frameworks */,
+				78F6FB9D2DE34E07002D834A /* FirebaseAuth in Frameworks */,
+				78F6FBA12DE34E07002D834A /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -111,6 +127,7 @@
 		78F6FB052DE31EDA002D834A /* BinuApp */ = {
 			isa = PBXGroup;
 			children = (
+				78F6FBAC2DE358BE002D834A /* Extensions */,
 				78F6FB7D2DE33F38002D834A /* Views */,
 				78F6FB7C2DE33F2F002D834A /* Models */,
 				78F6FB062DE31EDA002D834A /* BinuAppApp.swift */,
@@ -151,6 +168,7 @@
 		78F6FB7C2DE33F2F002D834A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				78F6FB932DE34B5A002D834A /* Forum */,
 				78F6FB812DE33F73002D834A /* Auth */,
 			);
 			path = Models;
@@ -177,7 +195,7 @@
 		78F6FB812DE33F73002D834A /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				78F6FB7E2DE33F57002D834A /* AuthModel.swift */,
+				78F6FB7E2DE33F57002D834A /* AuthService.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -201,6 +219,7 @@
 		78F6FB892DE34403002D834A /* Test Views */ = {
 			isa = PBXGroup;
 			children = (
+				78F6FBA92DE35122002D834A /* Forum */,
 				78F6FB8A2DE3440E002D834A /* Auth */,
 			);
 			path = "Test Views";
@@ -212,6 +231,42 @@
 				78F6FB8B2DE3441C002D834A /* TestAuthView.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		78F6FB932DE34B5A002D834A /* Forum */ = {
+			isa = PBXGroup;
+			children = (
+				78F6FBAF2DE35B86002D834A /* PostService.swift */,
+				78F6FB942DE34B75002D834A /* Post Models */,
+			);
+			path = Forum;
+			sourceTree = "<group>";
+		};
+		78F6FB942DE34B75002D834A /* Post Models */ = {
+			isa = PBXGroup;
+			children = (
+				78F6FBA42DE34EFC002D834A /* PostModel.swift */,
+				78F6FB992DE34BB2002D834A /* PostImageModel.swift */,
+				78F6FBA22DE34E75002D834A /* CommentModel.swift */,
+				78F6FBA72DE34F4C002D834A /* SentimentModel.swift */,
+			);
+			path = "Post Models";
+			sourceTree = "<group>";
+		};
+		78F6FBA92DE35122002D834A /* Forum */ = {
+			isa = PBXGroup;
+			children = (
+				78F6FBAA2DE3513B002D834A /* ImagePickerView.swift */,
+			);
+			path = Forum;
+			sourceTree = "<group>";
+		};
+		78F6FBAC2DE358BE002D834A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				78F6FBAD2DE358CD002D834A /* UIImageExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,8 +286,9 @@
 			);
 			name = BinuApp;
 			packageProductDependencies = (
-				78F6FB782DE33EB5002D834A /* FirebaseAuth */,
-				78F6FB7A2DE33EB5002D834A /* FirebaseCore */,
+				78F6FB9C2DE34E07002D834A /* FirebaseAuth */,
+				78F6FB9E2DE34E07002D834A /* FirebaseCore */,
+				78F6FBA02DE34E07002D834A /* FirebaseFirestore */,
 			);
 			productName = BinuApp;
 			productReference = 78F6FB032DE31EDA002D834A /* BinuApp.app */;
@@ -307,7 +363,7 @@
 			);
 			mainGroup = 78F6FAFA2DE31EDA002D834A;
 			packageReferences = (
-				78F6FB772DE33EB5002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				78F6FB9B2DE34E07002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 78F6FB042DE31EDA002D834A /* Products */;
 			projectDirPath = "";
@@ -353,11 +409,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				78F6FB092DE31EDA002D834A /* ContentView.swift in Sources */,
+				78F6FBA52DE34EFC002D834A /* PostModel.swift in Sources */,
+				78F6FBA32DE34E75002D834A /* CommentModel.swift in Sources */,
+				78F6FBAB2DE3513B002D834A /* ImagePickerView.swift in Sources */,
 				78F6FB072DE31EDA002D834A /* BinuAppApp.swift in Sources */,
-				78F6FB7F2DE33F57002D834A /* AuthModel.swift in Sources */,
+				78F6FB7F2DE33F57002D834A /* AuthService.swift in Sources */,
 				78F6FB882DE33FC0002D834A /* FullWidthTextBox.swift in Sources */,
 				78F6FB8C2DE3441C002D834A /* TestAuthView.swift in Sources */,
+				78F6FBA82DE34F4C002D834A /* SentimentModel.swift in Sources */,
 				78F6FB832DE33F8D002D834A /* Login.swift in Sources */,
+				78F6FBB02DE35B86002D834A /* PostService.swift in Sources */,
+				78F6FB9A2DE34BB2002D834A /* PostImageModel.swift in Sources */,
+				78F6FBAE2DE358CD002D834A /* UIImageExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -718,27 +781,32 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		78F6FB772DE33EB5002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		78F6FB9B2DE34E07002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
 				kind = versionRange;
-				maximumVersion = 11.11.0;
+				maximumVersion = 11.10.0;
 				minimumVersion = 10.25.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		78F6FB782DE33EB5002D834A /* FirebaseAuth */ = {
+		78F6FB9C2DE34E07002D834A /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 78F6FB772DE33EB5002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 78F6FB9B2DE34E07002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
-		78F6FB7A2DE33EB5002D834A /* FirebaseCore */ = {
+		78F6FB9E2DE34E07002D834A /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 78F6FB772DE33EB5002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 78F6FB9B2DE34E07002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCore;
+		};
+		78F6FBA02DE34E07002D834A /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 78F6FB9B2DE34E07002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
