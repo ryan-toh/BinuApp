@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3154129E2DE37ADB00447409 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3154129D2DE37ADB00447409 /* FirebaseAuth */; };
+		315412A02DE37ADB00447409 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3154129F2DE37ADB00447409 /* FirebaseCore */; };
+		315412A22DE37ADB00447409 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 315412A12DE37ADB00447409 /* FirebaseFirestore */; };
+		315412A42DE37ADB00447409 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 315412A32DE37ADB00447409 /* FirebaseStorage */; };
 		78F6FB072DE31EDA002D834A /* BinuAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB062DE31EDA002D834A /* BinuAppApp.swift */; };
 		78F6FB092DE31EDA002D834A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB082DE31EDA002D834A /* ContentView.swift */; };
 		78F6FB0D2DE31EDB002D834A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78F6FB0C2DE31EDB002D834A /* Assets.xcassets */; };
@@ -26,10 +30,6 @@
 		78F6FBAB2DE3513B002D834A /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBAA2DE3513B002D834A /* ImagePickerView.swift */; };
 		78F6FBAE2DE358CD002D834A /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBAD2DE358CD002D834A /* UIImageExtension.swift */; };
 		78F6FBB02DE35B86002D834A /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBAF2DE35B86002D834A /* PostService.swift */; };
-		78F6FBB32DE37620002D834A /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 78F6FBB22DE37620002D834A /* FirebaseAuth */; };
-		78F6FBB52DE37620002D834A /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 78F6FBB42DE37620002D834A /* FirebaseCore */; };
-		78F6FBB72DE37620002D834A /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 78F6FBB62DE37620002D834A /* FirebaseFirestore */; };
-		78F6FBB92DE37620002D834A /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 78F6FBB82DE37620002D834A /* FirebaseStorage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,10 +81,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78F6FBB52DE37620002D834A /* FirebaseCore in Frameworks */,
-				78F6FBB92DE37620002D834A /* FirebaseStorage in Frameworks */,
-				78F6FBB32DE37620002D834A /* FirebaseAuth in Frameworks */,
-				78F6FBB72DE37620002D834A /* FirebaseFirestore in Frameworks */,
+				315412A02DE37ADB00447409 /* FirebaseCore in Frameworks */,
+				315412A42DE37ADB00447409 /* FirebaseStorage in Frameworks */,
+				3154129E2DE37ADB00447409 /* FirebaseAuth in Frameworks */,
+				315412A22DE37ADB00447409 /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,10 +288,10 @@
 			);
 			name = BinuApp;
 			packageProductDependencies = (
-				78F6FBB22DE37620002D834A /* FirebaseAuth */,
-				78F6FBB42DE37620002D834A /* FirebaseCore */,
-				78F6FBB62DE37620002D834A /* FirebaseFirestore */,
-				78F6FBB82DE37620002D834A /* FirebaseStorage */,
+				3154129D2DE37ADB00447409 /* FirebaseAuth */,
+				3154129F2DE37ADB00447409 /* FirebaseCore */,
+				315412A12DE37ADB00447409 /* FirebaseFirestore */,
+				315412A32DE37ADB00447409 /* FirebaseStorage */,
 			);
 			productName = BinuApp;
 			productReference = 78F6FB032DE31EDA002D834A /* BinuApp.app */;
@@ -366,7 +366,7 @@
 			);
 			mainGroup = 78F6FAFA2DE31EDA002D834A;
 			packageReferences = (
-				78F6FBB12DE37620002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 78F6FB042DE31EDA002D834A /* Products */;
 			projectDirPath = "";
@@ -784,9 +784,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		78F6FBB12DE37620002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = versionRange;
 				maximumVersion = 11.10.0;
@@ -796,24 +796,24 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		78F6FBB22DE37620002D834A /* FirebaseAuth */ = {
+		3154129D2DE37ADB00447409 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 78F6FBB12DE37620002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
 		};
-		78F6FBB42DE37620002D834A /* FirebaseCore */ = {
+		3154129F2DE37ADB00447409 /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 78F6FBB12DE37620002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCore;
 		};
-		78F6FBB62DE37620002D834A /* FirebaseFirestore */ = {
+		315412A12DE37ADB00447409 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 78F6FBB12DE37620002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
 		};
-		78F6FBB82DE37620002D834A /* FirebaseStorage */ = {
+		315412A32DE37ADB00447409 /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 78F6FBB12DE37620002D834A /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = 3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
 		};
 /* End XCSwiftPackageProductDependency section */
