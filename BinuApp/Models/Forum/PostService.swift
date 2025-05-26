@@ -186,8 +186,8 @@ struct PostService {
         }
     }
     
-    public static func readAll() {
-        
+    public static func getPost() {
+
     }
     
     public static func read() {
