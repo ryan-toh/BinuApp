@@ -20,13 +20,27 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 @main
-struct BinuAppApp: App {
+struct AppEntry: App {
     // register app delegate for Firebase setup
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject private var authViewModel = AuthViewModel()
+    
     var body: some Scene {
         WindowGroup {
-//            ContentView()
-            TestUnifiedView()
+            Group {
+                if authViewModel.isCheckingAuthState {
+                    LoadingSpinnerView()
+                } else if authViewModel.currentUser == nil {
+                    WelcomeView()
+                        .environmentObject(authViewModel)
+                } else {
+                    MainTabView()
+                        .environmentObject(authViewModel)
+                }
+            }
+            .onAppear {
+                authViewModel.listenForAuthChanges()
+            }
         }
     }
 }
