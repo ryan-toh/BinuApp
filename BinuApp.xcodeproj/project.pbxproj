@@ -11,6 +11,8 @@
 		315412A02DE37ADB00447409 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3154129F2DE37ADB00447409 /* FirebaseCore */; };
 		315412A22DE37ADB00447409 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 315412A12DE37ADB00447409 /* FirebaseFirestore */; };
 		315412A42DE37ADB00447409 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 315412A32DE37ADB00447409 /* FirebaseStorage */; };
+		7827690A2DE44ABF007C658A /* TestUnifiedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782769092DE44ABF007C658A /* TestUnifiedView.swift */; };
+		7827690C2DE44B04007C658A /* TestUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7827690B2DE44B04007C658A /* TestUploadView.swift */; };
 		78F6FB072DE31EDA002D834A /* BinuAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB062DE31EDA002D834A /* BinuAppApp.swift */; };
 		78F6FB092DE31EDA002D834A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB082DE31EDA002D834A /* ContentView.swift */; };
 		78F6FB0D2DE31EDB002D834A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78F6FB0C2DE31EDB002D834A /* Assets.xcassets */; };
@@ -27,7 +29,6 @@
 		78F6FBA32DE34E75002D834A /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBA22DE34E75002D834A /* CommentModel.swift */; };
 		78F6FBA52DE34EFC002D834A /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBA42DE34EFC002D834A /* PostModel.swift */; };
 		78F6FBA82DE34F4C002D834A /* SentimentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBA72DE34F4C002D834A /* SentimentModel.swift */; };
-		78F6FBAB2DE3513B002D834A /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBAA2DE3513B002D834A /* ImagePickerView.swift */; };
 		78F6FBAE2DE358CD002D834A /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBAD2DE358CD002D834A /* UIImageExtension.swift */; };
 		78F6FBB02DE35B86002D834A /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FBAF2DE35B86002D834A /* PostService.swift */; };
 /* End PBXBuildFile section */
@@ -50,6 +51,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		782769092DE44ABF007C658A /* TestUnifiedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUnifiedView.swift; sourceTree = "<group>"; };
+		7827690B2DE44B04007C658A /* TestUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestUploadView.swift; sourceTree = "<group>"; };
 		78F6FB032DE31EDA002D834A /* BinuApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BinuApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F6FB062DE31EDA002D834A /* BinuAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinuAppApp.swift; sourceTree = "<group>"; };
 		78F6FB082DE31EDA002D834A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,7 +74,6 @@
 		78F6FBA22DE34E75002D834A /* CommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
 		78F6FBA42DE34EFC002D834A /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		78F6FBA72DE34F4C002D834A /* SentimentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimentModel.swift; sourceTree = "<group>"; };
-		78F6FBAA2DE3513B002D834A /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
 		78F6FBAD2DE358CD002D834A /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		78F6FBAF2DE35B86002D834A /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -223,6 +225,7 @@
 			children = (
 				78F6FBA92DE35122002D834A /* Forum */,
 				78F6FB8A2DE3440E002D834A /* Auth */,
+				782769092DE44ABF007C658A /* TestUnifiedView.swift */,
 			);
 			path = "Test Views";
 			sourceTree = "<group>";
@@ -258,7 +261,7 @@
 		78F6FBA92DE35122002D834A /* Forum */ = {
 			isa = PBXGroup;
 			children = (
-				78F6FBAA2DE3513B002D834A /* ImagePickerView.swift */,
+				7827690B2DE44B04007C658A /* TestUploadView.swift */,
 			);
 			path = Forum;
 			sourceTree = "<group>";
@@ -414,14 +417,15 @@
 				78F6FB092DE31EDA002D834A /* ContentView.swift in Sources */,
 				78F6FBA52DE34EFC002D834A /* PostModel.swift in Sources */,
 				78F6FBA32DE34E75002D834A /* CommentModel.swift in Sources */,
-				78F6FBAB2DE3513B002D834A /* ImagePickerView.swift in Sources */,
 				78F6FB072DE31EDA002D834A /* BinuAppApp.swift in Sources */,
 				78F6FB7F2DE33F57002D834A /* AuthService.swift in Sources */,
 				78F6FB882DE33FC0002D834A /* FullWidthTextBox.swift in Sources */,
+				7827690A2DE44ABF007C658A /* TestUnifiedView.swift in Sources */,
 				78F6FB8C2DE3441C002D834A /* TestAuthView.swift in Sources */,
 				78F6FBA82DE34F4C002D834A /* SentimentModel.swift in Sources */,
 				78F6FB832DE33F8D002D834A /* Login.swift in Sources */,
 				78F6FBB02DE35B86002D834A /* PostService.swift in Sources */,
+				7827690C2DE44B04007C658A /* TestUploadView.swift in Sources */,
 				78F6FB9A2DE34BB2002D834A /* PostImageModel.swift in Sources */,
 				78F6FBAE2DE358CD002D834A /* UIImageExtension.swift in Sources */,
 			);
