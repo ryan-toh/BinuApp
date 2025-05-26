@@ -65,14 +65,12 @@ struct AuthService {
     
     /**
     Signs out the current user.
-    
-    Completion:
-     - On success: returns a confirmation message `"Signed Out"`.
-    - On failure: returns an `Error`.
      
-     
+    - Parameters:
+        - completion:
+            - On success: returns a confirmation message `"Signed Out"`.
+            - On failure: returns an `Error`.
      */
-    
     static func signOut(completion: @escaping (Result<String, Error>) -> Void) {
         do {
             try Auth.auth().signOut()
