@@ -76,7 +76,7 @@ struct TestUploadView: View {
         uploadResultMessage = nil
 
         // Call your upload API (wrap the single image in an array)
-        PostService.upload(
+        PostService.create(
             title: "Test Post",
             text: "This is a test upload.",
             images: [uiImg]

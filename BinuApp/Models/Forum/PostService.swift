@@ -18,7 +18,9 @@ import FirebaseAuth
  Call PostService.upload().
  */
 struct PostService {
+    // initialise only one storage and db instance.
     private static let storage = Storage.storage()
+    private static let bucketReference = storage.reference().bucket
     private static let db = Firestore.firestore()
     
     /**
@@ -37,6 +39,8 @@ struct PostService {
         
         // Navigate to filepath in Firestore
         let ref = Storage.storage().reference(withPath: path)
+        
+        // Set metadata as required by Firestore Security Rules
         let meta = StorageMetadata()
         meta.contentType = "image/jpeg"
         
@@ -106,7 +110,7 @@ struct PostService {
         - images: Array of UIImage Objects
         - completion: Resulting Post or Error
      */
-    public static func upload(
+    public static func create(
         title: String,
         text: String,
         images: [UIImage],
@@ -181,4 +185,21 @@ struct PostService {
             }
         }
     }
+    
+    public static func readAll() {
+        
+    }
+    
+    public static func read() {
+        
+    }
+    
+    public static func update() {
+        
+    }
+    
+    public static func delete() {
+        
+    }
+    
 }
