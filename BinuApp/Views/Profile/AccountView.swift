@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Still in development
 struct AccountView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var accountVM: AccountViewModel
@@ -17,7 +18,8 @@ struct AccountView: View {
                 if accountVM.isLoading {
                     LoadingSpinnerView()
                 } else if let error = accountVM.errorMessage {
-                    ErrorBannerView(message: error)
+//                    ErrorBannerView(message: error)
+                    ErrorBannerView(message: "The front-end for Account management is unavailble as it is still in development.")
                 } else if let profile = accountVM.userProfile {
                     VStack {
                         Text("Welcome, \(profile.username)")

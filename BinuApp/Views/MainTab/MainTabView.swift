@@ -32,7 +32,7 @@ struct MainTabView: View {
                     Label("Account", systemImage: "person.crop.circle")
                 }
         }
-        .environmentObject(ForumViewModel())      // or inject each VM via .environmentObject
+        .environmentObject(ForumViewModel())
         .environmentObject(PeerToPeerViewModel())
         .environmentObject(LibraryViewModel())
         .environmentObject(AccountViewModel())

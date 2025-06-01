@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseFirestore
 
+/// CRUD Support for Comments on Posts.
 class CommentService {
     private let db = Firestore.firestore()
     private let postsCollection = "posts"
@@ -18,10 +19,7 @@ class CommentService {
     ///   - postId: The ID of the parent Post document.
     ///   - comment: A Comment struct (with id == nil). This will be encoded and sent to Firestore.
     ///   - completion: Returns a Result containing the newly‐created Comment (with its generated `id`) or an Error.
-    func createComment(
-        forPostId postId: String,
-        comment: Comment,
-        completion: @escaping (Result<Comment, Error>) -> Void
+    func createComment(forPostId postId: String, comment: Comment, completion: @escaping (Result<Comment, Error>) -> Void
     ) {
         let commentsRef = db
             .collection(postsCollection)

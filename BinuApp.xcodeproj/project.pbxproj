@@ -21,7 +21,6 @@
 		780B654E2DEC1A5300F58AF5 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B654D2DEC1A5300F58AF5 /* AccountViewModel.swift */; };
 		780B65502DEC1A7E00F58AF5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B654F2DEC1A7E00F58AF5 /* LoginView.swift */; };
 		780B65522DEC1A8400F58AF5 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65512DEC1A8400F58AF5 /* SignUpView.swift */; };
-		780B65552DEC1AA400F58AF5 /* EnterUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65542DEC1AA400F58AF5 /* EnterUsernameView.swift */; };
 		780B65582DEC1AC600F58AF5 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65572DEC1AC600F58AF5 /* MainTabView.swift */; };
 		780B655B2DEC1AEB00F58AF5 /* ForumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B655A2DEC1AEB00F58AF5 /* ForumView.swift */; };
 		780B655D2DEC1AF700F58AF5 /* PostRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B655C2DEC1AF700F58AF5 /* PostRowView.swift */; };
@@ -34,6 +33,7 @@
 		780B656F2DEC22A700F58AF5 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B656E2DEC22A700F58AF5 /* UserService.swift */; };
 		780B65712DEC285400F58AF5 /* NotReadyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65702DEC285400F58AF5 /* NotReadyView.swift */; };
 		780B65752DEC2C3800F58AF5 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65742DEC2C3800F58AF5 /* CreatePostView.swift */; };
+		780B65772DEC809C00F58AF5 /* EnterUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65762DEC809C00F58AF5 /* EnterUsernameView.swift */; };
 		78F6FB072DE31EDA002D834A /* AppEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB062DE31EDA002D834A /* AppEntry.swift */; };
 		78F6FB092DE31EDA002D834A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB082DE31EDA002D834A /* ContentView.swift */; };
 		78F6FB0D2DE31EDB002D834A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78F6FB0C2DE31EDB002D834A /* Assets.xcassets */; };
@@ -81,7 +81,6 @@
 		780B654D2DEC1A5300F58AF5 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		780B654F2DEC1A7E00F58AF5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		780B65512DEC1A8400F58AF5 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		780B65542DEC1AA400F58AF5 /* EnterUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterUsernameView.swift; sourceTree = "<group>"; };
 		780B65572DEC1AC600F58AF5 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		780B655A2DEC1AEB00F58AF5 /* ForumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumView.swift; sourceTree = "<group>"; };
 		780B655C2DEC1AF700F58AF5 /* PostRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRowView.swift; sourceTree = "<group>"; };
@@ -94,6 +93,7 @@
 		780B656E2DEC22A700F58AF5 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		780B65702DEC285400F58AF5 /* NotReadyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotReadyView.swift; sourceTree = "<group>"; };
 		780B65742DEC2C3800F58AF5 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
+		780B65762DEC809C00F58AF5 /* EnterUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterUsernameView.swift; sourceTree = "<group>"; };
 		78F6FB032DE31EDA002D834A /* BinuApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BinuApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F6FB062DE31EDA002D834A /* AppEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEntry.swift; sourceTree = "<group>"; };
 		78F6FB082DE31EDA002D834A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -231,7 +231,7 @@
 		780B65532DEC1A9800F58AF5 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				780B65542DEC1AA400F58AF5 /* EnterUsernameView.swift */,
+				780B65762DEC809C00F58AF5 /* EnterUsernameView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -570,7 +570,6 @@
 				780B65682DEC1B7400F58AF5 /* LoadingSpinnerView.swift in Sources */,
 				780B65752DEC2C3800F58AF5 /* CreatePostView.swift in Sources */,
 				78F6FB882DE33FC0002D834A /* FullWidthTextBox.swift in Sources */,
-				780B65552DEC1AA400F58AF5 /* EnterUsernameView.swift in Sources */,
 				780B653F2DEC197600F58AF5 /* AuthViewModel.swift in Sources */,
 				780B654C2DEC1A4B00F58AF5 /* LibraryViewModel.swift in Sources */,
 				78F6FBA82DE34F4C002D834A /* SentimentModel.swift in Sources */,
@@ -578,6 +577,7 @@
 				780B656F2DEC22A700F58AF5 /* UserService.swift in Sources */,
 				780B65372DEC104C00F58AF5 /* SentimentService.swift in Sources */,
 				78F6FB832DE33F8D002D834A /* WelcomeView.swift in Sources */,
+				780B65772DEC809C00F58AF5 /* EnterUsernameView.swift in Sources */,
 				78F6FBB02DE35B86002D834A /* PostService.swift in Sources */,
 				780B654E2DEC1A5300F58AF5 /* AccountViewModel.swift in Sources */,
 				780B65412DEC198600F58AF5 /* OnboardingViewModel.swift in Sources */,

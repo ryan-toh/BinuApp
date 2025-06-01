@@ -23,8 +23,13 @@ struct ForumView: View {
                     ScrollView {
                         LazyVStack(spacing: 16) {
                             ForEach(forumVM.posts) { post in
-                                PostRowView(post: post)
-                                    .padding(.horizontal)
+                                VStack(alignment: .leading, spacing: 8) {
+                                    // The existing post UI
+                                    PostRowView(post: post)
+                                        .environmentObject(authVM)
+                                        .environmentObject(forumVM)
+                                        .padding(.horizontal)
+                                }
                             }
                         }
                         .padding(.top)

@@ -8,68 +8,86 @@
 import SwiftUI
 
 struct PostRowView: View {
+    @EnvironmentObject var forumVM: ForumViewModel
+    @EnvironmentObject private var authVM: AuthViewModel
     let post: Post
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            // Title
-            Text(post.title)
-                .font(.headline)
-            
-            // Optional image preview (first media item, if any)
-            if let firstImage = post.media.first,
-               let url = URL(string: firstImage.downloadURL) {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                            .frame(maxWidth: .infinity, minHeight: 150)
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                            .frame(maxWidth: .infinity, minHeight: 150)
-                            .clipped()
-                            .cornerRadius(8)
-                    case .failure:
-                        Color.gray
-                            .frame(maxWidth: .infinity, minHeight: 150)
-                            .cornerRadius(8)
-                    @unknown default:
-                        EmptyView()
+        HStack {
+            VStack(alignment: .leading, spacing: 8) {
+                // Title
+                Text(post.title)
+                    .font(.headline)
+                
+                // Optional image preview (first media item, if any)
+                if let firstImage = post.media.first,
+                   let url = URL(string: firstImage.downloadURL) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(maxWidth: .infinity, minHeight: 150)
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(maxWidth: .infinity, minHeight: 150)
+                                .clipped()
+                                .cornerRadius(8)
+                        case .failure:
+                            Color.gray
+                                .frame(maxWidth: .infinity, minHeight: 150)
+                                .cornerRadius(8)
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                }
+                
+                // Body text (limited to 2 lines)
+                Text(post.text)
+                    .font(.subheadline)
+                    .lineLimit(2)
+                
+                // Metadata: likes, comments count, sentiment
+                HStack(spacing: 16) {
+                    // Likes
+                    HStack(spacing: 4) {
+                        Image(systemName: "heart.fill")
+                            .foregroundColor(.red)
+                            .font(.subheadline)
+                        Text("\(post.likes)")
+                            .font(.subheadline)
+                    }
+                    
+                    // Comments
+                    HStack(spacing: 4) {
+                        Image(systemName: "bubble.left.fill")
+                            .foregroundColor(.blue)
+                            .font(.subheadline)
+                        Text("\(post.comments.count)")
+                            .font(.subheadline)
+                    }
+                    
+                    // Sentiment
+                    Text(sentimentEmoji(for: post.sentiment))
+                        .font(.subheadline)
+                    
+                    // Only show “Delete” if this post belongs to the current user
+                    if post.userId == authVM.currentUser?.uid {
+                        HStack {
+                            Spacer()
+                            Button(role: .destructive) {
+                                forumVM.deletePost(post)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                            .padding(.trailing, 16)
+                        }
                     }
                 }
             }
-            
-            // Body text (limited to 2 lines)
-            Text(post.text)
-                .font(.subheadline)
-                .lineLimit(2)
-            
-            // Metadata: likes, comments count, sentiment
-            HStack(spacing: 16) {
-                // Likes
-                HStack(spacing: 4) {
-                    Image(systemName: "heart.fill")
-                        .foregroundColor(.red)
-                        .font(.subheadline)
-                    Text("\(post.likes)")
-                        .font(.subheadline)
-                }
-                
-                // Comments
-                HStack(spacing: 4) {
-                    Image(systemName: "bubble.left.fill")
-                        .foregroundColor(.blue)
-                        .font(.subheadline)
-                    Text("\(post.comments.count)")
-                        .font(.subheadline)
-                }
-                
-                // Sentiment
-                Text(sentimentEmoji(for: post.sentiment))
-                    .font(.subheadline)
-            }
+            Spacer()
         }
         .padding()
         .background(Color(UIColor.secondarySystemBackground))

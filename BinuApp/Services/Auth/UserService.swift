@@ -8,7 +8,8 @@
 import Foundation
 import FirebaseFirestore
 
-/// A service for performing CRUD operations on `UserProfile` documents in Firestore.
+/// CRUD support for UserModel
+// TODO: Develop front-end (Under Views -> Profile) for UserService.
 class UserService {
     private let db = Firestore.firestore()
     private let usersCollection = "users"
@@ -21,11 +22,9 @@ class UserService {
     /// - Parameters:
     ///   - profile: A `UserProfile` struct with `id == nil` (or with a known `id` if you want to force-use it).
     ///   - completion: Returns `.success(UserProfile)` where `UserProfile.id` is now set, or `.failure(Error)`.
-    func createUserProfile(
-        _ profile: UserModel,
-        completion: @escaping (Result<UserModel, Error>) -> Void
+    func createUserProfile(_ profile: UserModel, completion: @escaping (Result<UserModel, Error>) -> Void
     ) {
-        // 1) Determine which DocumentReference to use
+        // 1. Determine which DocumentReference to use
         let docRef: DocumentReference
         if let uid = profile.id {
             // If an ID is already provided, write under /users/{uid}
@@ -35,11 +34,11 @@ class UserService {
             docRef = db.collection(usersCollection).document()
         }
         
-        // 2) Inject the chosen documentID back into a mutable copy
+        // 2. Inject the chosen documentID back into a mutable copy
         var profileToSave = profile
         profileToSave.id = docRef.documentID
         
-        // 3) Write the data
+        // 3. Write the data
         do {
             try docRef.setData(from: profileToSave) { error in
                 if let error = error {
@@ -60,16 +59,16 @@ class UserService {
     /// - Parameters:
     ///   - id: The Firestore document ID of the user (e.g. the Auth UID).
     ///   - completion: Returns `.success(UserProfile)` if found and decoded, or `.failure(Error)`.
-    func fetchUserProfile(
-        withId id: String,
-        completion: @escaping (Result<UserModel, Error>) -> Void
+    func fetchUserProfile(withId id: String, completion: @escaping (Result<UserModel, Error>) -> Void
     ) {
+        // 1. Get reference to UserProfile
         let docRef = db.collection(usersCollection).document(id)
         docRef.getDocument { snapshot, error in
             if let error = error {
                 completion(.failure(error))
                 return
             }
+            // 2. Ensure UserProfile exists
             guard let snapshot = snapshot, snapshot.exists else {
                 completion(.failure(NSError(
                     domain: "UserService.Fetch",
@@ -79,6 +78,7 @@ class UserService {
                 return
             }
             do {
+                // 3. Convert Document into UserModel
                 let profile = try snapshot.data(as: UserModel.self)
                 completion(.success(profile))
             } catch {

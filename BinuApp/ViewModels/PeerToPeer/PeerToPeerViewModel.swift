@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 final class PeerToPeerViewModel: ObservableObject {
     /// Still in development
 }

@@ -10,6 +10,7 @@ import UIKit                 // For UIImage
 import FirebaseFirestore
 import FirebaseStorage       // For Firebase Storage
 
+/// CRUD Support for Forum Posts.
 class PostService {
     private let db = Firestore.firestore()
     private let storage = Storage.storage()
@@ -34,10 +35,10 @@ class PostService {
         images: [UIImage] = [],
         completion: @escaping (Result<Post, Error>) -> Void
     ) {
-        // 1) Compute sentiment now (synchronous).
+        // 1. Compute sentiment
         let sentiment = SentimentService.get(title: title, text: text)
         
-        // 2) If there are no images, skip directly to Firestore write.
+        // 2. If there are no images, wrtie to firestore directly.
         guard !images.isEmpty else {
             let post = Post(
                 userId: userId,
@@ -52,7 +53,7 @@ class PostService {
             return
         }
         
-        // 3) Otherwise, upload each UIImage to Storage via helper, collect PostImage entries.
+        // 3. Otherwise, upload each UIImage to Storage via uploadSingleImage(), then collect PostImage entries.
         var postImages: [PostImage] = []
         var uploadError: Error?
         let group = DispatchGroup()
@@ -73,14 +74,14 @@ class PostService {
             }
         }
         
-        // 4) After all uploads finish, either proceed or bail on error
+        // 4. After all uploads finish, continue otherwise error encountered
         group.notify(queue: .main) {
             if let error = uploadError {
                 completion(.failure(error))
                 return
             }
             
-            // Build the Post with all PostImage entries
+            // 5. Build the Post with all PostImage entries
             let post = Post(
                 userId: userId,
                 title: title,
@@ -96,11 +97,7 @@ class PostService {
     
     /// Internal helper: uploads a single UIImage to Firebase Storage as a JPEG,
     /// then returns a PostImage containing `storagePath` and `downloadURL`.
-    private func uploadSingleImage(
-        _ image: UIImage,
-        forUserId userId: String,
-        completion: @escaping (Result<PostImage, Error>) -> Void
-    ) {
+    private func uploadSingleImage(_ image: UIImage, forUserId userId: String, completion: @escaping (Result<PostImage, Error>) -> Void) {
         // 1) Convert UIImage to JPEG Data
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             let error = NSError(
@@ -114,7 +111,7 @@ class PostService {
         
         // 2) Create a unique Storage path: "posts/{userId}/{UUID}.jpg"
         let filename = UUID().uuidString + ".jpg"
-        let storagePath = "posts/\(userId)/\(filename)"
+        let storagePath = "posts/\(userId)/images/\(filename)"
         let storageRef = storage.reference(withPath: storagePath)
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
@@ -156,10 +153,7 @@ class PostService {
     // MARK: - Internal Firestore Write
     
     /// Internal helper: writes a Post struct into Firestore under "posts/", letting Firestore generate the document ID.
-    private func writePostToFirestore(
-        _ post: Post,
-        completion: @escaping (Result<Post, Error>) -> Void
-    ) {
+    private func writePostToFirestore(_ post: Post, completion: @escaping (Result<Post, Error>) -> Void) {
         // 1) Create a new document reference with an auto-generated ID:
         let newRef = db.collection(postsCollection).document()
         

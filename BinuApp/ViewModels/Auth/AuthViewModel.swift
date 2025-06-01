@@ -9,6 +9,7 @@ import Foundation
 import FirebaseAuth
 import Combine
 
+/// Temporary struct (as UserModel is still in development)
 struct User {
     let uid: String
     let email: String?

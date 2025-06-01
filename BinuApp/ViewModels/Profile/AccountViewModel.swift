@@ -12,10 +12,11 @@ final class AccountViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     
-    private let userService = UserService()   // e.g. fetch/update current user’s profile
+    private let userService = UserService()
     
     func fetchUserProfile(uid: String) {
         isLoading = true
+        // Note that this will fail as userModel was never created (still in development)
         userService.fetchUserProfile(withId: uid) { [weak self] result in
             DispatchQueue.main.async {
                 self?.isLoading = false
@@ -28,13 +29,5 @@ final class AccountViewModel: ObservableObject {
             }
         }
     }
-    
-//    func signOut() {
-//        do {
-//            try UserService().signOut()
-//        } catch {
-//            errorMessage = error.localizedDescription
-//        }
-//    }
 }
 
