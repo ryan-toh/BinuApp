@@ -8,11 +8,7 @@
 import Foundation
 import FirebaseAuth
 
-/**
- How to use:
- 
- Call AuthService.createUser() OR AuthService.signIn() OR AuthService.signOut().
- */
+/// Authentication Interface
 struct AuthService {
     /**
      Creates a new Firebase user with the given email and password.
