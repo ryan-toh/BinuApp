@@ -35,7 +35,7 @@ struct MainTabView: View {
         .environmentObject(ForumViewModel())
         .environmentObject(PeerToPeerViewModel())
         .environmentObject(LibraryViewModel())
-        .environmentObject(AccountViewModel())
+//        .environmentObject(AccountViewModel())
     }
 }
 

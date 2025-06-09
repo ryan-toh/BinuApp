@@ -80,5 +80,46 @@ final class ForumViewModel: ObservableObject {
             }
         }
     }
+    
+    // MARK: - Like/Unlike Methods
+    func likeOrUnlikePost(_ post: Post, userId: String) {
+        guard let postId = post.id else { return }
+        
+        if post.likes.contains(userId) {
+            // Unlike the post
+            postService.unlikePost(post, uid: userId) { [weak self] result in
+                DispatchQueue.main.async {
+                    guard let self = self else { return }
+                    switch result {
+                    case .success:
+                        if let index = self.posts.firstIndex(where: { $0.id == postId }) {
+                            var updatedPost = self.posts[index]
+                            updatedPost.likes.removeAll { $0 == userId }
+                            self.posts[index] = updatedPost
+                        }
+                    case .failure(let error):
+                        self.errorMessage = error.localizedDescription
+                    }
+                }
+            }
+        } else {
+            // Like the post
+            postService.likePost(post, uid: userId) { [weak self] result in
+                DispatchQueue.main.async {
+                    guard let self = self else { return }
+                    switch result {
+                    case .success:
+                        if let index = self.posts.firstIndex(where: { $0.id == postId }) {
+                            var updatedPost = self.posts[index]
+                            updatedPost.likes.append(userId)
+                            self.posts[index] = updatedPost
+                        }
+                    case .failure(let error):
+                        self.errorMessage = error.localizedDescription
+                    }
+                }
+            }
+        }
+    }
 }
 

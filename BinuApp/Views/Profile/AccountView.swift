@@ -7,52 +7,65 @@
 
 import SwiftUI
 
-/// Still in development
 struct AccountView: View {
     @EnvironmentObject var authVM: AuthViewModel
-    @EnvironmentObject var accountVM: AccountViewModel
+    @State private var isSigningOut = false
+    @State private var showError = false
+    @State private var errorMessage = ""
     
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                if accountVM.isLoading {
-                    LoadingSpinnerView()
-                } else if let error = accountVM.errorMessage {
-//                    ErrorBannerView(message: error)
-                    ErrorBannerView(message: "The front-end for Account management is unavailble as it is still in development.")
-                } else if let profile = accountVM.userProfile {
-                    VStack {
-                        Text("Welcome, \(profile.username)")
+                if let user = authVM.user {
+                    VStack(spacing: 8) {
+                        Text(user.username)
                             .font(.title2)
-                        Text("Email: \(profile.email)")
-                        // … other profile fields
+                            .bold()
+                        Text(user.email)
+                            .foregroundColor(.secondary)
+                        Text("Gender: \(user.gender)")
+                        Text("Age: \(user.age)")
                     }
-                    .padding()
                 } else {
-                    Text("No profile data.")
+                    Text("No Profile Data")
+                        .foregroundColor(.gray)
                 }
                 
                 Spacer()
                 
                 Button(action: {
-                    authVM.signOut()
+                    isSigningOut = true
+                    authVM.signOut { success in
+                        isSigningOut = false
+                        if !success {
+                            errorMessage = authVM.authError?.localizedDescription ?? "Sign out failed. Please try again."
+                            showError = true
+                        }
+                    }
                 }) {
-                    Text("Sign Out")
-                        .foregroundColor(.red)
+                    if isSigningOut {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                    } else {
+                        Text("Sign Out")
+                            .foregroundColor(.red)
+                            .frame(maxWidth: .infinity)
+                    }
                 }
+                .disabled(isSigningOut)
                 .padding()
             }
+            .padding()
             .navigationTitle("Account")
-            .onAppear {
-                if let uid = authVM.currentUser?.uid {
-                    accountVM.fetchUserProfile(uid: uid)
-                }
+            .alert("Sign Out Error", isPresented: $showError) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                Text(errorMessage)
             }
         }
     }
 }
 
-
 #Preview {
-    AccountView()
+    AccountView().environmentObject(AuthViewModel())
 }

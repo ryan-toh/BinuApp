@@ -11,7 +11,10 @@ struct LoginView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @State private var email = ""
     @State private var password = ""
-    
+    @State private var isLoading = false
+    @State private var showAlert = false
+    @State private var errorMessage = ""
+
     var body: some View {
         NavigationStack {
             Form {
@@ -22,19 +25,37 @@ struct LoginView: View {
                     SecureField("Password", text: $password)
                 }
                 
-                if let error = authVM.authErrorMessage {
+                if let error = authVM.authError?.localizedDescription {
                     Text(error)
                         .foregroundColor(.red)
                 }
                 
                 Button(action: {
-                    authVM.signIn(email: email, password: password)
+                    isLoading = true
+                    authVM.signIn(email: email, password: password) { success in
+                        isLoading = false
+                        if !success {
+                            errorMessage = authVM.authError?.localizedDescription ?? "Login failed. Please try again."
+                            showAlert = true
+                        }
+                    }
                 }) {
-                    Text("Log In")
-                        .frame(maxWidth: .infinity)
+                    if isLoading {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                    } else {
+                        Text("Log In")
+                            .frame(maxWidth: .infinity)
+                    }
                 }
+                .disabled(isLoading)
             }
             .navigationTitle("Welcome Back")
+            .alert("Login Error", isPresented: $showAlert, actions: {
+                Button("OK", role: .cancel) { }
+            }, message: {
+                Text(errorMessage)
+            })
         }
     }
 }
@@ -42,3 +63,4 @@ struct LoginView: View {
 #Preview {
     LoginView().environmentObject(AuthViewModel())
 }
+

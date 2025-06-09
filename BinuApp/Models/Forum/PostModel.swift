@@ -17,7 +17,8 @@ struct Post: Codable, Identifiable {
     var title: String
     var text: String
     var media: [PostImage]
-    var likes: Int
+    // Contains id of user who liked it
+    var likes: [String]
     var comments: [Comment]
     var sentiment: Sentiment
     
@@ -31,7 +32,7 @@ struct Post: Codable, Identifiable {
         title: String,
         text: String,
         media: [PostImage] = [],
-        likes: Int = 0,
+        likes: [String] = [],
         comments: [Comment] = [],
         sentiment: Sentiment = .neutral
     ) {
