@@ -13,30 +13,32 @@ struct LoginView: View {
     @State private var password = ""
     
     var body: some View {
-        Form {
-            Section(header: Text("Log In")) {
-                TextField("Email", text: $email)
-                    .keyboardType(.emailAddress)
-                    .autocapitalization(.none)
-                SecureField("Password", text: $password)
+        NavigationStack {
+            Form {
+                Section(header: Text("")) {
+                    TextField("Email", text: $email)
+                        .keyboardType(.emailAddress)
+                        .autocapitalization(.none)
+                    SecureField("Password", text: $password)
+                }
+                
+                if let error = authVM.authErrorMessage {
+                    Text(error)
+                        .foregroundColor(.red)
+                }
+                
+                Button(action: {
+                    authVM.signIn(email: email, password: password)
+                }) {
+                    Text("Log In")
+                        .frame(maxWidth: .infinity)
+                }
             }
-            
-            if let error = authVM.authErrorMessage {
-                Text(error)
-                    .foregroundColor(.red)
-            }
-            
-            Button(action: {
-                authVM.signIn(email: email, password: password)
-            }) {
-                Text("Log In")
-                    .frame(maxWidth: .infinity)
-            }
+            .navigationTitle("Welcome Back")
         }
-        .navigationTitle("Log In")
     }
 }
 
 #Preview {
-    LoginView()
+    LoginView().environmentObject(AuthViewModel())
 }
