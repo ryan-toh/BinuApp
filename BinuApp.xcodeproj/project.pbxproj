@@ -16,7 +16,7 @@
 		780B653F2DEC197600F58AF5 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B653E2DEC197600F58AF5 /* AuthViewModel.swift */; };
 		780B65412DEC198600F58AF5 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65402DEC198600F58AF5 /* OnboardingViewModel.swift */; };
 		780B65452DEC19A600F58AF5 /* ForumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65442DEC19A600F58AF5 /* ForumViewModel.swift */; };
-		780B65482DEC19F200F58AF5 /* PeerToPeerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65472DEC19F200F58AF5 /* PeerToPeerViewModel.swift */; };
+		780B65482DEC19F200F58AF5 /* HelpRequestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65472DEC19F200F58AF5 /* HelpRequestViewModel.swift */; };
 		780B654C2DEC1A4B00F58AF5 /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B654B2DEC1A4B00F58AF5 /* LibraryViewModel.swift */; };
 		780B65502DEC1A7E00F58AF5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B654F2DEC1A7E00F58AF5 /* LoginView.swift */; };
 		780B65522DEC1A8400F58AF5 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65512DEC1A8400F58AF5 /* SignUpView.swift */; };
@@ -24,7 +24,7 @@
 		780B655B2DEC1AEB00F58AF5 /* ForumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B655A2DEC1AEB00F58AF5 /* ForumView.swift */; };
 		780B655D2DEC1AF700F58AF5 /* PostRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B655C2DEC1AF700F58AF5 /* PostRowView.swift */; };
 		780B65602DEC1B1700F58AF5 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B655F2DEC1B1700F58AF5 /* LibraryView.swift */; };
-		780B65632DEC1B4A00F58AF5 /* PeerToPeerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65622DEC1B4A00F58AF5 /* PeerToPeerView.swift */; };
+		780B65632DEC1B4A00F58AF5 /* BeaconSenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65622DEC1B4A00F58AF5 /* BeaconSenderView.swift */; };
 		780B65662DEC1B6100F58AF5 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65652DEC1B6100F58AF5 /* AccountView.swift */; };
 		780B65682DEC1B7400F58AF5 /* LoadingSpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65672DEC1B7400F58AF5 /* LoadingSpinnerView.swift */; };
 		780B656A2DEC1B7C00F58AF5 /* ErrorBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65692DEC1B7C00F58AF5 /* ErrorBannerView.swift */; };
@@ -42,6 +42,10 @@
 		783348312DF6C2DD00207E2C /* EditCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783348302DF6C2DD00207E2C /* EditCommentView.swift */; };
 		785E2F282DF73E78007351BF /* BroadcasterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785E2F272DF73E69007351BF /* BroadcasterService.swift */; };
 		785E2F2A2DF73EA1007351BF /* ReceiverService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785E2F292DF73EA1007351BF /* ReceiverService.swift */; };
+		787014D82DF82D1800C683CC /* HelpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787014D72DF82D1800C683CC /* HelpRequest.swift */; };
+		787014DA2DF8300C00C683CC /* PeerToPeerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787014D92DF8300C00C683CC /* PeerToPeerService.swift */; };
+		787014DC2DF831C800C683CC /* HelpRequestListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787014DB2DF831C800C683CC /* HelpRequestListView.swift */; };
+		787014DE2DF831DB00C683CC /* HelpReuqestDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787014DD2DF831D500C683CC /* HelpReuqestDetailView.swift */; };
 		78F6FB072DE31EDA002D834A /* AppEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB062DE31EDA002D834A /* AppEntry.swift */; };
 		78F6FB092DE31EDA002D834A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB082DE31EDA002D834A /* ContentView.swift */; };
 		78F6FB0D2DE31EDB002D834A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78F6FB0C2DE31EDB002D834A /* Assets.xcassets */; };
@@ -84,7 +88,7 @@
 		780B653E2DEC197600F58AF5 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		780B65402DEC198600F58AF5 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		780B65442DEC19A600F58AF5 /* ForumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumViewModel.swift; sourceTree = "<group>"; };
-		780B65472DEC19F200F58AF5 /* PeerToPeerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerToPeerViewModel.swift; sourceTree = "<group>"; };
+		780B65472DEC19F200F58AF5 /* HelpRequestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpRequestViewModel.swift; sourceTree = "<group>"; };
 		780B654B2DEC1A4B00F58AF5 /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		780B654F2DEC1A7E00F58AF5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		780B65512DEC1A8400F58AF5 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -92,7 +96,7 @@
 		780B655A2DEC1AEB00F58AF5 /* ForumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForumView.swift; sourceTree = "<group>"; };
 		780B655C2DEC1AF700F58AF5 /* PostRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRowView.swift; sourceTree = "<group>"; };
 		780B655F2DEC1B1700F58AF5 /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
-		780B65622DEC1B4A00F58AF5 /* PeerToPeerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerToPeerView.swift; sourceTree = "<group>"; };
+		780B65622DEC1B4A00F58AF5 /* BeaconSenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconSenderView.swift; sourceTree = "<group>"; };
 		780B65652DEC1B6100F58AF5 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		780B65672DEC1B7400F58AF5 /* LoadingSpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingSpinnerView.swift; sourceTree = "<group>"; };
 		780B65692DEC1B7C00F58AF5 /* ErrorBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBannerView.swift; sourceTree = "<group>"; };
@@ -110,6 +114,10 @@
 		783348302DF6C2DD00207E2C /* EditCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCommentView.swift; sourceTree = "<group>"; };
 		785E2F272DF73E69007351BF /* BroadcasterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcasterService.swift; sourceTree = "<group>"; };
 		785E2F292DF73EA1007351BF /* ReceiverService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverService.swift; sourceTree = "<group>"; };
+		787014D72DF82D1800C683CC /* HelpRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpRequest.swift; sourceTree = "<group>"; };
+		787014D92DF8300C00C683CC /* PeerToPeerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerToPeerService.swift; sourceTree = "<group>"; };
+		787014DB2DF831C800C683CC /* HelpRequestListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpRequestListView.swift; sourceTree = "<group>"; };
+		787014DD2DF831D500C683CC /* HelpReuqestDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpReuqestDetailView.swift; sourceTree = "<group>"; };
 		78F6FB032DE31EDA002D834A /* BinuApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BinuApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F6FB062DE31EDA002D834A /* AppEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEntry.swift; sourceTree = "<group>"; };
 		78F6FB082DE31EDA002D834A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -167,7 +175,7 @@
 		780B65382DEC18A800F58AF5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				785E2F262DF73E5B007351BF /* PeerToPeer */,
+				785E2F262DF73E5B007351BF /* HelpRequest */,
 				780B653C2DEC190E00F58AF5 /* Forum */,
 				780B653B2DEC18D100F58AF5 /* Auth */,
 			);
@@ -178,7 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				780B65492DEC1A0600F58AF5 /* HeraHub */,
-				780B65462DEC19AE00F58AF5 /* PeerToPeer */,
+				780B65462DEC19AE00F58AF5 /* HelpRequest */,
 				780B65432DEC199700F58AF5 /* Forum */,
 				780B653D2DEC196600F58AF5 /* Auth */,
 			);
@@ -221,12 +229,12 @@
 			path = Forum;
 			sourceTree = "<group>";
 		};
-		780B65462DEC19AE00F58AF5 /* PeerToPeer */ = {
+		780B65462DEC19AE00F58AF5 /* HelpRequest */ = {
 			isa = PBXGroup;
 			children = (
-				780B65472DEC19F200F58AF5 /* PeerToPeerViewModel.swift */,
+				780B65472DEC19F200F58AF5 /* HelpRequestViewModel.swift */,
 			);
-			path = PeerToPeer;
+			path = HelpRequest;
 			sourceTree = "<group>";
 		};
 		780B65492DEC1A0600F58AF5 /* HeraHub */ = {
@@ -275,12 +283,14 @@
 			path = HeraHub;
 			sourceTree = "<group>";
 		};
-		780B65612DEC1B3A00F58AF5 /* PeerToPeer */ = {
+		780B65612DEC1B3A00F58AF5 /* HelpRequest */ = {
 			isa = PBXGroup;
 			children = (
-				780B65622DEC1B4A00F58AF5 /* PeerToPeerView.swift */,
+				787014DD2DF831D500C683CC /* HelpReuqestDetailView.swift */,
+				780B65622DEC1B4A00F58AF5 /* BeaconSenderView.swift */,
+				787014DB2DF831C800C683CC /* HelpRequestListView.swift */,
 			);
-			path = PeerToPeer;
+			path = HelpRequest;
 			sourceTree = "<group>";
 		};
 		780B65642DEC1B5700F58AF5 /* Profile */ = {
@@ -315,13 +325,14 @@
 			path = GIFs;
 			sourceTree = "<group>";
 		};
-		785E2F262DF73E5B007351BF /* PeerToPeer */ = {
+		785E2F262DF73E5B007351BF /* HelpRequest */ = {
 			isa = PBXGroup;
 			children = (
 				785E2F292DF73EA1007351BF /* ReceiverService.swift */,
 				785E2F272DF73E69007351BF /* BroadcasterService.swift */,
+				787014D92DF8300C00C683CC /* PeerToPeerService.swift */,
 			);
-			path = PeerToPeer;
+			path = HelpRequest;
 			sourceTree = "<group>";
 		};
 		78F6FAFA2DE31EDA002D834A = {
@@ -395,6 +406,7 @@
 			children = (
 				78F6FB932DE34B5A002D834A /* Forum */,
 				780B656C2DEC1E1C00F58AF5 /* UserModel.swift */,
+				787014D72DF82D1800C683CC /* HelpRequest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -403,7 +415,7 @@
 			isa = PBXGroup;
 			children = (
 				780B65642DEC1B5700F58AF5 /* Profile */,
-				780B65612DEC1B3A00F58AF5 /* PeerToPeer */,
+				780B65612DEC1B3A00F58AF5 /* HelpRequest */,
 				780B655E2DEC1B0100F58AF5 /* HeraHub */,
 				780B65592DEC1ADD00F58AF5 /* Forum */,
 				780B65562DEC1AB400F58AF5 /* MainTab */,
@@ -606,6 +618,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				780B65452DEC19A600F58AF5 /* ForumViewModel.swift in Sources */,
+				787014DC2DF831C800C683CC /* HelpRequestListView.swift in Sources */,
 				78F6FB092DE31EDA002D834A /* ContentView.swift in Sources */,
 				78F6FBA52DE34EFC002D834A /* PostModel.swift in Sources */,
 				78F6FBA32DE34E75002D834A /* CommentModel.swift in Sources */,
@@ -613,6 +626,7 @@
 				7833482D2DF6C2C000207E2C /* CommentView.swift in Sources */,
 				780B65522DEC1A8400F58AF5 /* SignUpView.swift in Sources */,
 				783348312DF6C2DD00207E2C /* EditCommentView.swift in Sources */,
+				787014D82DF82D1800C683CC /* HelpRequest.swift in Sources */,
 				780B65502DEC1A7E00F58AF5 /* LoginView.swift in Sources */,
 				78F6FB072DE31EDA002D834A /* AppEntry.swift in Sources */,
 				780B65602DEC1B1700F58AF5 /* LibraryView.swift in Sources */,
@@ -630,7 +644,7 @@
 				780B653F2DEC197600F58AF5 /* AuthViewModel.swift in Sources */,
 				780B654C2DEC1A4B00F58AF5 /* LibraryViewModel.swift in Sources */,
 				78F6FBA82DE34F4C002D834A /* SentimentModel.swift in Sources */,
-				780B65482DEC19F200F58AF5 /* PeerToPeerViewModel.swift in Sources */,
+				780B65482DEC19F200F58AF5 /* HelpRequestViewModel.swift in Sources */,
 				780B65372DEC104C00F58AF5 /* SentimentService.swift in Sources */,
 				78F6FB832DE33F8D002D834A /* WelcomeView.swift in Sources */,
 				780B65772DEC809C00F58AF5 /* EnterUsernameView.swift in Sources */,
@@ -640,11 +654,13 @@
 				780B655B2DEC1AEB00F58AF5 /* ForumView.swift in Sources */,
 				780B656A2DEC1B7C00F58AF5 /* ErrorBannerView.swift in Sources */,
 				7833481E2DF68F6C00207E2C /* LogoView.swift in Sources */,
-				780B65632DEC1B4A00F58AF5 /* PeerToPeerView.swift in Sources */,
+				780B65632DEC1B4A00F58AF5 /* BeaconSenderView.swift in Sources */,
+				787014DA2DF8300C00C683CC /* PeerToPeerService.swift in Sources */,
 				78F6FB9A2DE34BB2002D834A /* PostImageModel.swift in Sources */,
 				780B65352DEC102E00F58AF5 /* CommentService.swift in Sources */,
 				780B65662DEC1B6100F58AF5 /* AccountView.swift in Sources */,
 				783348292DF6C20F00207E2C /* CommentViewModel.swift in Sources */,
+				787014DE2DF831DB00C683CC /* HelpReuqestDetailView.swift in Sources */,
 				78F6FBAE2DE358CD002D834A /* UIImageExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -812,9 +828,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BinuApp/Info.plist;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app needs access to Bluetooth to send and receive nearby help alerts.";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "The app needs access to your location to send and recieve nearby help alerts.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "The app needs access to your location to send and recieve nearby help alerts.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app needs access to bluetooth to send and recieve nearby help alerts. Don't worry, it won't drain your battery excessively.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "The app needs access to your location to send and recieve nearby help alerts. Don't worry, it won't drain your battery excessively.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "The app needs access to your location to send and recieve nearby help alerts. Don't worry, it won't drain your battery excessively.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -856,9 +872,9 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BinuApp/Info.plist;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app needs access to Bluetooth to send and receive nearby help alerts.";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "The app needs access to your location to send and recieve nearby help alerts.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "The app needs access to your location to send and recieve nearby help alerts.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app needs access to bluetooth to send and recieve nearby help alerts. Don't worry, it won't drain your battery excessively.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "The app needs access to your location to send and recieve nearby help alerts. Don't worry, it won't drain your battery excessively.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "The app needs access to your location to send and recieve nearby help alerts. Don't worry, it won't drain your battery excessively.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
