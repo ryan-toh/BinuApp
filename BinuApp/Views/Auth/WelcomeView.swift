@@ -62,12 +62,12 @@ struct WelcomeView: View {
                         .environmentObject(authVM)
                 }
             }
-            .padding()
+            .padding(25)
             .clipShape(
-                RoundedRectangle(cornerRadius: 20)
+                RoundedRectangle(cornerRadius: 40)
             )
             .background(
-                RoundedRectangle(cornerRadius: 20)
+                RoundedRectangle(cornerRadius: 40)
                     .foregroundColor(Color.black)
                     .opacity(0.8)
             )

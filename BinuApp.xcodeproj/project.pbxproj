@@ -40,6 +40,8 @@
 		7833482D2DF6C2C000207E2C /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7833482C2DF6C2C000207E2C /* CommentView.swift */; };
 		7833482F2DF6C2D400207E2C /* CreateCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7833482E2DF6C2D400207E2C /* CreateCommentView.swift */; };
 		783348312DF6C2DD00207E2C /* EditCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783348302DF6C2DD00207E2C /* EditCommentView.swift */; };
+		785E2F282DF73E78007351BF /* BroadcasterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785E2F272DF73E69007351BF /* BroadcasterService.swift */; };
+		785E2F2A2DF73EA1007351BF /* ReceiverService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785E2F292DF73EA1007351BF /* ReceiverService.swift */; };
 		78F6FB072DE31EDA002D834A /* AppEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB062DE31EDA002D834A /* AppEntry.swift */; };
 		78F6FB092DE31EDA002D834A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB082DE31EDA002D834A /* ContentView.swift */; };
 		78F6FB0D2DE31EDB002D834A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78F6FB0C2DE31EDB002D834A /* Assets.xcassets */; };
@@ -106,6 +108,8 @@
 		7833482C2DF6C2C000207E2C /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		7833482E2DF6C2D400207E2C /* CreateCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommentView.swift; sourceTree = "<group>"; };
 		783348302DF6C2DD00207E2C /* EditCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCommentView.swift; sourceTree = "<group>"; };
+		785E2F272DF73E69007351BF /* BroadcasterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcasterService.swift; sourceTree = "<group>"; };
+		785E2F292DF73EA1007351BF /* ReceiverService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverService.swift; sourceTree = "<group>"; };
 		78F6FB032DE31EDA002D834A /* BinuApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BinuApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F6FB062DE31EDA002D834A /* AppEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEntry.swift; sourceTree = "<group>"; };
 		78F6FB082DE31EDA002D834A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -128,6 +132,7 @@
 		78F6FBA72DE34F4C002D834A /* SentimentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimentModel.swift; sourceTree = "<group>"; };
 		78F6FBAD2DE358CD002D834A /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		78F6FBAF2DE35B86002D834A /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		78FE79C12DF7406A006AEF29 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +167,7 @@
 		780B65382DEC18A800F58AF5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				785E2F262DF73E5B007351BF /* PeerToPeer */,
 				780B653C2DEC190E00F58AF5 /* Forum */,
 				780B653B2DEC18D100F58AF5 /* Auth */,
 			);
@@ -171,7 +177,6 @@
 		780B653A2DEC18B700F58AF5 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				780B654A2DEC1A3800F58AF5 /* Profile */,
 				780B65492DEC1A0600F58AF5 /* HeraHub */,
 				780B65462DEC19AE00F58AF5 /* PeerToPeer */,
 				780B65432DEC199700F58AF5 /* Forum */,
@@ -230,13 +235,6 @@
 				780B654B2DEC1A4B00F58AF5 /* LibraryViewModel.swift */,
 			);
 			path = HeraHub;
-			sourceTree = "<group>";
-		};
-		780B654A2DEC1A3800F58AF5 /* Profile */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Profile;
 			sourceTree = "<group>";
 		};
 		780B65532DEC1A9800F58AF5 /* Onboarding */ = {
@@ -317,6 +315,15 @@
 			path = GIFs;
 			sourceTree = "<group>";
 		};
+		785E2F262DF73E5B007351BF /* PeerToPeer */ = {
+			isa = PBXGroup;
+			children = (
+				785E2F292DF73EA1007351BF /* ReceiverService.swift */,
+				785E2F272DF73E69007351BF /* BroadcasterService.swift */,
+			);
+			path = PeerToPeer;
+			sourceTree = "<group>";
+		};
 		78F6FAFA2DE31EDA002D834A = {
 			isa = PBXGroup;
 			children = (
@@ -341,6 +348,7 @@
 		78F6FB052DE31EDA002D834A /* BinuApp */ = {
 			isa = PBXGroup;
 			children = (
+				78FE79C12DF7406A006AEF29 /* Info.plist */,
 				7833481F2DF6927200207E2C /* Resources */,
 				780B653A2DEC18B700F58AF5 /* ViewModels */,
 				780B65382DEC18A800F58AF5 /* Services */,
@@ -615,6 +623,7 @@
 				78F6FB7F2DE33F57002D834A /* AuthService.swift in Sources */,
 				780B655D2DEC1AF700F58AF5 /* PostRowView.swift in Sources */,
 				783348242DF694F400207E2C /* GIFView.swift in Sources */,
+				785E2F2A2DF73EA1007351BF /* ReceiverService.swift in Sources */,
 				780B65682DEC1B7400F58AF5 /* LoadingSpinnerView.swift in Sources */,
 				780B65752DEC2C3800F58AF5 /* CreatePostView.swift in Sources */,
 				78F6FB882DE33FC0002D834A /* FullWidthTextBox.swift in Sources */,
@@ -627,6 +636,7 @@
 				780B65772DEC809C00F58AF5 /* EnterUsernameView.swift in Sources */,
 				78F6FBB02DE35B86002D834A /* PostService.swift in Sources */,
 				780B65412DEC198600F58AF5 /* OnboardingViewModel.swift in Sources */,
+				785E2F282DF73E78007351BF /* BroadcasterService.swift in Sources */,
 				780B655B2DEC1AEB00F58AF5 /* ForumView.swift in Sources */,
 				780B656A2DEC1B7C00F58AF5 /* ErrorBannerView.swift in Sources */,
 				7833481E2DF68F6C00207E2C /* LogoView.swift in Sources */,
@@ -728,6 +738,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -782,6 +793,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -799,6 +811,10 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BinuApp/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app needs access to Bluetooth to send and receive nearby help alerts.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "The app needs access to your location to send and recieve nearby help alerts.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "The app needs access to your location to send and recieve nearby help alerts.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -818,7 +834,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ryanDev.BinuApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -838,6 +855,10 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = BinuApp/Info.plist;
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The app needs access to Bluetooth to send and receive nearby help alerts.";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "The app needs access to your location to send and recieve nearby help alerts.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "The app needs access to your location to send and recieve nearby help alerts.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -857,7 +878,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ryanDev.BinuApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

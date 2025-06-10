@@ -22,6 +22,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct AppEntry: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var authViewModel = AuthViewModel()
+    @StateObject private var beaconMonitor = ReceiverService() // Always in memory, but you can control start/stop
 
     var body: some Scene {
         WindowGroup {
@@ -34,10 +35,17 @@ struct AppEntry: App {
                 } else {
                     MainTabView()
                         .environmentObject(authViewModel)
+                        .onAppear {
+                            // This ensures monitoring starts only when signed in
+                            _ = beaconMonitor
+                        }
                 }
             }
             .onAppear {
                 authViewModel.listenForAuthChanges()
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
+                    // Handle granted/error if needed
+                }
             }
         }
     }

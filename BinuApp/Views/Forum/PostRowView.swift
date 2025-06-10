@@ -18,10 +18,15 @@ struct PostRowView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 8) {
-                // Title
-                Text(post.title)
-                    .font(.headline)
-                
+                HStack {
+                    // Title
+                    Text(post.title)
+                        .font(.headline)
+                    Spacer()
+                    // Sentiment
+                    Text(sentimentEmoji(for: post.sentiment))
+                        .font(.title2)
+                }
                 // Optional image preview (first media item, if any)
                 if let firstImage = post.media.first,
                    let url = URL(string: firstImage.downloadURL) {
@@ -59,12 +64,12 @@ struct PostRowView: View {
                         forumVM.likeOrUnlikePost(post, userId: authVM.user?.id ?? "")
                     }) {
                         HStack(spacing: 4) {
-                            Image(systemName: "heart.fill")
+                            Image(systemName: "heart")
                                 .foregroundStyle(.red)
-                                .font(.subheadline)
+                                .font(.title2)
                             Text("\(post.likes.count)")
-                                .font(.subheadline)
-                                .foregroundStyle(.black)
+                                .font(.title2)
+                                .foregroundStyle(Color.primary)
                         }
                     }
                     
@@ -73,12 +78,12 @@ struct PostRowView: View {
                         showComments = true
                     }) {
                         HStack(spacing: 4) {
-                            Image(systemName: "bubble.left.fill")
+                            Image(systemName: "bubble.left")
                                 .foregroundColor(.blue)
-                                .font(.subheadline)
+                                .font(.title2)
                             Text("\(post.comments.count)")
-                                .foregroundStyle(.black)
-                                .font(.subheadline)
+                                .foregroundStyle(Color.primary)
+                                .font(.title2)
                         }
                     }
                     .sheet(isPresented: $showComments) {
@@ -89,9 +94,6 @@ struct PostRowView: View {
                         )
                     }
                     
-                    // Sentiment
-                    Text(sentimentEmoji(for: post.sentiment))
-                        .font(.subheadline)
                     
                     // Only show “Delete” if this post belongs to the current user
                     if let currentUserId = authVM.user?.id, post.userId == currentUserId {
@@ -101,8 +103,9 @@ struct PostRowView: View {
                                 showDeleteAlert = true
                             } label: {
                                 Image(systemName: "trash")
+                                    .font(.title2)
                             }
-                            .padding(.trailing, 16)
+//                            .padding(.trailing, 16)
                             .alert("Delete Post", isPresented: $showDeleteAlert) {
                                 Button("Delete", role: .destructive) {
                                     forumVM.deletePost(post)
@@ -114,6 +117,7 @@ struct PostRowView: View {
                         }
                     }
                 }
+                .padding(.top, 10)
             }
             Spacer()
         }

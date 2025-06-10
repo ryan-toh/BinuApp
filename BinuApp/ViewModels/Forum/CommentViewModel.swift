@@ -31,7 +31,8 @@ final class CommentViewModel: ObservableObject, Identifiable {
         }
     }
     
-    func createComment(forPostId postId: String, comment: Comment, completion: @escaping (Bool) -> Void) {
+    
+    func createComment(forPostId postId: String, comment: Comment, completion: @escaping (String?) -> Void) {
         isLoading = true
         commentService.createComment(forPostId: postId, comment: comment) { [weak self] result in
             DispatchQueue.main.async {
@@ -39,16 +40,16 @@ final class CommentViewModel: ObservableObject, Identifiable {
                 switch result {
                 case .success(let newComment):
                     self?.comments.append(newComment)
-                    completion(true)
+                    completion(nil) // No error
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
-                    completion(false)
+                    completion(error.localizedDescription) // Pass error message
                 }
             }
         }
     }
-    
-    func updateComment(forPostId postId: String, comment: Comment, completion: @escaping (Bool) -> Void) {
+
+    func updateComment(forPostId postId: String, comment: Comment, completion: @escaping (String?) -> Void) {
         isLoading = true
         commentService.updateComment(forPostId: postId, comment: comment) { [weak self] result in
             DispatchQueue.main.async {
@@ -58,16 +59,16 @@ final class CommentViewModel: ObservableObject, Identifiable {
                     if let idx = self?.comments.firstIndex(where: { $0.id == comment.id }) {
                         self?.comments[idx] = comment
                     }
-                    completion(true)
+                    completion(nil)
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
-                    completion(false)
+                    completion(error.localizedDescription)
                 }
             }
         }
     }
-    
-    func deleteComment(forPostId postId: String, commentId: String, completion: @escaping (Bool) -> Void) {
+
+    func deleteComment(forPostId postId: String, commentId: String, completion: @escaping (String?) -> Void) {
         isLoading = true
         commentService.deleteComment(forPostId: postId, commentId: commentId) { [weak self] result in
             DispatchQueue.main.async {
@@ -75,10 +76,10 @@ final class CommentViewModel: ObservableObject, Identifiable {
                 switch result {
                 case .success:
                     self?.comments.removeAll { $0.id == commentId }
-                    completion(true)
+                    completion(nil)
                 case .failure(let error):
                     self?.errorMessage = error.localizedDescription
-                    completion(false)
+                    completion(error.localizedDescription)
                 }
             }
         }

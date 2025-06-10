@@ -13,7 +13,6 @@ struct CommentView: View {
 
     @State private var showCreateSheet = false
     @State private var editingComment: Comment?
-    @State private var showEditSheet = false
 
     var body: some View {
         NavigationStack {
@@ -27,7 +26,6 @@ struct CommentView: View {
                             comment: comment,
                             onEdit: {
                                 editingComment = comment
-                                showEditSheet = true
                             },
                             onDelete: {
                                 viewModel.deleteComment(forPostId: postId, commentId: comment.id ?? "") { _ in }
@@ -46,22 +44,26 @@ struct CommentView: View {
                     }
                 }
             }
-            .sheet(isPresented: $showCreateSheet) {
+            // Create Comment Sheet
+            .sheet(isPresented: $showCreateSheet, onDismiss: {
+                viewModel.fetchComments(forPostId: postId)
+            }) {
                 CreateCommentView(
                     postId: postId,
                     viewModel: viewModel,
                     onDismiss: { showCreateSheet = false }
                 )
             }
-            .sheet(isPresented: $showEditSheet) {
-                if let editing = editingComment {
-                    EditCommentView(
-                        postId: postId,
-                        comment: editing,
-                        viewModel: viewModel,
-                        onDismiss: { showEditSheet = false }
-                    )
-                }
+            // Edit Comment Sheet (using sheet(item:) for safety)
+            .sheet(item: $editingComment, onDismiss: {
+                viewModel.fetchComments(forPostId: postId)
+            }) { editing in
+                EditCommentView(
+                    postId: postId,
+                    comment: editing,
+                    viewModel: viewModel,
+                    onDismiss: { editingComment = nil }
+                )
             }
             .onAppear {
                 viewModel.fetchComments(forPostId: postId)

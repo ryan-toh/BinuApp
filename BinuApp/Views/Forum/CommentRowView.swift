@@ -20,6 +20,7 @@ struct CommentRowView: View {
             Text(comment.text)
                 .font(.body)
             HStack {
+                Spacer()
                 Button("Edit", action: onEdit)
                     .font(.caption)
                     .foregroundColor(.blue)

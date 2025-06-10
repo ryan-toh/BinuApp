@@ -10,7 +10,7 @@ import SwiftUI
 struct LogoView: View {
     var body: some View {
         // Workaround as AppIcon asset is blocked from the image name space
-        Image(uiImage: (UIImage(named:"AppIcon"))! )
+        Image("AppLogo")
             .resizable()
             .scaledToFit()
             .frame(width: 100, height: 100)

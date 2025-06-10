@@ -117,7 +117,6 @@ class AuthViewModel: ObservableObject {
             }
         }
     }
-
     
     private func saveUser(user: UserModel, completion: @escaping (Bool) -> Void) {
         guard let uid = user.id else {

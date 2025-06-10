@@ -9,8 +9,12 @@ import SwiftUI
 
 struct CreateCommentView: View {
     let postId: String
+    
+    @EnvironmentObject private var authVM: AuthViewModel
     @ObservedObject var viewModel: CommentViewModel
     @State private var newCommentText: String = ""
+    @State private var errorMessage: String? = nil
+    @State private var showErrorAlert: Bool = false
     var onDismiss: () -> Void
 
     var body: some View {
@@ -21,12 +25,23 @@ struct CreateCommentView: View {
                     .padding()
 
                 Button("Send") {
+                    guard let uid = authVM.user?.id else {
+                        errorMessage = "You must be signed in to post."
+                        showErrorAlert = true
+                        return
+                    }
+                    
                     let comment = Comment(
-                        userId: "currentUserId",
+                        userId: uid,
                         text: newCommentText
                     )
-                    viewModel.createComment(forPostId: postId, comment: comment) { success in
-                        if success { onDismiss() }
+                    viewModel.createComment(forPostId: postId, comment: comment) { error in
+                        if let error = error {
+                            errorMessage = error
+                            showErrorAlert = true
+                        } else {
+                            onDismiss()
+                        }
                     }
                 }
                 .disabled(newCommentText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -40,6 +55,14 @@ struct CreateCommentView: View {
                     Button("Cancel", action: onDismiss)
                 }
             }
+            .alert(isPresented: $showErrorAlert) {
+                Alert(
+                    title: Text("Error"),
+                    message: Text(errorMessage ?? "An unknown error occurred."),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
         }
     }
 }
+

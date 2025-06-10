@@ -11,6 +11,7 @@ struct ForumView: View {
     @EnvironmentObject var forumVM: ForumViewModel
     @EnvironmentObject var authVM: AuthViewModel
     @State private var showingCreatePost = false
+    @State private var postsLoaded = false
     
     var body: some View {
         NavigationStack {
@@ -69,7 +70,10 @@ struct ForumView: View {
                 }
             }
             .onAppear {
-                forumVM.fetchAllPosts()
+                if !postsLoaded {
+                    forumVM.fetchAllPosts()
+                    postsLoaded = true
+                }
             }
             .sheet(isPresented: $showingCreatePost) {
                 CreatePostView()

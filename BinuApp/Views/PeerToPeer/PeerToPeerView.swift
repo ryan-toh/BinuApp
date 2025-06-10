@@ -8,13 +8,29 @@
 import SwiftUI
 
 struct PeerToPeerView: View {
-    @EnvironmentObject var helpVM: PeerToPeerViewModel
-    
+    @StateObject private var broadcaster = BroadcasterService()
+
     var body: some View {
-        NotReadyView()
+        VStack(spacing: 20) {
+            Text(broadcaster.isBroadcasting ? "Broadcasting as iBeacon" : "Not Broadcasting")
+                .font(.headline)
+            Button(broadcaster.isBroadcasting ? "Stop" : "Start") {
+                if broadcaster.isBroadcasting {
+                    broadcaster.stopBroadcasting()
+                } else {
+                    broadcaster.startBroadcasting()
+                }
+            }
+            .padding()
+            .background(broadcaster.isBroadcasting ? Color.red : Color.green)
+            .foregroundColor(.white)
+            .clipShape(Capsule())
+        }
+        .padding()
     }
 }
 
-#Preview {
-    PeerToPeerView()
-}
+//
+//#Preview {
+//    PeerToPeerView()
+//}

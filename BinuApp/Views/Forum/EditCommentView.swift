@@ -7,11 +7,15 @@
 
 import SwiftUI
 
+// TODO: Fix Edit Comment
 struct EditCommentView: View {
     let postId: String
     var comment: Comment
+    @EnvironmentObject private var authVM: AuthViewModel
     @ObservedObject var viewModel: CommentViewModel
     @State private var updatedText: String
+    @State private var errorMessage: String? = nil
+    @State private var showErrorAlert: Bool = false
     var onDismiss: () -> Void
 
     init(postId: String, comment: Comment, viewModel: CommentViewModel, onDismiss: @escaping () -> Void) {
@@ -32,8 +36,13 @@ struct EditCommentView: View {
                 Button("Update") {
                     var edited = comment
                     edited.text = updatedText
-                    viewModel.updateComment(forPostId: postId, comment: edited) { success in
-                        if success { onDismiss() }
+                    viewModel.updateComment(forPostId: postId, comment: edited) { error in
+                        if let error = error {
+                            errorMessage = error
+                            showErrorAlert = true
+                        } else {
+                            onDismiss()
+                        }
                     }
                 }
                 .disabled(updatedText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
@@ -46,6 +55,13 @@ struct EditCommentView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", action: onDismiss)
                 }
+            }
+            .alert(isPresented: $showErrorAlert) {
+                Alert(
+                    title: Text("Error"),
+                    message: Text(errorMessage ?? "An unknown error occurred."),
+                    dismissButton: .default(Text("OK"))
+                )
             }
         }
     }
