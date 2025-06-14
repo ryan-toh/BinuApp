@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WelcomeView: View {
     @EnvironmentObject var authVM: AuthViewModel
+    @Environment(\.colorScheme) var colorScheme
 
     @State private var showLogin = false
     @State private var showSignUp = false
@@ -20,14 +21,21 @@ struct WelcomeView: View {
                     LogoView()
                     Spacer()
                 }
-                Text("""
-                     Welcome
-                     to
-                     Binu
-                     """)
-                .font(.largeTitle.bold())
-                .foregroundColor(Color.black)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                VStack(spacing: 5) {
+                    Text("""
+                         Welcome
+                         to
+                         Binu
+                         """)
+                        .font(.largeTitle.bold())
+                        .foregroundColor(Color.primary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text("""
+                         Women's Health,
+                         Made Accessible.
+                         """)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
                 .padding(20)
                 Spacer()
             }
@@ -68,14 +76,14 @@ struct WelcomeView: View {
             )
             .background(
                 RoundedRectangle(cornerRadius: 40)
-                    .foregroundColor(Color.black)
+                    .foregroundColor(colorScheme == .dark ? .black : .white)
                     .opacity(0.8)
             )
         }
         .padding()
         .navigationTitle("")           // hides the title
         .navigationBarHidden(true)     // hides the bar
-        .background(GIFView(gifName: "waves"))
+        .background(GIFView(gifName: "waves").opacity(0.5))
         .ignoresSafeArea()
     }
 }

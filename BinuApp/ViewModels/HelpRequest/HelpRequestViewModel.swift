@@ -1,99 +1,127 @@
 //
-//  PeerToPeerViewModel.swift
+//  RequestViewModel.swift
 //  BinuApp
 //
-//  Created by Ryan on 1/6/25.
+//  Created by Ryan on 14/6/25.
 //
 
 import Foundation
-import Firebase
+import Combine
 import FirebaseFirestore
+import CoreLocation
+import CoreBluetooth
 
-@Observable
-class HelpRequestViewModel {
+class HelpRequestViewModel: NSObject, ObservableObject, CLLocationManagerDelegate {
+    
+    enum UIState {
+        case broadcast
+        case waiting
+        case accepted
+        case completed
+    }
+    
+    @Published var currentRequest: Request?
+    @Published var proximity: CLProximity?
+    @Published var uiState: UIState = .broadcast
+    
+    // Firebase and iBeacon attributes
     private let db = Firestore.firestore()
-    var helpRequests: [HelpRequest] = []
-    var currentRequest: HelpRequest?
-    var errorMessage: String?
-
-    // Fetch all pending help requests for a beacon UUID
-    func fetchPendingRequests(uuid: String) async {
-        do {
-            let snapshot = try await db.collection("helpRequests")
-                .whereField("uuid", isEqualTo: uuid)
-                .whereField("status", isEqualTo: "pending")
-                .getDocuments()
-            helpRequests = snapshot.documents.compactMap { try? $0.data(as: HelpRequest.self) }
-        } catch {
-            errorMessage = error.localizedDescription
-        }
+    private var listener: ListenerRegistration?
+    private let locationManager = CLLocationManager()
+    private var beaconRegion: CLBeaconRegion?
+    private let beaconUUID = UUID(uuidString: appUuidString)!
+    private var cancellables = Set<AnyCancellable>()
+    
+    // User
+    let userId: String
+    
+    init(userId: String) {
+        self.userId = userId
+        super.init()
+        locationManager.delegate = self
     }
-
-    // Create a new help request
-    func createHelpRequest(broadcasterId: String, uuid: String, location: GeoPoint) async -> Bool {
-        let newRequest = HelpRequest(
-            broadcasterId: broadcasterId,
-            receiverId: nil,
-            uuid: uuid,
-            status: "pending",
-            createdAt: Timestamp(date: .now),
-            location: location,
-            closedAt: nil
-        )
-        do {
-            _ = try db.collection("helpRequests").addDocument(from: newRequest)
-            return true
-        } catch {
-            errorMessage = error.localizedDescription
-            return false
-        }
+    
+    // MARK: - Sender Functions
+    
+    func broadcastRequest(item: Item) {
+        let request = Request(senderId: userId, receiverId: nil, item: item)
+        let docRef = db.collection("requests").document()
+        try? docRef.setData(from: request)
+        self.currentRequest = request
+        self.uiState = .waiting
+        
+        // Start advertising iBeacon
+        startBeaconAdvertising(major: 1, minor: 1)
+        listenForRequestChanges(requestId: docRef.documentID)
     }
-
-    // Accept a help request atomically
-    func acceptHelpRequest(request: HelpRequest, receiverId: String) async -> Bool {
-        guard let requestId = request.id else { return false }
-        let ref = db.collection("helpRequests").document(requestId)
-        do {
-            let _ = try await db.runTransaction { (transaction, errorPointer) -> Any? in
-                let snapshot: DocumentSnapshot
-                do {
-                    snapshot = try transaction.getDocument(ref)
-                } catch let fetchError as NSError {
-                    errorPointer?.pointee = fetchError
-                    return nil
-                }
-                let status = snapshot.get("status") as? String ?? ""
-                if status != "pending" {
-                    let error = NSError(
-                        domain: "HelpRequest",
-                        code: 0,
-                        userInfo: [NSLocalizedDescriptionKey: "Request already accepted or closed."]
-                    )
-                    errorPointer?.pointee = error
-                    return nil
-                }
-                transaction.updateData(["status": "accepted", "receiverId": receiverId], forDocument: ref)
-                return nil
+    
+    func completeRequest() {
+        guard let requestId = currentRequest?.id else { return }
+        db.collection("requests").document(requestId).updateData(["isCompleted": true])
+        
+        stopBeacon()
+        self.uiState = .broadcast
+        self.currentRequest = nil
+    }
+    
+    // MARK: - Receiver Functions
+    
+    func listenForNearbyRequests() {
+        // Start search for iBeacon
+        startBeaconRanging()
+    }
+    
+    func acceptRequest(requestId: String) {
+        let reqRef = db.collection("requests").document(requestId)
+        reqRef.updateData(["receiverId": userId])
+        self.uiState = .accepted
+        listenForRequestChanges(requestId: requestId)
+    }
+    
+    // MARK: - Firestore Sync
+    
+    private func listenForRequestChanges(requestId: String) {
+        listener?.remove()
+        listener = db.collection("requests").document(requestId).addSnapshotListener { [weak self] snapshot, error in
+            guard let self = self, let data = snapshot?.data() else { return }
+            let request = try? snapshot?.data(as: Request.self)
+            self.currentRequest = request
+            
+            if request?.isCompleted == true {
+                self.uiState = .broadcast
+                self.currentRequest = nil
+                self.listener?.remove()
+            } else if request?.receiverId != nil && self.userId == request?.senderId {
+                self.uiState = .accepted
             }
-            return true
-        } catch {
-            errorMessage = error.localizedDescription
-            return false
         }
     }
-
-
-    // Close a help request
-    func closeHelpRequest(request: HelpRequest) async {
-        guard let requestId = request.id else { return }
-        do {
-            try await db.collection("helpRequests").document(requestId).updateData([
-                "status": "completed",
-                "closedAt": Timestamp(date: .now)
-            ])
-        } catch {
-            errorMessage = error.localizedDescription
-        }
+    
+    // MARK: - iBeacon
+    
+    private func startBeaconAdvertising(major: CLBeaconMajorValue, minor: CLBeaconMinorValue) {
+        beaconRegion = CLBeaconRegion(uuid: beaconUUID, major: major, minor: minor, identifier: "RequestBeacon")
+        let peripheralData = beaconRegion!.peripheralData(withMeasuredPower: nil) as? [String: Any]
+        let peripheralManager = CBPeripheralManager(delegate: nil, queue: nil)
+        peripheralManager.startAdvertising(peripheralData)
     }
+    
+    private func stopBeacon() {
+        let peripheralManager = CBPeripheralManager(delegate: nil, queue: nil)
+        peripheralManager.stopAdvertising()
+    }
+    
+    private func startBeaconRanging() {
+        beaconRegion = CLBeaconRegion(uuid: beaconUUID, identifier: "RequestBeacon")
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startRangingBeacons(satisfying: CLBeaconIdentityConstraint(uuid: beaconUUID))
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didRange beacons: [CLBeacon], satisfying constraint: CLBeaconIdentityConstraint) {
+        guard let nearest = beacons.first else { return }
+        self.proximity = nearest.proximity
+    }
+    
+    
+    
 }
-

@@ -3,7 +3,7 @@ import CoreLocation
 import FirebaseFirestore
 
 struct BeaconSenderView: View {
-    @State private var viewModel = HelpRequestViewModel()
+    @EnvironmentObject private var viewModel : HelpRequestViewModel
     @State private var isBroadcasting = false
     @State private var showError = false
 
