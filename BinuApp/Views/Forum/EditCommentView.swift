@@ -1,16 +1,9 @@
-//
-//  EditCommentView.swift
-//  BinuApp
-//
-//  Created by Ryan on 9/6/25.
-//
-
 import SwiftUI
 
-// TODO: Fix Edit Comment
 struct EditCommentView: View {
     let postId: String
     var comment: Comment
+
     @EnvironmentObject private var authVM: AuthViewModel
     @ObservedObject var viewModel: CommentViewModel
     @State private var updatedText: String
@@ -28,32 +21,49 @@ struct EditCommentView: View {
 
     var body: some View {
         NavigationStack {
-            VStack {
-                TextField("Edit comment...", text: $updatedText)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
+            ZStack {
+                Color("BGColor")
+                    .ignoresSafeArea()
 
-                Button("Update") {
-                    var edited = comment
-                    edited.text = updatedText
-                    viewModel.updateComment(forPostId: postId, comment: edited) { error in
-                        if let error = error {
-                            errorMessage = error
-                            showErrorAlert = true
-                        } else {
-                            onDismiss()
+                VStack(spacing: 20) {
+                    TextField("Edit comment...", text: $updatedText)
+                        .padding()
+                        .background(Color.white.opacity(0.2))
+                        .cornerRadius(10)
+                        .foregroundColor(Color("FontColor"))
+                        .padding(.horizontal)
+
+                    Button {
+                        var edited = comment
+                        edited.text = updatedText
+                        viewModel.updateComment(forPostId: postId, comment: edited) { error in
+                            if let error = error {
+                                errorMessage = error
+                                showErrorAlert = true
+                            } else {
+                                onDismiss()
+                            }
                         }
+                    } label: {
+                        Text("Update")
+                            .fontWeight(.bold)
+                            .foregroundColor(Color("BGColor"))
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color("FontColor"))
+                            .cornerRadius(25)
                     }
-                }
-                .disabled(updatedText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                .padding()
+                    .disabled(updatedText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .padding(.horizontal)
 
-                Spacer()
+                    Spacer()
+                }
             }
             .navigationTitle("Edit Comment")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel", action: onDismiss)
+                        .foregroundColor(Color("FontColor"))
                 }
             }
             .alert(isPresented: $showErrorAlert) {
@@ -65,4 +75,19 @@ struct EditCommentView: View {
             }
         }
     }
+}
+
+#Preview {
+    let mockComment = Comment(id: "c1", userId: "user123", text: "Original comment")
+    let mockVM = CommentViewModel()
+    let mockAuthVM = AuthViewModel()
+    mockAuthVM.user = UserModel(id: "user123", email: "mock@example.com", username: "MockUser", gender: "Other", age: 30)
+
+    return EditCommentView(
+        postId: "mockPost123",
+        comment: mockComment,
+        viewModel: mockVM,
+        onDismiss: {}
+    )
+    .environmentObject(mockAuthVM)
 }

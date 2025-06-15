@@ -13,6 +13,7 @@ import FirebaseAuth
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+
         FirebaseApp.configure()
         return true
     }
@@ -23,6 +24,20 @@ struct AppEntry: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var authViewModel = AuthViewModel()
     @StateObject private var beaconMonitor = ReceiverService() // Always in memory, but you can control start/stop
+    
+    // eungi: setting OVERALL COLOR THEME
+    init() {
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.backgroundColor = UIColor(named: "BGColor")
+
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+
+        UITabBar.appearance().tintColor = UIColor(named: "FontColor") // selected tab
+        UITabBar.appearance().unselectedItemTintColor = UIColor.lightGray
+    }
+    // eungi: END
 
     var body: some Scene {
         WindowGroup {

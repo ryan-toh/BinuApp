@@ -11,6 +11,9 @@
 		315412A02DE37ADB00447409 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3154129F2DE37ADB00447409 /* FirebaseCore */; };
 		315412A22DE37ADB00447409 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 315412A12DE37ADB00447409 /* FirebaseFirestore */; };
 		315412A42DE37ADB00447409 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 315412A32DE37ADB00447409 /* FirebaseStorage */; };
+		318971442DFC328F005A4955 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 318971432DFC328F005A4955 /* GoogleService-Info.plist */; };
+		318971462DFC334C005A4955 /* waves.gif in Resources */ = {isa = PBXBuildFile; fileRef = 318971452DFC334C005A4955 /* waves.gif */; };
+		31EF9E572DFF0000008FD5C7 /* CombinedCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */; };
 		780B65352DEC102E00F58AF5 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65342DEC102E00F58AF5 /* CommentService.swift */; };
 		780B65372DEC104C00F58AF5 /* SentimentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65362DEC104C00F58AF5 /* SentimentService.swift */; };
 		780B653F2DEC197600F58AF5 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B653E2DEC197600F58AF5 /* AuthViewModel.swift */; };
@@ -33,7 +36,6 @@
 		780B65752DEC2C3800F58AF5 /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65742DEC2C3800F58AF5 /* CreatePostView.swift */; };
 		780B65772DEC809C00F58AF5 /* EnterUsernameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65762DEC809C00F58AF5 /* EnterUsernameView.swift */; };
 		7833481E2DF68F6C00207E2C /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7833481D2DF68F6C00207E2C /* LogoView.swift */; };
-		783348212DF6927B00207E2C /* waves.gif in Resources */ = {isa = PBXBuildFile; fileRef = 783348202DF6927B00207E2C /* waves.gif */; };
 		783348242DF694F400207E2C /* GIFView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783348232DF694F400207E2C /* GIFView.swift */; };
 		783348292DF6C20F00207E2C /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783348282DF6C20F00207E2C /* CommentViewModel.swift */; };
 		7833482B2DF6C28700207E2C /* CommentRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7833482A2DF6C28700207E2C /* CommentRowView.swift */; };
@@ -49,7 +51,6 @@
 		78F6FB1B2DE31EDB002D834A /* BinuAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB1A2DE31EDB002D834A /* BinuAppTests.swift */; };
 		78F6FB252DE31EDB002D834A /* BinuAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB242DE31EDB002D834A /* BinuAppUITests.swift */; };
 		78F6FB272DE31EDB002D834A /* BinuAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB262DE31EDB002D834A /* BinuAppUITestsLaunchTests.swift */; };
-		78F6FB762DE330FD002D834A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78F6FB752DE330FD002D834A /* GoogleService-Info.plist */; };
 		78F6FB7F2DE33F57002D834A /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB7E2DE33F57002D834A /* AuthService.swift */; };
 		78F6FB832DE33F8D002D834A /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB822DE33F8D002D834A /* WelcomeView.swift */; };
 		78F6FB882DE33FC0002D834A /* FullWidthTextBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB872DE33FC0002D834A /* FullWidthTextBox.swift */; };
@@ -79,6 +80,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		318971432DFC328F005A4955 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		318971452DFC334C005A4955 /* waves.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = waves.gif; sourceTree = "<group>"; };
+		31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedCommentView.swift; sourceTree = "<group>"; };
 		780B65342DEC102E00F58AF5 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		780B65362DEC104C00F58AF5 /* SentimentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimentService.swift; sourceTree = "<group>"; };
 		780B653E2DEC197600F58AF5 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
@@ -101,7 +105,6 @@
 		780B65742DEC2C3800F58AF5 /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
 		780B65762DEC809C00F58AF5 /* EnterUsernameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterUsernameView.swift; sourceTree = "<group>"; };
 		7833481D2DF68F6C00207E2C /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
-		783348202DF6927B00207E2C /* waves.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = waves.gif; path = ../../../HeraHub/HeraHub/Resources/waves.gif; sourceTree = "<group>"; };
 		783348232DF694F400207E2C /* GIFView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFView.swift; sourceTree = "<group>"; };
 		783348282DF6C20F00207E2C /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		7833482A2DF6C28700207E2C /* CommentRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentRowView.swift; sourceTree = "<group>"; };
@@ -121,7 +124,6 @@
 		78F6FB202DE31EDB002D834A /* BinuAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BinuAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F6FB242DE31EDB002D834A /* BinuAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinuAppUITests.swift; sourceTree = "<group>"; };
 		78F6FB262DE31EDB002D834A /* BinuAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinuAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		78F6FB752DE330FD002D834A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		78F6FB7E2DE33F57002D834A /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		78F6FB822DE33F8D002D834A /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		78F6FB872DE33FC0002D834A /* FullWidthTextBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullWidthTextBox.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 			children = (
 				780B655A2DEC1AEB00F58AF5 /* ForumView.swift */,
 				780B655C2DEC1AF700F58AF5 /* PostRowView.swift */,
+				31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */,
 				780B65742DEC2C3800F58AF5 /* CreatePostView.swift */,
 				7833482A2DF6C28700207E2C /* CommentRowView.swift */,
 				7833482C2DF6C2C000207E2C /* CommentView.swift */,
@@ -302,7 +305,7 @@
 		7833481F2DF6927200207E2C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				783348202DF6927B00207E2C /* waves.gif */,
+				318971452DFC334C005A4955 /* waves.gif */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -348,6 +351,7 @@
 		78F6FB052DE31EDA002D834A /* BinuApp */ = {
 			isa = PBXGroup;
 			children = (
+				318971432DFC328F005A4955 /* GoogleService-Info.plist */,
 				78FE79C12DF7406A006AEF29 /* Info.plist */,
 				7833481F2DF6927200207E2C /* Resources */,
 				780B653A2DEC18B700F58AF5 /* ViewModels */,
@@ -359,7 +363,6 @@
 				78F6FB082DE31EDA002D834A /* ContentView.swift */,
 				78F6FB0C2DE31EDB002D834A /* Assets.xcassets */,
 				78F6FB0E2DE31EDB002D834A /* BinuApp.entitlements */,
-				78F6FB752DE330FD002D834A /* GoogleService-Info.plist */,
 				78F6FB0F2DE31EDB002D834A /* Preview Content */,
 			);
 			path = BinuApp;
@@ -577,10 +580,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78F6FB762DE330FD002D834A /* GoogleService-Info.plist in Resources */,
 				78F6FB112DE31EDB002D834A /* Preview Assets.xcassets in Resources */,
+				318971462DFC334C005A4955 /* waves.gif in Resources */,
+				318971442DFC328F005A4955 /* GoogleService-Info.plist in Resources */,
 				78F6FB0D2DE31EDB002D834A /* Assets.xcassets in Resources */,
-				783348212DF6927B00207E2C /* waves.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +615,7 @@
 				7833482F2DF6C2D400207E2C /* CreateCommentView.swift in Sources */,
 				7833482D2DF6C2C000207E2C /* CommentView.swift in Sources */,
 				780B65522DEC1A8400F58AF5 /* SignUpView.swift in Sources */,
+				31EF9E572DFF0000008FD5C7 /* CombinedCommentView.swift in Sources */,
 				783348312DF6C2DD00207E2C /* EditCommentView.swift in Sources */,
 				780B65502DEC1A7E00F58AF5 /* LoginView.swift in Sources */,
 				78F6FB072DE31EDA002D834A /* AppEntry.swift in Sources */,

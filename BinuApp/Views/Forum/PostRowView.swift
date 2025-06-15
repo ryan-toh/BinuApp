@@ -1,10 +1,3 @@
-//
-//  PostRowView.swift
-//  BinuApp
-//
-//  Created by Ryan on 1/6/25.
-//
-
 import SwiftUI
 
 struct PostRowView: View {
@@ -12,22 +5,23 @@ struct PostRowView: View {
     @EnvironmentObject private var authVM: AuthViewModel
     let post: Post
 
-    @State private var showComments = false
     @State private var showDeleteAlert = false
 
     var body: some View {
-        HStack {
+        // Entire post is tappable
+        NavigationLink(destination: CombinedCommentView(post: post)) {
             VStack(alignment: .leading, spacing: 8) {
+                // Title and sentiment
                 HStack {
-                    // Title
                     Text(post.title)
                         .font(.headline)
+                        .foregroundColor(.black)
                     Spacer()
-                    // Sentiment
                     Text(sentimentEmoji(for: post.sentiment))
                         .font(.title2)
                 }
-                // Optional image preview (first media item, if any)
+
+                // Optional image
                 if let firstImage = post.media.first,
                    let url = URL(string: firstImage.downloadURL) {
                     AsyncImage(url: url) { phase in
@@ -51,82 +45,66 @@ struct PostRowView: View {
                         }
                     }
                 }
-                
-                // Body text (limited to 2 lines)
+
+                // Body text
                 Text(post.text)
                     .font(.subheadline)
+                    .foregroundColor(.black)
                     .lineLimit(2)
-                
-                // Metadata: likes, comments count, sentiment
+
+                // Like / Comment / Delete Row
                 HStack(spacing: 16) {
-                    // Likes
-                    Button(action: {
+                    Button {
                         forumVM.likeOrUnlikePost(post, userId: authVM.user?.id ?? "")
-                    }) {
+                    } label: {
                         HStack(spacing: 4) {
                             Image(systemName: "heart")
-                                .foregroundStyle(.red)
-                                .font(.title2)
+                                .foregroundColor(Color("FontColor"))
                             Text("\(post.likes.count)")
-                                .font(.title2)
-                                .foregroundStyle(Color.primary)
+                                .foregroundColor(.black)
                         }
                     }
-                    
-                    // Comments button
-                    Button(action: {
-                        showComments = true
-                    }) {
-                        HStack(spacing: 4) {
-                            Image(systemName: "bubble.left")
-                                .foregroundColor(.blue)
-                                .font(.title2)
-                            Text("\(post.comments.count)")
-                                .foregroundStyle(Color.primary)
-                                .font(.title2)
-                        }
+
+                    HStack(spacing: 4) {
+                        Image(systemName: "bubble.left")
+                            .foregroundColor(Color("ExtraColor1"))
+                        Text("\(post.comments.count)")
+                            .foregroundColor(.black)
                     }
-                    .sheet(isPresented: $showComments) {
-                        // Pass a new CommentViewModel for the post
-                        CommentView(
-                            viewModel: CommentViewModel(),
-                            postId: post.id ?? ""
-                        )
-                    }
-                    
-                    
-                    // Only show “Delete” if this post belongs to the current user
+
+                    Spacer()
+
                     if let currentUserId = authVM.user?.id, post.userId == currentUserId {
-                        HStack {
-                            Spacer()
-                            Button(role: .destructive) {
-                                showDeleteAlert = true
-                            } label: {
-                                Image(systemName: "trash")
-                                    .font(.title2)
+                        Button(role: .destructive) {
+                            showDeleteAlert = true
+                        } label: {
+                            Image(systemName: "trash")
+                                .foregroundColor(Color("FontColor"))
+                        }
+                        .alert("Delete Post", isPresented: $showDeleteAlert) {
+                            Button("Delete", role: .destructive) {
+                                forumVM.deletePost(post)
                             }
-//                            .padding(.trailing, 16)
-                            .alert("Delete Post", isPresented: $showDeleteAlert) {
-                                Button("Delete", role: .destructive) {
-                                    forumVM.deletePost(post)
-                                }
-                                Button("Cancel", role: .cancel) { }
-                            } message: {
-                                Text("Are you sure you want to delete this post? This action cannot be undone.")
-                            }
+                            Button("Cancel", role: .cancel) { }
+                        } message: {
+                            Text("Are you sure you want to delete this post?")
                         }
                     }
                 }
+                .font(.title2)
                 .padding(.top, 10)
             }
-            Spacer()
+            .padding()
+            .background(Color("PostBackground"))
+            .cornerRadius(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color("FontColor").opacity(0.2), lineWidth: 1.5)
+            )
         }
-        .padding()
-        .background(Color(UIColor.secondarySystemBackground))
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+        .buttonStyle(PlainButtonStyle())
     }
-    
+
     private func sentimentEmoji(for sentiment: Sentiment) -> String {
         switch sentiment {
         case .positive: return "😊"
@@ -137,9 +115,7 @@ struct PostRowView: View {
 }
 
 
-
 #Preview {
-    // Provide mock data and environment objects for preview
     let mockPost = Post(
         id: "1", userId: "user123",
         title: "Sample Post",
@@ -154,4 +130,4 @@ struct PostRowView: View {
     return PostRowView(post: mockPost)
         .environmentObject(authVM)
         .environmentObject(ForumViewModel())
-}
+} 

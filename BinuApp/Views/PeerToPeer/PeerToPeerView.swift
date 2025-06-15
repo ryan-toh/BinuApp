@@ -30,7 +30,7 @@ struct PeerToPeerView: View {
     }
 }
 
-//
-//#Preview {
-//    PeerToPeerView()
-//}
+
+#Preview {
+    PeerToPeerView()
+}

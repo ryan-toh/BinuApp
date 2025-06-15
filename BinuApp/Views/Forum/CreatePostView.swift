@@ -1,17 +1,11 @@
-//
-//  CreatePostView.swift
-//  BinuApp
-//
-//  Created by Ryan on 1/6/25.
-//
-
 import SwiftUI
 import PhotosUI
 
 /// A production‐ready view for creating and uploading a new post.
 /// - Displays a “Uploading…” overlay while the network call is in progress.
-/// - Wraps the callback‐based `createPost(...)` in async/await to ensure the spinner always stops.
+/// - Wraps the callback‐based createPost(...) in async/await to ensure the spinner always stops.
 /// - Automatically dismisses on success; shows an alert on failure.
+
 struct CreatePostView: View {
     @EnvironmentObject private var authVM: AuthViewModel
     @EnvironmentObject private var forumVM: ForumViewModel
@@ -26,113 +20,135 @@ struct CreatePostView: View {
 
     var body: some View {
         ZStack {
-            NavigationStack {
-                Form {
-                    Section(header: Text("Title")) {
-                        TextField("Enter post title", text: $title)
-                            .disableAutocorrection(true)
-                            .textInputAutocapitalization(.sentences)
+            Color("BGColor").ignoresSafeArea()
+
+            VStack(alignment: .leading, spacing: 20) {
+                Text("New Post")
+                    .font(.largeTitle.bold())
+                    .foregroundColor(Color("FontColor"))
+                    .padding(.top)
+
+                // Title
+                TextField("Title", text: $title)
+                    .padding()
+                    .background(Color.white.opacity(0.15))
+                    .cornerRadius(12)
+                    .foregroundColor(Color("FontColor"))
+                    .disableAutocorrection(true)
+                    .textInputAutocapitalization(.sentences)
+
+                // Body
+                TextEditor(text: $text)
+                    .frame(height: 160)
+                    .padding(10)
+                    .background(Color("BGColor"))
+                    .cornerRadius(12)
+                    .foregroundColor(Color("FontColor"))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 12)
+                            .stroke(Color("FontColor").opacity(0.1), lineWidth: 1)
+                    )
+                    .scrollContentBackground(.hidden) //  removes the ugly white default textbox
+
+
+                // Photo Picker
+                VStack(alignment: .leading, spacing: 10) {
+                    PhotosPicker(
+                        selection: $photoItems,
+                        maxSelectionCount: 5,
+                        matching: .images
+                    ) {
+                        HStack {
+                            Image(systemName: "photo.on.rectangle.angled")
+                            Text("Add up to 5 images")
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.white.opacity(0.15))
+                        .cornerRadius(12)
+                        .foregroundColor(Color("FontColor"))
+                    }
+                    .onChange(of: photoItems) { _ in
+                        Task { await loadSelectedImages() }
                     }
 
-                    Section(header: Text("Body")) {
-                        TextEditor(text: $text)
-                            .frame(minHeight: 150)
-                            .disableAutocorrection(true)
-                            .autocapitalization(.sentences)
-                    }
-
-                    Section(header: Text("Images (optional)")) {
-                        PhotosPicker(
-                            selection: $photoItems,
-                            maxSelectionCount: 5,
-                            matching: .images
-                        ) {
-                            HStack {
-                                Image(systemName: "photo.on.rectangle.angled")
-                                Text("Select up to 5 photos")
-                            }
-                        }
-                        .onChange(of: photoItems) { _ in
-                            Task { await loadSelectedImages() }
-                        }
-
-                        if !selectedImages.isEmpty {
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 12) {
-                                    ForEach(selectedImages, id: \.self) { img in
-                                        Image(uiImage: img)
-                                            .resizable()
-                                            .scaledToFill()
-                                            .frame(width: 80, height: 80)
-                                            .clipped()
-                                            .cornerRadius(8)
-                                            .shadow(radius: 1)
-                                    }
+                    if !selectedImages.isEmpty {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 12) {
+                                ForEach(selectedImages, id: \.self) { img in
+                                    Image(uiImage: img)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 80, height: 80)
+                                        .clipped()
+                                        .cornerRadius(8)
+                                        .shadow(radius: 1)
                                 }
-                                .padding(.vertical, 4)
                             }
-                        }
-                    }
-
-                    if let error = errorText {
-                        Section {
-                            Text(error)
-                                .foregroundColor(.red)
                         }
                     }
                 }
-                .navigationTitle("New Post")
-                .toolbar {
-                    ToolbarItem(placement: .confirmationAction) {
-                        Button("Post") {
-                            Task {
-                                await submitPostAsync()
-                            }
-                        }
-                        .disabled(isSubmitDisabled || isUploading)
+
+                // Error
+                if let error = errorText {
+                    Text(error)
+                        .foregroundColor(.red)
+                        .font(.subheadline)
+                        .padding(.top, 5)
+                }
+
+                Spacer()
+
+                // Action Buttons
+                HStack(spacing: 20) {
+                    Button("Cancel") {
+                        dismiss()
                     }
-                    ToolbarItem(placement: .cancellationAction) {
-                        Button("Cancel") {
-                            dismiss()
-                        }
-                        .disabled(isUploading)
+                    .foregroundColor(.gray)
+
+                    Spacer()
+
+                    Button(action: {
+                        Task { await submitPostAsync() }
+                    }) {
+                        Text("Post")
+                            .fontWeight(.bold)
+                            .padding()
+                            .frame(minWidth: 100)
+                            .background(isSubmitDisabled ? Color.gray : Color("FontColor"))
+                            .foregroundColor(Color("BGColor"))
+                            .cornerRadius(25)
                     }
+                    .disabled(isSubmitDisabled || isUploading)
                 }
             }
+            .padding()
             .disabled(isUploading)
 
             if isUploading {
-                Color.black
-                    .opacity(0.4)
-                    .ignoresSafeArea()
+                Color.black.opacity(0.4).ignoresSafeArea()
 
                 ProgressView("Uploading…")
                     .padding(20)
                     .background(.ultraThinMaterial)
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
+                    .cornerRadius(12)
             }
         }
-        .alert(
-            "Upload Error",
-            isPresented: Binding<Bool>(
-                get: { errorText != nil },
-                set: { if !$0 { errorText = nil } }
-            )
-        ) {
+        .alert("Upload Error", isPresented: Binding<Bool>(
+            get: { errorText != nil },
+            set: { if !$0 { errorText = nil } }
+        )) {
             Button("OK") { errorText = nil }
         } message: {
             Text(errorText ?? "")
         }
     }
 
-    /// Disable “Post” if title/body are empty (after trimming).
     private var isSubmitDisabled: Bool {
-        title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-         || text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ||
+        text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
-    /// Asynchronously load UIImage instances from selected PhotosPickerItems.
     private func loadSelectedImages() async {
         var loaded: [UIImage] = []
         for item in photoItems {
@@ -144,30 +160,17 @@ struct CreatePostView: View {
         await MainActor.run { selectedImages = loaded }
     }
 
-    /// Wraps the callback‐based `forumVM.createPost(...)` in async/await,
-    /// so we can always clear `isUploading`—even if the completion handler never fires.
-    private func createPostAsync(
-        userId: String,
-        title: String,
-        text: String,
-        images: [UIImage]
-    ) async -> Bool {
+    private func createPostAsync(userId: String, title: String, text: String, images: [UIImage]) async -> Bool {
         await withCheckedContinuation { continuation in
             forumVM.createPost(userId: userId, title: title, text: text, images: images) { success in
                 continuation.resume(returning: success)
             }
-            // Note: if `createPost(...)` never calls its completion, this continuation will hang.
-            // TODO: Dispatch a fallback timeout here.
         }
     }
 
-    /// Validates inputs, shows “Uploading…” overlay, awaits upload, then
-    /// dismisses on success or shows an alert on failure.
     private func submitPostAsync() async {
-        // Clear any prior error
         await MainActor.run { errorText = nil }
 
-        // Use AuthViewModel's user property
         guard let uid = authVM.user?.id else {
             await MainActor.run { errorText = "You must be signed in to post." }
             return
@@ -180,20 +183,12 @@ struct CreatePostView: View {
             return
         }
 
-        // Show the overlay
         await MainActor.run { isUploading = true }
 
-        // Await the callback‐based createPost
-        let success = await createPostAsync(
-            userId: uid,
-            title: trimmedTitle,
-            text: trimmedText,
-            images: selectedImages
-        )
+        let success = await createPostAsync(userId: uid, title: trimmedTitle, text: trimmedText, images: selectedImages)
 
         await MainActor.run {
             isUploading = false
-
             if success {
                 dismiss()
             } else {
@@ -208,3 +203,4 @@ struct CreatePostView: View {
         .environmentObject(AuthViewModel())
         .environmentObject(ForumViewModel())
 }
+

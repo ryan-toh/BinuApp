@@ -1,10 +1,3 @@
-//
-//  Login.swift
-//  BinuApp
-//
-//  Created by Ryan on 25/5/25.
-//
-
 import SwiftUI
 
 struct WelcomeView: View {
@@ -12,74 +5,71 @@ struct WelcomeView: View {
 
     @State private var showLogin = false
     @State private var showSignUp = false
-    
+
     var body: some View {
-        VStack(spacing: 20) {
+        ZStack {
+            // Background
+            Color("BGColor")
+                .ignoresSafeArea()
+
             VStack {
-                HStack {
-                    LogoView()
+                Spacer()
+
+                // Logo and Tagline aligned to center-left
+                HStack(alignment: .center) {
+                    VStack(alignment: .leading, spacing: 20) {
+                        LogoView()
+                            .scaleEffect(2.0)
+
+                        Text("A safe space for Her, for Him.")
+                            .foregroundColor(Color("FontColor"))
+                            .font(.headline)
+                            .multilineTextAlignment(.leading)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
+                    .padding(.leading, 30)
+
                     Spacer()
                 }
-                Text("""
-                     Welcome
-                     to
-                     Binu
-                     """)
-                .font(.largeTitle.bold())
-                .foregroundColor(Color.black)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(20)
+
                 Spacer()
+
+                // Bottom Buttons
+                VStack(spacing: 20) {
+                    Button(action: { showLogin = true }) {
+                        Text("Login")
+                            .fontWeight(.bold)
+                            .foregroundColor(Color("BGColor"))
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color("FontColor"))
+                            .cornerRadius(25)
+                    }
+                    .fullScreenCover(isPresented: $showLogin) {
+                        LoginView().environmentObject(authVM)
+                    }
+
+                    Button(action: { showSignUp = true }) {
+                        Text("Register")
+                            .fontWeight(.bold)
+                            .foregroundColor(Color("BGColor"))
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color("FontColor"))
+                            .cornerRadius(25)
+                    }
+                    .fullScreenCover(isPresented: $showSignUp) {
+                        SignUpView().environmentObject(authVM)
+                    }
+                }
+                .padding(.horizontal, 40)
+                .padding(.bottom, 40)
             }
-            .padding(.vertical, 80)
-            .padding(.leading, 20)
-            
-            Spacer()
-            
-            VStack {
-                // Login Button
-                Button(action: { showLogin = true }) {
-                    Text("Login")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(BorderedProminentButtonStyle())
-                .bold()
-                .controlSize(.large)
-                .sheet(isPresented: $showLogin) {
-                    LoginView()
-                        .environmentObject(authVM)
-                }
-                // Sign Up Button
-                Button(action: { showSignUp = true }) {
-                    Text("Register")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(BorderedButtonStyle())
-                .bold()
-                .controlSize(.large)
-                .sheet(isPresented: $showSignUp) {
-                    SignUpView()
-                        .environmentObject(authVM)
-                }
-            }
-            .padding(25)
-            .clipShape(
-                RoundedRectangle(cornerRadius: 40)
-            )
-            .background(
-                RoundedRectangle(cornerRadius: 40)
-                    .foregroundColor(Color.black)
-                    .opacity(0.8)
-            )
         }
-        .padding()
-        .navigationTitle("")           // hides the title
-        .navigationBarHidden(true)     // hides the bar
-        .background(GIFView(gifName: "waves"))
-        .ignoresSafeArea()
+        .navigationTitle("")
+        .navigationBarHidden(true)
     }
 }
-
 
 #Preview {
     WelcomeView().environmentObject(AuthViewModel())

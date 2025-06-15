@@ -1,10 +1,3 @@
-//
-//  ForumView.swift
-//  BinuApp
-//
-//  Created by Ryan on 1/6/25.
-//
-
 import SwiftUI
 
 struct ForumView: View {
@@ -12,49 +5,51 @@ struct ForumView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @State private var showingCreatePost = false
     @State private var postsLoaded = false
-    
+
     var body: some View {
         NavigationStack {
-            Group {
-                if forumVM.isLoading {
-                    LoadingSpinnerView()
-                } else if let error = forumVM.errorMessage {
-                    ErrorBannerView(message: error)
-                } else if forumVM.posts.isEmpty {
-                    VStack {
-                        Spacer()
-                        Image(systemName: "tray")
-                            .font(.system(size: 30))
-                            .foregroundColor(.gray)
-                        Text("No Posts")
-                            .font(.title)
-                            .foregroundColor(.gray)
+            ZStack {
+                Color("BGColor").ignoresSafeArea() // ✅ Background placed INSIDE NavigationStack
+
+                Group {
+                    if forumVM.isLoading {
+                        LoadingSpinnerView()
+                    } else if let error = forumVM.errorMessage {
+                        ErrorBannerView(message: error)
+                    } else if forumVM.posts.isEmpty {
+                        VStack {
+                            Spacer()
+                            Image(systemName: "tray")
+                                .font(.system(size: 30))
+                                .foregroundColor(Color("FontColor").opacity(0.5))
+                            Text("No Posts")
+                                .font(.title)
+                                .foregroundColor(Color("FontColor").opacity(0.8))
+                                .padding(.top, 10)
+                            Button {
+                                showingCreatePost = true
+                            } label: {
+                                Text("New Post...")
+                                    .foregroundColor(Color("FontColor"))
+                            }
                             .padding(.top, 10)
-                        Button {
-                            showingCreatePost = true
-                        } label: {
-                            Text("New Post...")
+                            Spacer()
                         }
-                        .padding(.top, 10)
-                        Spacer()
-                    }
-                } else {
-                    ScrollView {
-                        LazyVStack(spacing: 16) {
-                            ForEach(forumVM.posts) { post in
-                                VStack(alignment: .leading, spacing: 8) {
-                                    // The existing post UI
+                    } else {
+                        ScrollView {
+                            LazyVStack(spacing: 16) {
+                                ForEach(forumVM.posts) { post in
                                     PostRowView(post: post)
                                         .environmentObject(authVM)
                                         .environmentObject(forumVM)
                                         .padding(.horizontal)
                                 }
                             }
+                            .padding(.top)
                         }
-                        .padding(.top)
-                    }
-                    .refreshable {
-                        forumVM.fetchAllPosts()
+                        .refreshable {
+                            forumVM.fetchAllPosts()
+                        }
                     }
                 }
             }
@@ -66,6 +61,7 @@ struct ForumView: View {
                     } label: {
                         Image(systemName: "plus.circle.fill")
                             .font(.title2)
+                            .foregroundColor(Color("FontColor"))
                     }
                 }
             }
@@ -84,3 +80,8 @@ struct ForumView: View {
     }
 }
 
+#Preview {
+    ForumView()
+        .environmentObject(ForumViewModel())
+        .environmentObject(AuthViewModel())
+}
