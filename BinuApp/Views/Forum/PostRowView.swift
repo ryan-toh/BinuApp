@@ -81,7 +81,7 @@ struct PostRowView: View {
                             Image(systemName: "bubble.left")
                                 .foregroundColor(.blue)
                                 .font(.title2)
-                            Text("\(post.comments.count)")
+                            Text("\(post.commentCount)")
                                 .foregroundStyle(Color.primary)
                                 .font(.title2)
                         }
@@ -146,7 +146,6 @@ struct PostRowView: View {
         text: "This is a sample post body.",
         media: [],
         likes: [],
-        comments: [],
         sentiment: .positive
     )
     let authVM = AuthViewModel()

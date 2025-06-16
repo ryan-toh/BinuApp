@@ -19,7 +19,7 @@ struct Post: Codable, Identifiable {
     var media: [PostImage]
     // Contains id of user who liked it
     var likes: [String]
-    var comments: [Comment]
+    var commentCount: Int
     var sentiment: Sentiment
     
     // Tag lets Firestore automatically set createdAt & updatedAt
@@ -33,7 +33,6 @@ struct Post: Codable, Identifiable {
         text: String,
         media: [PostImage] = [],
         likes: [String] = [],
-        comments: [Comment] = [],
         sentiment: Sentiment = .neutral
     ) {
         self.id = id
@@ -42,7 +41,7 @@ struct Post: Codable, Identifiable {
         self.text = text
         self.media = media
         self.likes = likes
-        self.comments = comments
+        self.commentCount = 0
         self.sentiment = sentiment
     }
 }

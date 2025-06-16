@@ -46,7 +46,6 @@ class PostService {
                 text: text,
                 media: [],
                 likes: [],
-                comments: [],
                 sentiment: sentiment
             )
             writePostToFirestore(post, completion: completion)
@@ -88,7 +87,6 @@ class PostService {
                 text: text,
                 media: postImages,
                 likes: [],
-                comments: [],
                 sentiment: sentiment
             )
             self.writePostToFirestore(post, completion: completion)
