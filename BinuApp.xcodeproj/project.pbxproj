@@ -11,6 +11,7 @@
 		315412A02DE37ADB00447409 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3154129F2DE37ADB00447409 /* FirebaseCore */; };
 		315412A22DE37ADB00447409 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 315412A12DE37ADB00447409 /* FirebaseFirestore */; };
 		315412A42DE37ADB00447409 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 315412A32DE37ADB00447409 /* FirebaseStorage */; };
+		3167EE492E009CC000D9688F /* BroadcastMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3167EE482E009CC000D9688F /* BroadcastMapView.swift */; };
 		318971442DFC328F005A4955 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 318971432DFC328F005A4955 /* GoogleService-Info.plist */; };
 		318971462DFC334C005A4955 /* waves.gif in Resources */ = {isa = PBXBuildFile; fileRef = 318971452DFC334C005A4955 /* waves.gif */; };
 		31EF9E572DFF0000008FD5C7 /* CombinedCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */; };
@@ -80,6 +81,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3167EE482E009CC000D9688F /* BroadcastMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastMapView.swift; sourceTree = "<group>"; };
 		318971432DFC328F005A4955 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		318971452DFC334C005A4955 /* waves.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = waves.gif; sourceTree = "<group>"; };
 		31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedCommentView.swift; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				780B65622DEC1B4A00F58AF5 /* PeerToPeerView.swift */,
+				3167EE482E009CC000D9688F /* BroadcastMapView.swift */,
 			);
 			path = PeerToPeer;
 			sourceTree = "<group>";
@@ -649,6 +652,7 @@
 				780B65352DEC102E00F58AF5 /* CommentService.swift in Sources */,
 				780B65662DEC1B6100F58AF5 /* AccountView.swift in Sources */,
 				783348292DF6C20F00207E2C /* CommentViewModel.swift in Sources */,
+				3167EE492E009CC000D9688F /* BroadcastMapView.swift in Sources */,
 				78F6FBAE2DE358CD002D834A /* UIImageExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

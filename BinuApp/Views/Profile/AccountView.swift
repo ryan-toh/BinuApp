@@ -5,7 +5,7 @@ struct AccountView: View {
     @State private var isSigningOut = false
     @State private var showError = false
     @State private var errorMessage = ""
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -57,19 +57,25 @@ struct AccountView: View {
                                 .frame(maxWidth: .infinity)
                         } else {
                             Text("Sign Out")
-                                .foregroundColor(.red)
+                                .foregroundColor(Color("BGColor"))
                                 .frame(maxWidth: .infinity)
                         }
                     }
                     .padding()
-                    .background(Color.white)
+                    .background(Color("FontColor"))
                     .cornerRadius(10)
-                    .shadow(color: .black.opacity(0.05), radius: 3, x: 0, y: 1)
+                    .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
                     .disabled(isSigningOut)
                 }
                 .padding()
             }
-            .navigationTitle("Account")
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Account")
+                        .font(.title.bold())
+                        .foregroundColor(Color("FontColor"))
+                }
+            }
             .alert("Sign Out Error", isPresented: $showError) {
                 Button("OK", role: .cancel) { }
             } message: {
@@ -88,7 +94,7 @@ struct AccountView: View {
         gender: "Male",
         age: 28
     )
-    
+
     return AccountView()
         .environmentObject(mockAuthVM)
 }

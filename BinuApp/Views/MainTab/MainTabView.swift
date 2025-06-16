@@ -14,13 +14,13 @@ struct MainTabView: View {
             PeerToPeerView()
                 .tabItem {
                     Image(systemName: "phone.fill")
-                    Text("Get Help")
+                    Text("Find Help")
                 }
 
             LibraryView()
                 .tabItem {
                     Image(systemName: "book.fill")
-                    Text("Library")
+                    Text("Library for Him")
                 }
 
             AccountView()

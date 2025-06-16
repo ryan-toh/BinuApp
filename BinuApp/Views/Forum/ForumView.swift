@@ -9,7 +9,7 @@ struct ForumView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color("BGColor").ignoresSafeArea() // ✅ Background placed INSIDE NavigationStack
+                Color("BGColor").ignoresSafeArea()
 
                 Group {
                     if forumVM.isLoading {
@@ -53,8 +53,12 @@ struct ForumView: View {
                     }
                 }
             }
-            .navigationTitle("Forum")
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Forum")
+                        .font(.title.bold())
+                        .foregroundColor(Color("FontColor"))
+                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button {
                         showingCreatePost = true
