@@ -39,6 +39,7 @@ class CommentService {
                 if let error = error {
                     completion(.failure(error))
                 } else {
+                    self.updateCommentCount(forPostId: postId)
                     completion(.success(commentToSave))
                 }
             }
@@ -47,7 +48,6 @@ class CommentService {
         }
     }
 
-    
     /// Fetch all Comments for a given Post, ordered by `createdAt` ascending.
     /// - Parameters:
     ///   - postId: The ID of the parent Post document.
@@ -100,6 +100,7 @@ class CommentService {
                 if let error = error {
                     completion(.failure(error))
                 } else {
+                    self.updateCommentCount(forPostId: postId)
                     completion(.success(()))
                 }
             }
@@ -123,8 +124,33 @@ class CommentService {
             if let error = error {
                 completion(.failure(error))
             } else {
+                self.updateCommentCount(forPostId: postId)
                 completion(.success(()))
             }
         }
     }
+    
+    // MARK: - Helper Functions
+    private func updateCommentCount(forPostId postId: String) {
+        let postRef = db
+            .collection(postsCollection)
+            .document(postId)
+        
+        let commentsRef = postRef
+            .collection(commentsSubcollection)
+        
+        commentsRef.count.getAggregation(source: .server) { snapshot, error in
+            guard let snapshot = snapshot, error == nil else {
+                print("Failed to get comment count: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            let count = snapshot.count
+            postRef.updateData(["commentCount": count]) { error in
+                if let error = error {
+                    print("Failed to update commentCount: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
 }

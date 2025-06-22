@@ -12,13 +12,21 @@ struct PostRowView: View {
     @EnvironmentObject private var authVM: AuthViewModel
     let post: Post
 
+    @State private var showComments = false
+    @State private var showDeleteAlert = false
+
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 8) {
-                // Title
-                Text(post.title)
-                    .font(.headline)
-                
+                HStack {
+                    // Title
+                    Text(post.title)
+                        .font(.headline)
+                    Spacer()
+                    // Sentiment
+                    Text(sentimentEmoji(for: post.sentiment))
+                        .font(.title2)
+                }
                 // Optional image preview (first media item, if any)
                 if let firstImage = post.media.first,
                    let url = URL(string: firstImage.downloadURL) {
@@ -52,40 +60,64 @@ struct PostRowView: View {
                 // Metadata: likes, comments count, sentiment
                 HStack(spacing: 16) {
                     // Likes
-                    HStack(spacing: 4) {
-                        Image(systemName: "heart.fill")
-                            .foregroundColor(.red)
-                            .font(.subheadline)
-                        Text("\(post.likes)")
-                            .font(.subheadline)
+                    Button(action: {
+                        forumVM.likeOrUnlikePost(post, userId: authVM.user?.id ?? "")
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "heart")
+                                .foregroundStyle(.red)
+                                .font(.title2)
+                            Text("\(post.likes.count)")
+                                .font(.title2)
+                                .foregroundStyle(Color.primary)
+                        }
                     }
                     
-                    // Comments
-                    HStack(spacing: 4) {
-                        Image(systemName: "bubble.left.fill")
-                            .foregroundColor(.blue)
-                            .font(.subheadline)
-                        Text("\(post.comments.count)")
-                            .font(.subheadline)
+                    // Comments button
+                    Button(action: {
+                        showComments = true
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "bubble.left")
+                                .foregroundColor(.blue)
+                                .font(.title2)
+                            Text("\(post.commentCount)")
+                                .foregroundStyle(Color.primary)
+                                .font(.title2)
+                        }
+                    }
+                    .sheet(isPresented: $showComments) {
+                        // Pass a new CommentViewModel for the post
+                        CommentView(
+                            viewModel: CommentViewModel(),
+                            postId: post.id ?? ""
+                        )
                     }
                     
-                    // Sentiment
-                    Text(sentimentEmoji(for: post.sentiment))
-                        .font(.subheadline)
                     
                     // Only show “Delete” if this post belongs to the current user
-                    if post.userId == authVM.currentUser?.uid {
+                    if let currentUserId = authVM.user?.id, post.userId == currentUserId {
                         HStack {
                             Spacer()
                             Button(role: .destructive) {
-                                forumVM.deletePost(post)
+                                showDeleteAlert = true
                             } label: {
-                                Label("Delete", systemImage: "trash")
+                                Image(systemName: "trash")
+                                    .font(.title2)
                             }
-                            .padding(.trailing, 16)
+//                            .padding(.trailing, 16)
+                            .alert("Delete Post", isPresented: $showDeleteAlert) {
+                                Button("Delete", role: .destructive) {
+                                    forumVM.deletePost(post)
+                                }
+                                Button("Cancel", role: .cancel) { }
+                            } message: {
+                                Text("Are you sure you want to delete this post? This action cannot be undone.")
+                            }
                         }
                     }
                 }
+                .padding(.top, 10)
             }
             Spacer()
         }
@@ -105,6 +137,20 @@ struct PostRowView: View {
 }
 
 
-//#Preview {
-//    PostRowView()
-//}
+
+#Preview {
+    // Provide mock data and environment objects for preview
+    let mockPost = Post(
+        id: "1", userId: "user123",
+        title: "Sample Post",
+        text: "This is a sample post body.",
+        media: [],
+        likes: [],
+        sentiment: .positive
+    )
+    let authVM = AuthViewModel()
+    authVM.user = UserModel(id: "user123", email: "test@example.com", username: "TestUser", gender: "Other", age: 25)
+    return PostRowView(post: mockPost)
+        .environmentObject(authVM)
+        .environmentObject(ForumViewModel())
+}

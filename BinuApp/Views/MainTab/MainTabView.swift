@@ -17,11 +17,14 @@ struct MainTabView: View {
                     Label("Home", systemImage: "house.fill")
                 }
             
-            PeerToPeerView()
+//            BeaconSenderView()
+//                .tabItem {
+//                    Label("Get Help", systemImage: "phone.fill")
+//                }
+            HelpRequestView()
                 .tabItem {
-                    Label("Get Help", systemImage: "phone.fill")
+                    Label("Provide Help", systemImage: "cross.case")
                 }
-            
             LibraryView()
                 .tabItem {
                     Label("Library", systemImage: "book.fill")
@@ -33,9 +36,8 @@ struct MainTabView: View {
                 }
         }
         .environmentObject(ForumViewModel())
-        .environmentObject(PeerToPeerViewModel())
         .environmentObject(LibraryViewModel())
-        .environmentObject(AccountViewModel())
+        .environmentObject(HelpRequestViewModel(userId: authVM.user?.id ?? ""))
     }
 }
 

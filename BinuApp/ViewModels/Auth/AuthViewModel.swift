@@ -1,118 +1,152 @@
-//
-//  AuthViewModel.swift
-//  BinuApp
-//
-//  Created by Ryan on 1/6/25.
-//
-
 import Foundation
 import FirebaseAuth
+import FirebaseFirestore
 import Combine
 
-/// Temporary struct (as UserModel is still in development)
-struct User {
-    let uid: String
-    let email: String?
-}
-
-final class AuthViewModel: ObservableObject {
-    @Published var currentUser: User?
-    @Published var isCheckingAuthState = true
-    @Published var authErrorMessage: String?
+class AuthViewModel: ObservableObject {
+    @Published var user: UserModel?
+    @Published var authError: Error?
+    @Published var isLoading = false
+    @Published var isCheckingAuthState = true  // Added for initial loading state
     
-    private var handle: AuthStateDidChangeListenerHandle?
-    private let userService = UserService()
+    private let db = Firestore.firestore()
+    private var authStateListener: AuthStateDidChangeListenerHandle?
     
-    init() {
-        listenForAuthChanges()
-    }
-    
-    /// Starts listening for Firebase Auth state changes.
     func listenForAuthChanges() {
-        isCheckingAuthState = true
-        
-        handle = Auth.auth().addStateDidChangeListener { [weak self] _, firebaseUser in
+        authStateListener = Auth.auth().addStateDidChangeListener { [weak self] (_, user) in
             guard let self = self else { return }
-            if let firebaseUser = firebaseUser {
-                self.currentUser = User(
-                    uid: firebaseUser.uid,
-                    email: firebaseUser.email
-                )
+            
+            self.isCheckingAuthState = true
+            
+            if let firebaseUser = user {
+                self.fetchUser(uid: firebaseUser.uid) { success in
+                    self.isCheckingAuthState = false
+                    if !success {
+                        // If user document doesn't exist, force logout
+                        self.signOut { _ in }
+                    }
+                }
             } else {
-                self.currentUser = nil
-            }
-            self.isCheckingAuthState = false
-        }
-    }
-    
-    /// Creates a new user via AuthService, then updates `currentUser`.
-    func signUp(email: String, password: String) {
-        authErrorMessage = nil
-        
-        AuthService.createUser(email: email, password: password) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .failure(let error):
-                    self?.authErrorMessage = error.localizedDescription
-                    
-                case .success(let uid):
-                    if let firebaseUser = Auth.auth().currentUser, firebaseUser.uid == uid {
-                        self?.currentUser = User(
-                            uid: firebaseUser.uid,
-                            email: firebaseUser.email
-                        )
-                    } else {
-                        self?.currentUser = User(uid: uid, email: nil)
-                    }
-                }
+                self.user = nil
+                self.isCheckingAuthState = false
             }
         }
     }
     
-    /// Signs in via AuthService, then updates `currentUser`.
-    func signIn(email: String, password: String) {
-        authErrorMessage = nil
-        
+    // MARK: - Authentication Methods
+
+    func signIn(email: String, password: String, completion: @escaping (Bool) -> Void) {
+        isLoading = true
         AuthService.signIn(email: email, password: password) { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .failure(let error):
-                    self?.authErrorMessage = error.localizedDescription
-                    
-                case .success(let uid):
-                    if let firebaseUser = Auth.auth().currentUser, firebaseUser.uid == uid {
-                        self?.currentUser = User(
-                            uid: firebaseUser.uid,
-                            email: firebaseUser.email
-                        )
-                    } else {
-                        self?.currentUser = User(uid: uid, email: nil)
-                    }
-                }
+            switch result {
+            case .success(let uid):
+                self?.fetchUser(uid: uid, completion: completion)
+            case .failure(let error):
+                self?.handleError(error, completion: completion)
             }
         }
     }
     
-    /// Signs out via UserService (which wraps AuthService.signOut).
-    func signOut() {
-        authErrorMessage = nil
+    func signUp(email: String, password: String, username: String, gender: String, age: Int, completion: @escaping (Bool) -> Void) {
+        isLoading = true
+        AuthService.createUser(email: email, password: password) { [weak self] result in
+            switch result {
+            case .success(let uid):
+                let newUser = UserModel(
+                    id: uid,
+                    email: email,
+                    username: username,
+                    gender: gender,
+                    age: age
+                )
+                self?.saveUser(user: newUser, completion: completion)
+            case .failure(let error):
+                self?.handleError(error, completion: completion)
+            }
+        }
+    }
+    
+    func signOut(completion: @escaping (Bool) -> Void) {
+        isLoading = true
+        AuthService.signOut { [weak self] result in
+            switch result {
+            case .success:
+                self?.user = nil
+                self?.isLoading = false
+                completion(true)
+            case .failure(let error):
+                self?.handleError(error, completion: completion)
+            }
+        }
+    }
+    
+    func getUser() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        fetchUser(uid: uid) { _ in }
+    }
+    
+    // MARK: - Private Helpers
+    
+    private func fetchUser(uid: String, completion: @escaping (Bool) -> Void) {
+        let docRef = db.collection("users").document(uid)
         
-        userService.signOut { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .failure(let error):
-                    self?.authErrorMessage = error.localizedDescription
-                case .success:
-                    self?.currentUser = nil
-                }
+        docRef.getDocument { [weak self] snapshot, error in
+            guard let self = self else { return }
+            
+            defer {
+                self.isLoading = false
+                completion(error == nil)
+            }
+            
+            // First check if document exists
+            guard let snapshot = snapshot, snapshot.exists else {
+                self.authError = NSError(
+                    domain: "AuthViewModel",
+                    code: -1,
+                    userInfo: [NSLocalizedDescriptionKey: "User document not found"]
+                )
+                return
+            }
+            
+            // Then attempt decoding
+            do {
+                self.user = try snapshot.data(as: UserModel.self)
+            } catch {
+                self.authError = error
+                print("DECODING ERROR: \(error.localizedDescription)") // Add this
             }
         }
     }
     
-    deinit {
-        if let handle = handle {
-            Auth.auth().removeStateDidChangeListener(handle)
+    private func saveUser(user: UserModel, completion: @escaping (Bool) -> Void) {
+        guard let uid = user.id else {
+            authError = NSError(domain: "AuthViewModel", code: -1, userInfo: [NSLocalizedDescriptionKey: "Missing user ID"])
+            completion(false)
+            return
         }
+        
+        do {
+            try db.collection("users").document(uid).setData(from: user) { [weak self] error in
+                guard let self = self else { return }
+                self.isLoading = false
+                
+                if let error = error {
+                    self.authError = error
+                    completion(false)
+                } else {
+                    self.user = user
+                    completion(true)
+                }
+            }
+        } catch {
+            handleError(error, completion: completion)
+        }
+    }
+    
+    private func handleError(_ error: Error, completion: @escaping (Bool) -> Void) {
+        authError = error
+        isLoading = false
+        completion(false)
     }
 }
 

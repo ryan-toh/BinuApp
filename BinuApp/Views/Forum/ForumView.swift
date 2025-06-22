@@ -11,6 +11,7 @@ struct ForumView: View {
     @EnvironmentObject var forumVM: ForumViewModel
     @EnvironmentObject var authVM: AuthViewModel
     @State private var showingCreatePost = false
+    @State private var postsLoaded = false
     
     var body: some View {
         NavigationStack {
@@ -19,6 +20,24 @@ struct ForumView: View {
                     LoadingSpinnerView()
                 } else if let error = forumVM.errorMessage {
                     ErrorBannerView(message: error)
+                } else if forumVM.posts.isEmpty {
+                    VStack {
+                        Spacer()
+                        Image(systemName: "tray")
+                            .font(.system(size: 30))
+                            .foregroundColor(.gray)
+                        Text("No Posts")
+                            .font(.title)
+                            .foregroundColor(.gray)
+                            .padding(.top, 10)
+                        Button {
+                            showingCreatePost = true
+                        } label: {
+                            Text("New Post...")
+                        }
+                        .padding(.top, 10)
+                        Spacer()
+                    }
                 } else {
                     ScrollView {
                         LazyVStack(spacing: 16) {
@@ -51,7 +70,10 @@ struct ForumView: View {
                 }
             }
             .onAppear {
-                forumVM.fetchAllPosts()
+                if !postsLoaded {
+                    forumVM.fetchAllPosts()
+                    postsLoaded = true
+                }
             }
             .sheet(isPresented: $showingCreatePost) {
                 CreatePostView()
@@ -62,7 +84,3 @@ struct ForumView: View {
     }
 }
 
-
-#Preview {
-    ForumView()
-}

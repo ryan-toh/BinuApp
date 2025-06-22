@@ -167,7 +167,8 @@ struct CreatePostView: View {
         // Clear any prior error
         await MainActor.run { errorText = nil }
 
-        guard let uid = authVM.currentUser?.uid else {
+        // Use AuthViewModel's user property
+        guard let uid = authVM.user?.id else {
             await MainActor.run { errorText = "You must be signed in to post." }
             return
         }
@@ -202,8 +203,8 @@ struct CreatePostView: View {
     }
 }
 
-
-
 #Preview {
     CreatePostView()
+        .environmentObject(AuthViewModel())
+        .environmentObject(ForumViewModel())
 }

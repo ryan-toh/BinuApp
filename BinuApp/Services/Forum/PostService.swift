@@ -45,8 +45,7 @@ class PostService {
                 title: title,
                 text: text,
                 media: [],
-                likes: 0,
-                comments: [],
+                likes: [],
                 sentiment: sentiment
             )
             writePostToFirestore(post, completion: completion)
@@ -87,8 +86,7 @@ class PostService {
                 title: title,
                 text: text,
                 media: postImages,
-                likes: 0,
-                comments: [],
+                likes: [],
                 sentiment: sentiment
             )
             self.writePostToFirestore(post, completion: completion)
@@ -262,6 +260,52 @@ class PostService {
         } catch {
             completion(.failure(error))
         }
+    }
+    
+    func likePost(_ post: Post, uid: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let postId = post.id else {
+            completion(.failure(NSError(
+                domain: "PostService.Update",
+                code: -1,
+                userInfo: [NSLocalizedDescriptionKey: "Cannot like a post without an ID"]
+            )))
+            return
+        }
+        
+        db.collection(postsCollection)
+            .document(postId)
+            .updateData([
+                "likes": FieldValue.arrayUnion([uid])
+            ]) { error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
+                }
+            }
+    }
+    
+    func unlikePost(_ post: Post, uid: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        guard let postId = post.id else {
+            completion(.failure(NSError(
+                domain: "PostService.Update",
+                code: -1,
+                userInfo: [NSLocalizedDescriptionKey: "Cannot unlike a post without an ID"]
+            )))
+            return
+        }
+        
+        db.collection(postsCollection)
+            .document(postId)
+            .updateData([
+                "likes": FieldValue.arrayRemove([uid])
+            ]) { error in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    completion(.success(()))
+                }
+            }
     }
     
     // MARK: - Delete
