@@ -189,7 +189,6 @@
 		780B65382DEC18A800F58AF5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				785BDEEE2E102AA900E212BB /* PeerToPeer */,
 				78309CBA2E0C2F9000EB17B6 /* iBeacon */,
 				780B653C2DEC190E00F58AF5 /* Forum */,
 				780B653B2DEC18D100F58AF5 /* Auth */,
@@ -359,13 +358,6 @@
 				783348232DF694F400207E2C /* GIFView.swift */,
 			);
 			path = GIFs;
-			sourceTree = "<group>";
-		};
-		785BDEEE2E102AA900E212BB /* PeerToPeer */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = PeerToPeer;
 			sourceTree = "<group>";
 		};
 		78F6FAFA2DE31EDA002D834A = {
