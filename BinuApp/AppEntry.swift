@@ -13,7 +13,6 @@ import FirebaseAuth
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-
         FirebaseApp.configure()
         return true
     }
@@ -23,7 +22,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct AppEntry: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var authViewModel = AuthViewModel()
-    @StateObject private var beaconMonitor = ReceiverService() // Always in memory, but you can control start/stop
     
     // eungi: setting OVERALL COLOR THEME
     init() {
@@ -50,17 +48,10 @@ struct AppEntry: App {
                 } else {
                     MainTabView()
                         .environmentObject(authViewModel)
-                        .onAppear {
-                            // This ensures monitoring starts only when signed in
-                            _ = beaconMonitor
-                        }
                 }
             }
             .onAppear {
                 authViewModel.listenForAuthChanges()
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-                    // Handle granted/error if needed
-                }
             }
         }
     }

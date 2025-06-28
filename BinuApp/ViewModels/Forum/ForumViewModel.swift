@@ -34,11 +34,6 @@ final class ForumViewModel: ObservableObject {
         }
     }
     
-    // TODO: Implement fetchFromFollowers()
-    func fetchFromFollowers() -> Void {
-        
-    }
-    
     func createPost(
         userId: String,
         title: String,
