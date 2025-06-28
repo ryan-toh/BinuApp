@@ -6,17 +6,20 @@
 //
 
 import SwiftUI
+import CoreLocation
 
-struct InAppBroadcastAlert: View {
+struct InAppBroadcastAlertView: View {
     let request: BroadcastRequest
     var dismiss: () -> Void
     
     var body: some View {
         VStack(spacing: 8) {
             Text("🚨 Help Requested Nearby")
+                .foregroundColor(Color("FontColor"))
                 .font(.headline)
                 .bold()
             Text("\(request.username) needs \(request.request).")
+                .foregroundColor(Color("FontColor"))
             Text("Location: \(String(format: "%.4f", request.location.latitude)), \(String(format: "%.4f", request.location.longitude))")
                 .font(.footnote)
                 .foregroundColor(.gray)
@@ -26,7 +29,7 @@ struct InAppBroadcastAlert: View {
             .padding(.top, 4)
         }
         .padding()
-        .background(Color.white)
+        .background(Color(Color("BGColor")))
         .cornerRadius(16)
         .shadow(radius: 5)
         .padding()
@@ -35,5 +38,12 @@ struct InAppBroadcastAlert: View {
 
 
 #Preview {
-    InAppBroadcastAlert()
+    InAppBroadcastAlertView(
+        request: BroadcastRequest(
+            username: "eungi",
+            request: "Pads",
+            location: CLLocationCoordinate2D(latitude: 1.3521, longitude: 103.8198)
+        ),
+        dismiss: {}
+    )
 }

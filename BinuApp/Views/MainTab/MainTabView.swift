@@ -32,8 +32,9 @@ struct MainTabView: View {
         .accentColor(Color("FontColor")) // ✅ selected tab item tint
         .environmentObject(ForumViewModel())
         .environmentObject(PeerToPeerViewModel())
-        .environmentObject(LibraryViewModel())
+ //       .environmentObject(LibraryViewModel())
     }
+    
 }
 
 #Preview {

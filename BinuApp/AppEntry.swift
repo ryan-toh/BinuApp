@@ -23,7 +23,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct AppEntry: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var authViewModel = AuthViewModel()
-    @StateObject private var beaconMonitor = ReceiverService() // Always in memory, but you can control start/stop
+    @StateObject private var beaconMonitor = ReceiverService() // create global ReceiverService
     
     // eungi: setting OVERALL COLOR THEME
     init() {
@@ -47,9 +47,11 @@ struct AppEntry: App {
                 } else if authViewModel.user == nil {
                     WelcomeView()
                         .environmentObject(authViewModel)
+                        .environmentObject(beaconMonitor) // inject ReceiverService here
                 } else {
                     MainTabView()
                         .environmentObject(authViewModel)
+                        .environmentObject(beaconMonitor) // inject ReceiverService here
                         .onAppear {
                             // This ensures monitoring starts only when signed in
                             _ = beaconMonitor
@@ -62,6 +64,7 @@ struct AppEntry: App {
                     // Handle granted/error if needed
                 }
             }
+            .environmentObject(beaconMonitor) // inject globally to all views in Group (optional but safe)\
         }
     }
 }

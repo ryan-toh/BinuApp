@@ -93,13 +93,8 @@ class CombinedFeedLoader: NSObject, XMLParserDelegate, ObservableObject {
 
 // MARK: - Main View
 struct LibraryView: View {
-    let topics = ["Periods & Cramps", "Sexual Health", "Consent", "Emotional Support"]
     @StateObject private var feedLoader = CombinedFeedLoader()
-    @State private var summaries: [HealthSummary] = loadSummaries()
-    
-    init(summaries: [HealthSummary] = loadSummaries()) {
-        _summaries = State(initialValue: summaries)
-    }
+    @StateObject private var viewModel = LibraryViewModel()
 
     var body: some View {
         NavigationStack {
@@ -115,8 +110,6 @@ struct LibraryView: View {
                             .foregroundColor(.black)
                             .padding(.horizontal)
 
-        
-
                         // Section 2 - WHO Local JSON Summaries
                         VStack(alignment: .leading, spacing: 12) {
                             Text("Understand from WHO...")
@@ -126,7 +119,7 @@ struct LibraryView: View {
 
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 16) {
-                                    ForEach(summaries.prefix(7)) { item in
+                                    ForEach(viewModel.summaries.prefix(7)) { item in
                                         VStack(alignment: .leading, spacing: 8) {
                                             Text(item.category)
                                                 .font(.caption)
@@ -239,15 +232,7 @@ struct LibraryView: View {
     }
 }
 
-// MARK: - Preview
 #Preview {
-    LibraryView(summaries: [
-        HealthSummary(
-            category: "Sexual Health",
-            title: "What is Sexual Health?",
-            summary: "Sexual health is a state of physical, emotional, mental, and social well-being. It requires respect, safety, and freedom from discrimination and violence.",
-            source: "https://www.who.int/health-topics/sexual-health"
-        )
-    ])
+    LibraryView()
+        .environmentObject(ReceiverService()) // ✅ needed for preview
 }
-
