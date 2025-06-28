@@ -5,7 +5,7 @@ struct BroadcastMapView: View {
     let requestType: String
     let username: String
 
-    @StateObject private var broadcaster = BroadcasterService()
+    // @StateObject private var broadcaster = BroadcastService()
     @State private var hasCalledForHelp = false
     @State private var locationManager = CLLocationManager()
     @Environment(\.dismiss) private var dismiss
@@ -46,6 +46,7 @@ struct BroadcastMapView: View {
                 .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
                 .frame(maxWidth: 320)
 
+                /*
                 if !broadcaster.isBroadcasting {
                     Text("Broadcasting...")
                         .font(.subheadline)
@@ -74,9 +75,12 @@ struct BroadcastMapView: View {
                 .padding(.top, 8)
 
                 Spacer()
+                */
             }
             .padding()
         }
+        
+        /*
         .onAppear {
             broadcaster.startBroadcasting()
             handleBroadcast()
@@ -85,7 +89,10 @@ struct BroadcastMapView: View {
             broadcaster.stopBroadcasting()
         }
         .navigationTitle("Broadcasting")
+         
+         */
     }
+    
 
     // placeholder function for broadcasting request
     private func handleBroadcast() {
@@ -101,6 +108,7 @@ struct BroadcastMapView: View {
         hasCalledForHelp = true
     }
 }
+     
 
 #Preview {
     BroadcastMapView(requestType: "pads", username: "eungi")

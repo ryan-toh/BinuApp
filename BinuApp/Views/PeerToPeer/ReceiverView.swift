@@ -26,7 +26,7 @@ struct ReceiverView: View {
                 }
                 .padding(.horizontal)
             }
-
+            /*
             List {
                 Section(header: Text("Found Requests")) {
                     ForEach(viewModel.foundRequests, id: \.peer) { req in
@@ -40,13 +40,14 @@ struct ReceiverView: View {
                         }
                     }
                 }
-
+             
                 Section(header: Text("Connected Peers")) {
                     ForEach(viewModel.connectedPeers, id: \.self) { peer in
                         Text(peer.displayName)
                     }
                 }
             }
+             */
 
             VStack {
                 TextField("Latitude", text: $latitude)

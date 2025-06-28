@@ -8,6 +8,7 @@ struct BroadcastView: View {
 
     var body: some View {
         VStack(spacing: 20) {
+            /*
             Picker("Item", selection: $viewModel.selectedItem) {
                 ForEach(Item.allCases, id: \.self) { item in
                     Text(item.rawValue.capitalized)
@@ -15,6 +16,7 @@ struct BroadcastView: View {
                 }
             }
             .pickerStyle(MenuPickerStyle())
+             */
 
             Button(action: {
                 if viewModel.isBroadcasting {

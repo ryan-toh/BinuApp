@@ -76,7 +76,7 @@ extension ReceiverService: MCNearbyServiceBrowserDelegate {
                  foundPeer peerID: MCPeerID,
                  withDiscoveryInfo info: [String : String]?) {
         guard let raw = info?["item"],
-              let item = Item(rawValue: raw) else { return }
+              let item = Item(rawValue: UInt8(raw)!) else { return }
         DispatchQueue.main.async {
             if !self.foundRequests.contains(where: { $0.peer == peerID }) {
                 self.foundRequests.append((peerID, item))

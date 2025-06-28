@@ -14,6 +14,7 @@
 		3167EE492E009CC000D9688F /* BroadcastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3167EE482E009CC000D9688F /* BroadcastView.swift */; };
 		318971442DFC328F005A4955 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 318971432DFC328F005A4955 /* GoogleService-Info.plist */; };
 		318971462DFC334C005A4955 /* waves.gif in Resources */ = {isa = PBXBuildFile; fileRef = 318971452DFC334C005A4955 /* waves.gif */; };
+		31C612562E10402600714D50 /* HealthSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C612552E10402600714D50 /* HealthSummary.swift */; };
 		31EF9E572DFF0000008FD5C7 /* CombinedCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */; };
 		780B65352DEC102E00F58AF5 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65342DEC102E00F58AF5 /* CommentService.swift */; };
 		780B65372DEC104C00F58AF5 /* SentimentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65362DEC104C00F58AF5 /* SentimentService.swift */; };
@@ -93,6 +94,7 @@
 		3167EE482E009CC000D9688F /* BroadcastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastView.swift; sourceTree = "<group>"; };
 		318971432DFC328F005A4955 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		318971452DFC334C005A4955 /* waves.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = waves.gif; sourceTree = "<group>"; };
+		31C612552E10402600714D50 /* HealthSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthSummary.swift; sourceTree = "<group>"; };
 		31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedCommentView.swift; sourceTree = "<group>"; };
 		780B65342DEC102E00F58AF5 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		780B65362DEC104C00F58AF5 /* SentimentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimentService.swift; sourceTree = "<group>"; };
@@ -186,6 +188,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		31C612542E103F5100714D50 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
 		780B65382DEC18A800F58AF5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -429,6 +438,8 @@
 		78F6FB7C2DE33F2F002D834A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				31C612552E10402600714D50 /* HealthSummary.swift */,
+				31C612542E103F5100714D50 /* New Group */,
 				78309CBC2E0C2FFC00EB17B6 /* iBeacon */,
 				78F6FB932DE34B5A002D834A /* Forum */,
 				780B656C2DEC1E1C00F58AF5 /* UserModel.swift */,
@@ -670,6 +681,7 @@
 				783348242DF694F400207E2C /* GIFView.swift in Sources */,
 				780B65682DEC1B7400F58AF5 /* LoadingSpinnerView.swift in Sources */,
 				780B65752DEC2C3800F58AF5 /* CreatePostView.swift in Sources */,
+				31C612562E10402600714D50 /* HealthSummary.swift in Sources */,
 				78F6FB882DE33FC0002D834A /* FullWidthTextBox.swift in Sources */,
 				780B653F2DEC197600F58AF5 /* AuthViewModel.swift in Sources */,
 				78D1E1882E0E653C00F77CB3 /* ReceiverViewModel.swift in Sources */,

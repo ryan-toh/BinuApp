@@ -24,6 +24,17 @@ class BroadcastService: NSObject, CBPeripheralManagerDelegate {
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
     }
     
+    // added on 0629 for debugging
+    func startBroadcasting(item: Item) {
+    }
+    
+    func stopBroadcasting() {
+    }
+    
+    func sendLocation(_ location: CLLocationCoordinate2D) {
+    }
+    // end here
+    
     func startAdvertising(broadcastData: BroadcastData) {
         self.broadcastData = broadcastData
         
@@ -78,7 +89,8 @@ class BroadcastService: NSObject, CBPeripheralManagerDelegate {
     
     func disconnect() {
         guard let peripheral = connectedPeripheral else { return }
-        peripheralManager.cancelConnection(peripheral)
+        // commented out on 0629 for debugging
+        //peripheralManager.cancelConnection(peripheral)
     }
 }
 
