@@ -5,105 +5,80 @@
 //  Created by Ryan on 27/6/25.
 //
 
-import MultipeerConnectivity
+import CoreBluetooth
 import CoreLocation
 
-final class BroadcastService: NSObject {
-    private let serviceType = "help-request"
-    private var session: MCSession!
-    private var advertiser: MCNearbyServiceAdvertiser!
-    private var item: Item!
-
-    func startBroadcasting(item: Item) {
-        self.item = item
-
-        let peerID = MCPeerID(displayName: UIDevice.current.name)
-        session = MCSession(peer: peerID,
-                            securityIdentity: nil,
-                            encryptionPreference: .required)
-        session.delegate = self
-
-        advertiser = MCNearbyServiceAdvertiser(
-            peer: peerID,
-            discoveryInfo: ["item": item.rawValue],
-            serviceType: serviceType
+class BroadcastService: NSObject, CBPeripheralManagerDelegate {
+    private var peripheralManager: CBPeripheralManager!
+    private var connectedPeripheral: CBPeripheral?
+    private var locationCharacteristic: CBMutableCharacteristic?
+    private var broadcastData: BroadcastData?
+    
+    private let serviceUUID = CBUUID(string: "ABCD")
+    private let locationCharacteristicUUID = CBUUID(string: "1234")
+    
+    var onReceiverLocationUpdate: ((CLLocationCoordinate2D?) -> Void)?
+    
+    override init() {
+        super.init()
+        peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
+    }
+    
+    func startAdvertising(broadcastData: BroadcastData) {
+        self.broadcastData = broadcastData
+        
+        let service = CBMutableService(type: serviceUUID, primary: true)
+        locationCharacteristic = CBMutableCharacteristic(
+            type: locationCharacteristicUUID,
+            properties: .write,
+            value: nil,
+            permissions: .writeable
         )
-        advertiser.delegate = self
-        advertiser.startAdvertisingPeer()
-
-        print("🔊 Advertising as: \(item.rawValue)")
+        
+        service.characteristics = [locationCharacteristic!]
+        peripheralManager.add(service)
+        
+        let advertisementData: [String: Any] = [
+            CBAdvertisementDataServiceUUIDsKey: [serviceUUID],
+            CBAdvertisementDataLocalNameKey: "Broadcast-\(broadcastData.item.description)"
+        ]
+        peripheralManager.startAdvertising(advertisementData)
     }
-
-    func stopBroadcasting() {
-        advertiser.stopAdvertisingPeer()
-        session.disconnect()
-        advertiser = nil
-        session = nil
-        item = nil
-        print("🔇 Stopped advertising")
+    
+    func stopAdvertising() {
+        peripheralManager.stopAdvertising()
+        peripheralManager.removeAllServices()
     }
-
-    func sendLocation(_ location: CLLocationCoordinate2D) {
-        guard !session.connectedPeers.isEmpty else {
-            print("⚠️ No connected peers to send location")
-            return
+    
+    func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
+        if peripheral.state == .poweredOn, let data = broadcastData {
+            startAdvertising(broadcastData: data)
         }
-        let payload = "\(location.latitude),\(location.longitude)"
-        guard let data = payload.data(using: .utf8) else { return }
-        do {
-            try session.send(data,
-                             toPeers: session.connectedPeers,
-                             with: .reliable)
-            print("📍 Sent location: \(payload)")
-        } catch {
-            print("🚨 Failed to send location: \(error)")
+    }
+    
+    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
+        for request in requests {
+            if request.characteristic.uuid == locationCharacteristicUUID,
+               let value = request.value {
+                
+                let location = decodeLocation(data: value)
+                onReceiverLocationUpdate?(location)
+                
+                peripheral.respond(to: request, withResult: .success)
+            }
         }
+    }
+    
+    private func decodeLocation(data: Data) -> CLLocationCoordinate2D? {
+        guard data.count == 16 else { return nil }
+        let lat = data.subdata(in: 0..<8).withUnsafeBytes { $0.load(as: Double.self) }
+        let lon = data.subdata(in: 8..<16).withUnsafeBytes { $0.load(as: Double.self) }
+        return CLLocationCoordinate2D(latitude: lat, longitude: lon)
+    }
+    
+    func disconnect() {
+        guard let peripheral = connectedPeripheral else { return }
+        peripheralManager.cancelConnection(peripheral)
     }
 }
 
-extension BroadcastService: MCNearbyServiceAdvertiserDelegate {
-    func advertiser(_ advertiser: MCNearbyServiceAdvertiser,
-                    didNotStartAdvertisingPeer error: Error) {
-        print("❌ Advertiser failed: \(error.localizedDescription)")
-    }
-
-    func advertiser(_ advertiser: MCNearbyServiceAdvertiser,
-                    didReceiveInvitationFromPeer peerID: MCPeerID,
-                    withContext context: Data?,
-                    invitationHandler: @escaping (Bool, MCSession?) -> Void) {
-        print("🎯 Received connection request from \(peerID.displayName), accepting…")
-        invitationHandler(true, session)
-    }
-}
-
-extension BroadcastService: MCSessionDelegate {
-    func session(_ session: MCSession,
-                 peer peerID: MCPeerID,
-                 didChange state: MCSessionState) {
-        print("🔄 Session state with \(peerID.displayName).")
-    }
-
-    func session(_ session: MCSession,
-                 didReceive data: Data,
-                 fromPeer peerID: MCPeerID) {
-        if let message = String(data: data, encoding: .utf8) {
-            print("📬 Received data: \(message)")
-            NotificationCenter.default.post(name: .didReceiveCoordinates, object: message)
-        }
-    }
-
-    // Required stubs
-    func session(_ session: MCSession,
-                 didReceive stream: InputStream,
-                 withName streamName: String,
-                 fromPeer peerID: MCPeerID) {}
-    func session(_ session: MCSession,
-                 didStartReceivingResourceWithName resourceName: String,
-                 fromPeer peerID: MCPeerID,
-                 with progress: Progress) {}
-    func session(_ session: MCSession,
-                 didFinishReceivingResourceWithName resourceName: String,
-                 fromPeer peerID: MCPeerID,
-                 at localURL: URL?,
-                 withError error: Error?) {}
-}
