@@ -46,13 +46,13 @@
 		785BDEEA2E0FE57300E212BB /* BroadcastDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785BDEE92E0FE56D00E212BB /* BroadcastDataModel.swift */; };
 		785BDEEC2E0FE59F00E212BB /* ItemPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785BDEEB2E0FE59F00E212BB /* ItemPickerView.swift */; };
 		785BDEF02E102ABD00E212BB /* BroadcastMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785BDEEF2E102ABA00E212BB /* BroadcastMapView.swift */; };
+		785BDF002E1036A000E212BB /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785BDEFF2E10369800E212BB /* NotificationExtension.swift */; };
 		78D1E1802E0E586B00F77CB3 /* ItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E17F2E0E586B00F77CB3 /* ItemModel.swift */; };
 		78D1E1822E0E5A2500F77CB3 /* BroadcastService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E1812E0E5A2300F77CB3 /* BroadcastService.swift */; };
 		78D1E1842E0E5BA300F77CB3 /* BroadcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E1832E0E5B9D00F77CB3 /* BroadcastViewModel.swift */; };
 		78D1E1862E0E652800F77CB3 /* ReceiverService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E1852E0E652500F77CB3 /* ReceiverService.swift */; };
 		78D1E1882E0E653C00F77CB3 /* ReceiverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E1872E0E653A00F77CB3 /* ReceiverViewModel.swift */; };
 		78D1E18A2E0E657400F77CB3 /* ReceiverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E1892E0E657000F77CB3 /* ReceiverView.swift */; };
-		78D1E18C2E0E658700F77CB3 /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E18B2E0E658300F77CB3 /* NotificationExtension.swift */; };
 		78D1E18E2E0E674D00F77CB3 /* CoreLocationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E18D2E0E674700F77CB3 /* CoreLocationExtension.swift */; };
 		78F6FB072DE31EDA002D834A /* AppEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB062DE31EDA002D834A /* AppEntry.swift */; };
 		78F6FB092DE31EDA002D834A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB082DE31EDA002D834A /* ContentView.swift */; };
@@ -125,13 +125,13 @@
 		785BDEE92E0FE56D00E212BB /* BroadcastDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastDataModel.swift; sourceTree = "<group>"; };
 		785BDEEB2E0FE59F00E212BB /* ItemPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPickerView.swift; sourceTree = "<group>"; };
 		785BDEEF2E102ABA00E212BB /* BroadcastMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastMapView.swift; sourceTree = "<group>"; };
+		785BDEFF2E10369800E212BB /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		78D1E17F2E0E586B00F77CB3 /* ItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModel.swift; sourceTree = "<group>"; };
 		78D1E1812E0E5A2300F77CB3 /* BroadcastService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastService.swift; sourceTree = "<group>"; };
 		78D1E1832E0E5B9D00F77CB3 /* BroadcastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastViewModel.swift; sourceTree = "<group>"; };
 		78D1E1852E0E652500F77CB3 /* ReceiverService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverService.swift; sourceTree = "<group>"; };
 		78D1E1872E0E653A00F77CB3 /* ReceiverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverViewModel.swift; sourceTree = "<group>"; };
 		78D1E1892E0E657000F77CB3 /* ReceiverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverView.swift; sourceTree = "<group>"; };
-		78D1E18B2E0E658300F77CB3 /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		78D1E18D2E0E674700F77CB3 /* CoreLocationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreLocationExtension.swift; sourceTree = "<group>"; };
 		78F6FB032DE31EDA002D834A /* BinuApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BinuApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F6FB062DE31EDA002D834A /* AppEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEntry.swift; sourceTree = "<group>"; };
@@ -498,8 +498,8 @@
 		78F6FBAC2DE358BE002D834A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				785BDEFF2E10369800E212BB /* NotificationExtension.swift */,
 				78D1E18D2E0E674700F77CB3 /* CoreLocationExtension.swift */,
-				78D1E18B2E0E658300F77CB3 /* NotificationExtension.swift */,
 				78F6FBAD2DE358CD002D834A /* UIImageExtension.swift */,
 			);
 			path = Extensions;
@@ -649,6 +649,7 @@
 				780B65452DEC19A600F58AF5 /* ForumViewModel.swift in Sources */,
 				78F6FB092DE31EDA002D834A /* ContentView.swift in Sources */,
 				78F6FBA52DE34EFC002D834A /* PostModel.swift in Sources */,
+				785BDF002E1036A000E212BB /* NotificationExtension.swift in Sources */,
 				78F6FBA32DE34E75002D834A /* CommentModel.swift in Sources */,
 				785BDEEC2E0FE59F00E212BB /* ItemPickerView.swift in Sources */,
 				7833482F2DF6C2D400207E2C /* CreateCommentView.swift in Sources */,
@@ -659,7 +660,6 @@
 				780B65502DEC1A7E00F58AF5 /* LoginView.swift in Sources */,
 				78F6FB072DE31EDA002D834A /* AppEntry.swift in Sources */,
 				780B65602DEC1B1700F58AF5 /* LibraryView.swift in Sources */,
-				78D1E18C2E0E658700F77CB3 /* NotificationExtension.swift in Sources */,
 				780B65712DEC285400F58AF5 /* NotReadyView.swift in Sources */,
 				78D1E18A2E0E657400F77CB3 /* ReceiverView.swift in Sources */,
 				7833482B2DF6C28700207E2C /* CommentRowView.swift in Sources */,
