@@ -18,6 +18,10 @@
 		31AE309F2E080A9C0061CB54 /* LibraryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AE309E2E080A9C0061CB54 /* LibraryViewModel.swift */; };
 		31AE30A22E0FD4E60061CB54 /* BroadcastRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AE30A12E0FD4E60061CB54 /* BroadcastRequest.swift */; };
 		31AE30A42E0FD5970061CB54 /* InAppBroadcastAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AE30A32E0FD5970061CB54 /* InAppBroadcastAlertView.swift */; };
+		31AE30A72E102D930061CB54 /* ReceiverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AE30A62E102D930061CB54 /* ReceiverViewModel.swift */; };
+		31AE30A92E102DA30061CB54 /* BroadcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AE30A82E102DA30061CB54 /* BroadcastViewModel.swift */; };
+		31AE30AE2E102E6B0061CB54 /* BroadcastService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AE30AD2E102E6B0061CB54 /* BroadcastService.swift */; };
+		31AE30B02E102EA50061CB54 /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AE30AF2E102EA50061CB54 /* NotificationExtension.swift */; };
 		31EF9E572DFF0000008FD5C7 /* CombinedCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */; };
 		780B65352DEC102E00F58AF5 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65342DEC102E00F58AF5 /* CommentService.swift */; };
 		780B65372DEC104C00F58AF5 /* SentimentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65362DEC104C00F58AF5 /* SentimentService.swift */; };
@@ -91,6 +95,10 @@
 		31AE309E2E080A9C0061CB54 /* LibraryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewModel.swift; sourceTree = "<group>"; };
 		31AE30A12E0FD4E60061CB54 /* BroadcastRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastRequest.swift; sourceTree = "<group>"; };
 		31AE30A32E0FD5970061CB54 /* InAppBroadcastAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppBroadcastAlertView.swift; sourceTree = "<group>"; };
+		31AE30A62E102D930061CB54 /* ReceiverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverViewModel.swift; sourceTree = "<group>"; };
+		31AE30A82E102DA30061CB54 /* BroadcastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastViewModel.swift; sourceTree = "<group>"; };
+		31AE30AD2E102E6B0061CB54 /* BroadcastService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastService.swift; sourceTree = "<group>"; };
+		31AE30AF2E102EA50061CB54 /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedCommentView.swift; sourceTree = "<group>"; };
 		780B65342DEC102E00F58AF5 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		780B65362DEC104C00F58AF5 /* SentimentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimentService.swift; sourceTree = "<group>"; };
@@ -189,9 +197,27 @@
 			path = PeerToPeer;
 			sourceTree = "<group>";
 		};
+		31AE30A52E102D6F0061CB54 /* iBeacon */ = {
+			isa = PBXGroup;
+			children = (
+				31AE30A62E102D930061CB54 /* ReceiverViewModel.swift */,
+				31AE30A82E102DA30061CB54 /* BroadcastViewModel.swift */,
+			);
+			path = iBeacon;
+			sourceTree = "<group>";
+		};
+		31AE30AA2E102E470061CB54 /* iBeacon */ = {
+			isa = PBXGroup;
+			children = (
+				31AE30AD2E102E6B0061CB54 /* BroadcastService.swift */,
+			);
+			path = iBeacon;
+			sourceTree = "<group>";
+		};
 		780B65382DEC18A800F58AF5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				31AE30AA2E102E470061CB54 /* iBeacon */,
 				785E2F262DF73E5B007351BF /* PeerToPeer */,
 				780B653C2DEC190E00F58AF5 /* Forum */,
 				780B653B2DEC18D100F58AF5 /* Auth */,
@@ -202,6 +228,7 @@
 		780B653A2DEC18B700F58AF5 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				31AE30A52E102D6F0061CB54 /* iBeacon */,
 				780B65492DEC1A0600F58AF5 /* HeraHub */,
 				780B65462DEC19AE00F58AF5 /* PeerToPeer */,
 				780B65432DEC199700F58AF5 /* Forum */,
@@ -491,6 +518,7 @@
 			isa = PBXGroup;
 			children = (
 				78F6FBAD2DE358CD002D834A /* UIImageExtension.swift */,
+				31AE30AF2E102EA50061CB54 /* NotificationExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -642,7 +670,9 @@
 				78F6FBA32DE34E75002D834A /* CommentModel.swift in Sources */,
 				7833482F2DF6C2D400207E2C /* CreateCommentView.swift in Sources */,
 				7833482D2DF6C2C000207E2C /* CommentView.swift in Sources */,
+				31AE30B02E102EA50061CB54 /* NotificationExtension.swift in Sources */,
 				780B65522DEC1A8400F58AF5 /* SignUpView.swift in Sources */,
+				31AE30AE2E102E6B0061CB54 /* BroadcastService.swift in Sources */,
 				31EF9E572DFF0000008FD5C7 /* CombinedCommentView.swift in Sources */,
 				783348312DF6C2DD00207E2C /* EditCommentView.swift in Sources */,
 				780B65502DEC1A7E00F58AF5 /* LoginView.swift in Sources */,
@@ -651,8 +681,10 @@
 				780B65712DEC285400F58AF5 /* NotReadyView.swift in Sources */,
 				7833482B2DF6C28700207E2C /* CommentRowView.swift in Sources */,
 				780B656D2DEC1E1C00F58AF5 /* UserModel.swift in Sources */,
+				31AE30A72E102D930061CB54 /* ReceiverViewModel.swift in Sources */,
 				780B65582DEC1AC600F58AF5 /* MainTabView.swift in Sources */,
 				78F6FB7F2DE33F57002D834A /* AuthService.swift in Sources */,
+				31AE30A92E102DA30061CB54 /* BroadcastViewModel.swift in Sources */,
 				31AE30A22E0FD4E60061CB54 /* BroadcastRequest.swift in Sources */,
 				780B655D2DEC1AF700F58AF5 /* PostRowView.swift in Sources */,
 				783348242DF694F400207E2C /* GIFView.swift in Sources */,
