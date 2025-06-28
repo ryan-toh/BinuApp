@@ -2,12 +2,7 @@
 //  LibraryViewModel.swift
 //  BinuApp
 //
-//  Created by Ryan on 1/6/25.
+//  Created by Hong Eungi on 22/6/25.
 //
 
 import Foundation
-
-final class LibraryViewModel: ObservableObject {
-    /// Still in development
-}
-
