@@ -16,7 +16,7 @@ final class BroadcastViewModel: ObservableObject {
     private let service = BroadcastService()
 
     func startBroadcasting() {
-        service.startBroadcasting(item: selectedItem)
+        service.startBroadcasting(item: selectedItem, coordinates: CLLocationCoordinate2D(latitude: 1.1318, longitude: 10.344))
         isBroadcasting = true
     }
 

@@ -5,92 +5,83 @@
 //  Created by Ryan on 27/6/25.
 //
 
+import Foundation
 import CoreBluetooth
 import CoreLocation
 
-class BroadcastService: NSObject, CBPeripheralManagerDelegate {
-    private var peripheralManager: CBPeripheralManager!
-    private var connectedPeripheral: CBPeripheral?
-    private var locationCharacteristic: CBMutableCharacteristic?
-    private var broadcastData: BroadcastData?
-    
-    private let serviceUUID = CBUUID(string: "ABCD")
-    private let locationCharacteristicUUID = CBUUID(string: "1234")
-    
-    var onReceiverLocationUpdate: ((CLLocationCoordinate2D?) -> Void)?
-    
+class BroadcastService: NSObject, ObservableObject {
+    private let peripheralManager: CBPeripheralManager
+    private var service: CBMutableService!
+    private var characteristic: CBMutableCharacteristic!
+
+    @Published var isBroadcasting = false
+    private var currentCoordinates: CLLocationCoordinate2D?
+
     override init() {
+        peripheralManager = CBPeripheralManager(delegate: nil, queue: nil)
         super.init()
-        peripheralManager = CBPeripheralManager(delegate: self, queue: nil)
+        peripheralManager.delegate = self
     }
-    
-    // added on 0629 for debugging
-    func startBroadcasting(item: Item) {
-    }
-    
-    func stopBroadcasting() {
-    }
-    
-    func sendLocation(_ location: CLLocationCoordinate2D) {
-    }
-    // end here
-    
-    func startAdvertising(broadcastData: BroadcastData) {
-        self.broadcastData = broadcastData
-        
-        let service = CBMutableService(type: serviceUUID, primary: true)
-        locationCharacteristic = CBMutableCharacteristic(
-            type: locationCharacteristicUUID,
-            properties: .write,
+
+    func startBroadcasting(item: Item, coordinates: CLLocationCoordinate2D) {
+        guard peripheralManager.state == .poweredOn else { return }
+
+        let serviceUUID = CBUUID(string: "A0F0FFA0-1B9F-4E8F-BB8D-6F9A8E7D5C4A")
+        let characteristicUUID = CBUUID(string: "B0F0FFB0-1B9F-4E8F-BB8D-6F9A8E7D5C4A")
+
+        // Setup Service and Characteristic
+        characteristic = CBMutableCharacteristic(
+            type: characteristicUUID,
+            properties: .read,
             value: nil,
-            permissions: .writeable
+            permissions: .readable
         )
-        
-        service.characteristics = [locationCharacteristic!]
+
+        service = CBMutableService(type: serviceUUID, primary: true)
+        service.characteristics = [characteristic]
         peripheralManager.add(service)
-        
-        let advertisementData: [String: Any] = [
-            CBAdvertisementDataServiceUUIDsKey: [serviceUUID],
-            CBAdvertisementDataLocalNameKey: "Broadcast-\(broadcastData.item.description)"
-        ]
-        peripheralManager.startAdvertising(advertisementData)
+
+        currentCoordinates = coordinates
+
+        // Advertise item as localName, and static service UUID
+        peripheralManager.startAdvertising([
+            CBAdvertisementDataLocalNameKey: String(item.rawValue),
+            CBAdvertisementDataServiceUUIDsKey: [serviceUUID]
+        ])
+
+        isBroadcasting = true
     }
-    
-    func stopAdvertising() {
+
+    func stopBroadcasting() {
         peripheralManager.stopAdvertising()
         peripheralManager.removeAllServices()
+        isBroadcasting = false
     }
-    
-    func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
-        if peripheral.state == .poweredOn, let data = broadcastData {
-            startAdvertising(broadcastData: data)
-        }
-    }
-    
-    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
-        for request in requests {
-            if request.characteristic.uuid == locationCharacteristicUUID,
-               let value = request.value {
-                
-                let location = decodeLocation(data: value)
-                onReceiverLocationUpdate?(location)
-                
-                peripheral.respond(to: request, withResult: .success)
-            }
-        }
-    }
-    
-    private func decodeLocation(data: Data) -> CLLocationCoordinate2D? {
-        guard data.count == 16 else { return nil }
-        let lat = data.subdata(in: 0..<8).withUnsafeBytes { $0.load(as: Double.self) }
-        let lon = data.subdata(in: 8..<16).withUnsafeBytes { $0.load(as: Double.self) }
-        return CLLocationCoordinate2D(latitude: lat, longitude: lon)
-    }
-    
-    func disconnect() {
-        guard let peripheral = connectedPeripheral else { return }
-        // commented out on 0629 for debugging
-        //peripheralManager.cancelConnection(peripheral)
+
+    // TODO: Fix this as BroadcastView depends on it
+    func sendLocation(_ location: CLLocationCoordinate2D) {
     }
 }
 
+// MARK: CBPeripheralManagerDelegate
+extension BroadcastService: CBPeripheralManagerDelegate {
+    func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
+        // TODO: Update UI after Bluetooth off
+    }
+
+    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveRead request: CBATTRequest) {
+        guard request.characteristic.uuid == characteristic.uuid,
+              let coordinates = currentCoordinates else {
+            peripheral.respond(to: request, withResult: .unlikelyError)
+            return
+        }
+
+        // Encode coordinates as two doubles (16 bytes)
+        var data = Data()
+        data.append(withUnsafeBytes(of: coordinates.latitude) { Data($0) })
+        data.append(withUnsafeBytes(of: coordinates.longitude) { Data($0) })
+
+        request.value = data
+        peripheral.respond(to: request, withResult: .success)
+    }
+}

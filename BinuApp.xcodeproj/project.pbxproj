@@ -44,17 +44,28 @@
 		7833482D2DF6C2C000207E2C /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7833482C2DF6C2C000207E2C /* CommentView.swift */; };
 		7833482F2DF6C2D400207E2C /* CreateCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7833482E2DF6C2D400207E2C /* CreateCommentView.swift */; };
 		783348312DF6C2DD00207E2C /* EditCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783348302DF6C2DD00207E2C /* EditCommentView.swift */; };
+		78510CC82E114A98004D18A6 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 78510CC72E114A98004D18A6 /* FirebaseCore */; };
+		78510CCA2E114A9F004D18A6 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 78510CC92E114A9F004D18A6 /* FirebaseStorage */; };
+		78510CCC2E114AA9004D18A6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 78510CCB2E114AA9004D18A6 /* FirebaseFirestore */; };
+		78510CCE2E114AAC004D18A6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 78510CCD2E114AAC004D18A6 /* FirebaseAuth */; };
 		785BDEEA2E0FE57300E212BB /* BroadcastDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785BDEE92E0FE56D00E212BB /* BroadcastDataModel.swift */; };
 		785BDEEC2E0FE59F00E212BB /* ItemPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785BDEEB2E0FE59F00E212BB /* ItemPickerView.swift */; };
 		785BDEF02E102ABD00E212BB /* BroadcastMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785BDEEF2E102ABA00E212BB /* BroadcastMapView.swift */; };
 		785BDF002E1036A000E212BB /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785BDEFF2E10369800E212BB /* NotificationExtension.swift */; };
+		785BDF022E1117B300E212BB /* UUIDExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785BDF012E1117AF00E212BB /* UUIDExtension.swift */; };
+		785BDF042E111FBD00E212BB /* BroadcastTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785BDF032E111FBD00E212BB /* BroadcastTestView.swift */; };
+		78A743FB2E114600002A25C7 /* BroadcastServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A743FA2E1145FB002A25C7 /* BroadcastServiceTests.swift */; };
+		78A743FD2E114616002A25C7 /* ReceiverServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A743FC2E11460F002A25C7 /* ReceiverServiceTests.swift */; };
+		78A744022E1147BE002A25C7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 78A744012E1147BE002A25C7 /* FirebaseAuth */; };
+		78A744042E1147C4002A25C7 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 78A744032E1147C4002A25C7 /* FirebaseCore */; };
+		78A744062E114807002A25C7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 78A744052E114807002A25C7 /* FirebaseStorage */; };
+		78A744082E11480C002A25C7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 78A744072E11480C002A25C7 /* FirebaseFirestore */; };
 		78D1E1802E0E586B00F77CB3 /* ItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E17F2E0E586B00F77CB3 /* ItemModel.swift */; };
 		78D1E1822E0E5A2500F77CB3 /* BroadcastService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E1812E0E5A2300F77CB3 /* BroadcastService.swift */; };
 		78D1E1842E0E5BA300F77CB3 /* BroadcastViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E1832E0E5B9D00F77CB3 /* BroadcastViewModel.swift */; };
 		78D1E1862E0E652800F77CB3 /* ReceiverService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E1852E0E652500F77CB3 /* ReceiverService.swift */; };
 		78D1E1882E0E653C00F77CB3 /* ReceiverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E1872E0E653A00F77CB3 /* ReceiverViewModel.swift */; };
 		78D1E18A2E0E657400F77CB3 /* ReceiverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E1892E0E657000F77CB3 /* ReceiverView.swift */; };
-		78D1E18E2E0E674D00F77CB3 /* CoreLocationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E18D2E0E674700F77CB3 /* CoreLocationExtension.swift */; };
 		78F6FB072DE31EDA002D834A /* AppEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB062DE31EDA002D834A /* AppEntry.swift */; };
 		78F6FB092DE31EDA002D834A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F6FB082DE31EDA002D834A /* ContentView.swift */; };
 		78F6FB0D2DE31EDB002D834A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78F6FB0C2DE31EDB002D834A /* Assets.xcassets */; };
@@ -128,13 +139,16 @@
 		785BDEEB2E0FE59F00E212BB /* ItemPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPickerView.swift; sourceTree = "<group>"; };
 		785BDEEF2E102ABA00E212BB /* BroadcastMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastMapView.swift; sourceTree = "<group>"; };
 		785BDEFF2E10369800E212BB /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
+		785BDF012E1117AF00E212BB /* UUIDExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDExtension.swift; sourceTree = "<group>"; };
+		785BDF032E111FBD00E212BB /* BroadcastTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastTestView.swift; sourceTree = "<group>"; };
+		78A743FA2E1145FB002A25C7 /* BroadcastServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastServiceTests.swift; sourceTree = "<group>"; };
+		78A743FC2E11460F002A25C7 /* ReceiverServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverServiceTests.swift; sourceTree = "<group>"; };
 		78D1E17F2E0E586B00F77CB3 /* ItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModel.swift; sourceTree = "<group>"; };
 		78D1E1812E0E5A2300F77CB3 /* BroadcastService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastService.swift; sourceTree = "<group>"; };
 		78D1E1832E0E5B9D00F77CB3 /* BroadcastViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastViewModel.swift; sourceTree = "<group>"; };
 		78D1E1852E0E652500F77CB3 /* ReceiverService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverService.swift; sourceTree = "<group>"; };
 		78D1E1872E0E653A00F77CB3 /* ReceiverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverViewModel.swift; sourceTree = "<group>"; };
 		78D1E1892E0E657000F77CB3 /* ReceiverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiverView.swift; sourceTree = "<group>"; };
-		78D1E18D2E0E674700F77CB3 /* CoreLocationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreLocationExtension.swift; sourceTree = "<group>"; };
 		78F6FB032DE31EDA002D834A /* BinuApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BinuApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F6FB062DE31EDA002D834A /* AppEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEntry.swift; sourceTree = "<group>"; };
 		78F6FB082DE31EDA002D834A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -175,6 +189,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78A744042E1147C4002A25C7 /* FirebaseCore in Frameworks */,
+				78A744082E11480C002A25C7 /* FirebaseFirestore in Frameworks */,
+				78A744022E1147BE002A25C7 /* FirebaseAuth in Frameworks */,
+				78A744062E114807002A25C7 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -182,19 +200,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78510CC82E114A98004D18A6 /* FirebaseCore in Frameworks */,
+				78510CCA2E114A9F004D18A6 /* FirebaseStorage in Frameworks */,
+				78510CCC2E114AA9004D18A6 /* FirebaseFirestore in Frameworks */,
+				78510CCE2E114AAC004D18A6 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		31C612542E103F5100714D50 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
-			sourceTree = "<group>";
-		};
 		780B65382DEC18A800F58AF5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -302,6 +317,7 @@
 		780B65612DEC1B3A00F58AF5 /* PeerToPeer */ = {
 			isa = PBXGroup;
 			children = (
+				785BDF032E111FBD00E212BB /* BroadcastTestView.swift */,
 				785BDEEF2E102ABA00E212BB /* BroadcastMapView.swift */,
 				78D1E1892E0E657000F77CB3 /* ReceiverView.swift */,
 				780B65622DEC1B4A00F58AF5 /* PeerToPeerView.swift */,
@@ -369,6 +385,13 @@
 			path = GIFs;
 			sourceTree = "<group>";
 		};
+		78A743FE2E1147B4002A25C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		78F6FAFA2DE31EDA002D834A = {
 			isa = PBXGroup;
 			children = (
@@ -376,6 +399,7 @@
 				78F6FB052DE31EDA002D834A /* BinuApp */,
 				78F6FB192DE31EDB002D834A /* BinuAppTests */,
 				78F6FB232DE31EDB002D834A /* BinuAppUITests */,
+				78A743FE2E1147B4002A25C7 /* Frameworks */,
 				78F6FB042DE31EDA002D834A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -421,6 +445,8 @@
 		78F6FB192DE31EDB002D834A /* BinuAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				78A743FC2E11460F002A25C7 /* ReceiverServiceTests.swift */,
+				78A743FA2E1145FB002A25C7 /* BroadcastServiceTests.swift */,
 				78F6FB1A2DE31EDB002D834A /* BinuAppTests.swift */,
 			);
 			path = BinuAppTests;
@@ -439,7 +465,6 @@
 			isa = PBXGroup;
 			children = (
 				31C612552E10402600714D50 /* HealthSummary.swift */,
-				31C612542E103F5100714D50 /* New Group */,
 				78309CBC2E0C2FFC00EB17B6 /* iBeacon */,
 				78F6FB932DE34B5A002D834A /* Forum */,
 				780B656C2DEC1E1C00F58AF5 /* UserModel.swift */,
@@ -509,8 +534,8 @@
 		78F6FBAC2DE358BE002D834A /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				785BDF012E1117AF00E212BB /* UUIDExtension.swift */,
 				785BDEFF2E10369800E212BB /* NotificationExtension.swift */,
-				78D1E18D2E0E674700F77CB3 /* CoreLocationExtension.swift */,
 				78F6FBAD2DE358CD002D834A /* UIImageExtension.swift */,
 			);
 			path = Extensions;
@@ -676,6 +701,7 @@
 				7833482B2DF6C28700207E2C /* CommentRowView.swift in Sources */,
 				780B656D2DEC1E1C00F58AF5 /* UserModel.swift in Sources */,
 				780B65582DEC1AC600F58AF5 /* MainTabView.swift in Sources */,
+				785BDF022E1117B300E212BB /* UUIDExtension.swift in Sources */,
 				78F6FB7F2DE33F57002D834A /* AuthService.swift in Sources */,
 				780B655D2DEC1AF700F58AF5 /* PostRowView.swift in Sources */,
 				783348242DF694F400207E2C /* GIFView.swift in Sources */,
@@ -686,6 +712,7 @@
 				780B653F2DEC197600F58AF5 /* AuthViewModel.swift in Sources */,
 				78D1E1882E0E653C00F77CB3 /* ReceiverViewModel.swift in Sources */,
 				78D1E1842E0E5BA300F77CB3 /* BroadcastViewModel.swift in Sources */,
+				785BDF042E111FBD00E212BB /* BroadcastTestView.swift in Sources */,
 				780B654C2DEC1A4B00F58AF5 /* LibraryViewModel.swift in Sources */,
 				78F6FBA82DE34F4C002D834A /* SentimentModel.swift in Sources */,
 				780B65372DEC104C00F58AF5 /* SentimentService.swift in Sources */,
@@ -693,7 +720,6 @@
 				780B65772DEC809C00F58AF5 /* EnterUsernameView.swift in Sources */,
 				78F6FBB02DE35B86002D834A /* PostService.swift in Sources */,
 				780B65412DEC198600F58AF5 /* OnboardingViewModel.swift in Sources */,
-				78D1E18E2E0E674D00F77CB3 /* CoreLocationExtension.swift in Sources */,
 				780B655B2DEC1AEB00F58AF5 /* ForumView.swift in Sources */,
 				785BDEF02E102ABD00E212BB /* BroadcastMapView.swift in Sources */,
 				780B656A2DEC1B7C00F58AF5 /* ErrorBannerView.swift in Sources */,
@@ -726,6 +752,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				78F6FB272DE31EDB002D834A /* BinuAppUITestsLaunchTests.swift in Sources */,
+				78A743FB2E114600002A25C7 /* BroadcastServiceTests.swift in Sources */,
+				78A743FD2E114616002A25C7 /* ReceiverServiceTests.swift in Sources */,
 				78F6FB252DE31EDB002D834A /* BinuAppUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -878,9 +906,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BinuApp/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Bluetooth is required to send or receive help requests in the background.";
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth is required to send or receive help requests.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is required so your location can be sent to provide or receive help.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to broadcast your location to nearby devices.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "This app advertises a Bluetooth LE Service so other devices can receive your Help Request.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -925,9 +952,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BinuApp/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Bluetooth is required to send or receive help requests in the background.";
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Bluetooth is required to send or receive help requests.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is required so your location can be sent to provide or receive help.";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "This app uses Bluetooth to broadcast your location to nearby devices.";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "This app advertises a Bluetooth LE Service so other devices can receive your Help Request.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -1119,6 +1145,46 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		78510CC72E114A98004D18A6 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		78510CC92E114A9F004D18A6 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		78510CCB2E114AA9004D18A6 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		78510CCD2E114AAC004D18A6 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		78A744012E1147BE002A25C7 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		78A744032E1147C4002A25C7 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		78A744052E114807002A25C7 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		78A744072E11480C002A25C7 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3154129C2DE37ADB00447409 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

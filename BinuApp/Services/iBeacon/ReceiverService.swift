@@ -5,136 +5,170 @@
 //  Created by Ryan on 27/6/25.
 //
 
-import MultipeerConnectivity
+import Foundation
+import CoreBluetooth
 import CoreLocation
+import UserNotifications
+import UIKit
+import MultipeerConnectivity
 
-final class ReceiverService: NSObject, ObservableObject {
-    private let serviceType = "help-request"
-    private var session: MCSession!
-    private var browser: MCNearbyServiceBrowser?
+class ReceiverService: NSObject, ObservableObject {
+    private let centralManager: CBCentralManager
+    private var discoveredPeripheral: CBPeripheral?
+    private let targetServiceUUID = CBUUID(string: "A0F0FFA0-1B9F-4E8F-BB8D-6F9A8E7D5C4A")
+    private let targetCharacteristicUUID = CBUUID(string: "B0F0FFB0-1B9F-4E8F-BB8D-6F9A8E7D5C4A")
 
-    @Published var connectedPeers = [MCPeerID]()
+    @Published var receivedBroadcast: BroadcastData?
+    private var backgroundTaskID: UIBackgroundTaskIdentifier?
+    private var currentItem: Item?
+    
+    // Legacy from v1
     @Published var foundRequests: [(peer: MCPeerID, item: Item)] = []
+    @Published var connectedPeers: [MCPeerID] = []
+
+    // Legacy from v1
+    func startBrowsing() {
+        
+    }
+    
+    // Legacy from v1
+    func stopBrowsing() {
+        
+    }
+    
+    // Legacy from v1
+    func connect(to peer: MCPeerID) {
+        
+    }
+    
+    // Legacy from v1
+    func sendLocation(_ location: CLLocationCoordinate2D) {
+        
+    }
 
     override init() {
+        centralManager = CBCentralManager(delegate: nil, queue: nil)
         super.init()
-        let peerID = MCPeerID(displayName: UIDevice.current.name)
-        session = MCSession(peer: peerID,
-                            securityIdentity: nil,
-                            encryptionPreference: .required)
-        session.delegate = self
+        centralManager.delegate = self
+        requestNotificationPermission()
     }
 
-    func startBrowsing() {
-        browser = MCNearbyServiceBrowser(peer: session.myPeerID,
-                                         serviceType: serviceType)
-        browser?.delegate = self
-        browser?.startBrowsingForPeers()
-        print("Started browsing for peers")
+    private func startScanning() {
+        guard centralManager.state == .poweredOn else { return }
+        centralManager.scanForPeripherals(
+            withServices: [targetServiceUUID],
+            options: [CBCentralManagerScanOptionAllowDuplicatesKey: true]
+        )
     }
 
-    func stopBrowsing() {
-        browser?.stopBrowsingForPeers()
-        browser = nil
-        session.disconnect()
-        print("Stopped browsing")
+    func stopScanning() {
+        centralManager.stopScan()
     }
 
-    func connect(to peer: MCPeerID) {
-        print("Inviting peer: \(peer.displayName)")
-        browser?.invitePeer(peer,
-                            to: session,
-                            withContext: nil,
-                            timeout: 30)
+    private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
     }
 
-    func sendLocation(_ location: CLLocationCoordinate2D) {
-        guard !session.connectedPeers.isEmpty else {
-            print("No connected peers to send location")
+    private func sendNotification(for item: Item) {
+        let content = UNMutableNotificationContent()
+        content.title = "Nearby Help Available"
+        content.body = "Someone is offering \(item.description) nearby"
+        content.sound = .default
+
+        let request = UNNotificationRequest(
+            identifier: UUID().uuidString,
+            content: content,
+            trigger: nil
+        )
+        UNUserNotificationCenter.current().add(request)
+    }
+}
+
+// MARK: CBCentralManagerDelegate
+extension ReceiverService: CBCentralManagerDelegate {
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        if central.state == .poweredOn {
+            startScanning()
+        } else {
+            stopScanning()
+        }
+    }
+
+    func centralManager(_ central: CBCentralManager,
+                        didDiscover peripheral: CBPeripheral,
+                        advertisementData: [String: Any],
+                        rssi RSSI: NSNumber) {
+        // Ensure service UUID present
+        guard let serviceUUIDs = advertisementData[CBAdvertisementDataServiceUUIDsKey] as? [CBUUID],
+              serviceUUIDs.contains(targetServiceUUID) else { return }
+
+        // Extract item from localName
+        guard let localName = advertisementData[CBAdvertisementDataLocalNameKey] as? String,
+              let raw = UInt8(localName),
+              let item = Item(rawValue: raw) else {
             return
         }
-        let payload = "\(location.latitude),\(location.longitude)"
-        guard let data = payload.data(using: .utf8) else { return }
-        do {
-            try session.send(data,
-                             toPeers: session.connectedPeers,
-                             with: .reliable)
-            print("Sent location: \(payload)")
-        } catch {
-            print("Failed to send location: \(error)")
+
+        currentItem = item
+        discoveredPeripheral = peripheral
+        centralManager.connect(peripheral, options: nil)
+
+        if let existing = backgroundTaskID {
+            UIApplication.shared.endBackgroundTask(existing)
+        }
+        backgroundTaskID = UIApplication.shared.beginBackgroundTask {
+            [weak self] in self?.backgroundTaskID = .invalid
+        }
+    }
+
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        peripheral.delegate = self
+        peripheral.discoverServices([targetServiceUUID])
+    }
+
+    func centralManager(_ central: CBCentralManager,
+                        didDisconnectPeripheral peripheral: CBPeripheral,
+                        error: Error?) {
+        discoveredPeripheral = nil
+        currentItem = nil
+        startScanning()
+
+        if let tid = backgroundTaskID {
+            UIApplication.shared.endBackgroundTask(tid)
+            backgroundTaskID = nil
         }
     }
 }
 
-extension ReceiverService: MCNearbyServiceBrowserDelegate {
-    func browser(_ browser: MCNearbyServiceBrowser,
-                 didNotStartBrowsingForPeers error: Error) {
-        print("Browsing failed: \(error.localizedDescription)")
+// MARK: CBPeripheralDelegate
+extension ReceiverService: CBPeripheralDelegate {
+    func peripheral(_ peripheral: CBPeripheral,
+                    didDiscoverServices error: Error?) {
+        guard let service = peripheral.services?.first(where: { $0.uuid == targetServiceUUID }) else { return }
+        peripheral.discoverCharacteristics([targetCharacteristicUUID], for: service)
     }
 
-    func browser(_ browser: MCNearbyServiceBrowser,
-                 foundPeer peerID: MCPeerID,
-                 withDiscoveryInfo info: [String : String]?) {
-        guard let raw = info?["item"],
-              let item = Item(rawValue: UInt8(raw)!) else { return }
-        DispatchQueue.main.async {
-            if !self.foundRequests.contains(where: { $0.peer == peerID }) {
-                self.foundRequests.append((peerID, item))
-                print("Added request: \(item.rawValue) from \(peerID.displayName)")
-            }
-        }
+    func peripheral(_ peripheral: CBPeripheral,
+                    didDiscoverCharacteristicsFor service: CBService,
+                    error: Error?) {
+        guard let char = service.characteristics?.first(where: { $0.uuid == targetCharacteristicUUID }) else { return }
+        peripheral.readValue(for: char)
     }
 
-    func browser(_ browser: MCNearbyServiceBrowser,
-                 lostPeer peerID: MCPeerID) {
-        print("Lost peer: \(peerID.displayName)")
+    func peripheral(_ peripheral: CBPeripheral,
+                    didUpdateValueFor characteristic: CBCharacteristic,
+                    error: Error?) {
+        guard let data = characteristic.value, data.count == 16,
+              let item = currentItem else { return }
+
+        let lat = data.subdata(in: 0..<8).withUnsafeBytes { $0.load(as: Double.self) }
+        let lon = data.subdata(in: 8..<16).withUnsafeBytes { $0.load(as: Double.self) }
+        let coords = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+
         DispatchQueue.main.async {
-            self.foundRequests.removeAll { $0.peer == peerID }
+            self.receivedBroadcast = BroadcastData(item: item, coordinates: coords)
         }
+        sendNotification(for: item)
+        centralManager.cancelPeripheralConnection(peripheral)
     }
 }
-
-extension ReceiverService: MCSessionDelegate {
-    func session(_ session: MCSession,
-                 peer peerID: MCPeerID,
-                 didChange state: MCSessionState) {
-        print("Session state with \(peerID.displayName).")
-        DispatchQueue.main.async {
-            switch state {
-            case .connected:
-                if !self.connectedPeers.contains(peerID) {
-                    self.connectedPeers.append(peerID)
-                }
-                self.foundRequests.removeAll { $0.peer == peerID }
-            case .notConnected:
-                self.connectedPeers.removeAll { $0 == peerID }
-            default: break
-            }
-        }
-    }
-
-    func session(_ session: MCSession,
-                 didReceive data: Data,
-                 fromPeer peerID: MCPeerID) {
-        if let message = String(data: data, encoding: .utf8) {
-            print("Received data from \(peerID.displayName): \(message)")
-            NotificationCenter.default.post(name: .didReceiveCoordinates, object: message)
-        }
-    }
-
-    // Required stubs
-    func session(_ session: MCSession,
-                 didReceive stream: InputStream,
-                 withName streamName: String,
-                 fromPeer peerID: MCPeerID) {}
-    func session(_ session: MCSession,
-                 didStartReceivingResourceWithName resourceName: String,
-                 fromPeer peerID: MCPeerID,
-                 with progress: Progress) {}
-    func session(_ session: MCSession,
-                 didFinishReceivingResourceWithName resourceName: String,
-                 fromPeer peerID: MCPeerID,
-                 at localURL: URL?,
-                 withError error: Error?) {}
-}
-

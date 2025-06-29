@@ -11,8 +11,13 @@ struct MainTabView: View {
                     Text("Home")
                 }
 
-            PeerToPeerView()
-                .tabItem {
+//            PeerToPeerView()
+//                .tabItem {
+//                    Image(systemName: "phone.fill")
+//                    Text("Find Help")
+//                }
+            BroadcastTestView()
+                .tabItem{
                     Image(systemName: "phone.fill")
                     Text("Find Help")
                 }
