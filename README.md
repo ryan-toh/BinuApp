@@ -1,310 +1,213 @@
-# Binu
+# Binu (formerly HeraHub)
 
-Level of Achievement: Apollo 11
-
-To foster a supportive community regarding women's health, for both Men and Women.
-
-This README includes requirements for Milestone 1, and provides instructions for cloning, configuring, and running the app locally.
+**Level of Achievement:** Apollo 11
+**Mission:** Foster an inclusive, safe, and intelligent platform for real-time support, education, and emergency aid around women’s health—accessible by everyone, regardless of gender.
 
 ---
 
 ## Table of Contents
 
-1. [Project Motivation and Statement](#problem-statement)
-2. [Proposed Core Features](#core-features)
-3. [Tech Stack, Proposed Design and Plan](#tech-stack-and-design)
-4. [Prerequisites](#prerequisites)  
-5. [Clone the Repository](#clone-the-repository)  
-6. [Install Dependencies](#install-dependencies)  
-7. [Configure Firebase](#configure-firebase)  
-8. [Open and Run in Xcode](#open-and-run-in-xcode)  
-9. [Environment Variables & Secrets](#environment-variables--secrets)  
-10. [Folder Structure](#folder-structure)  
-11. [Troubleshooting](#troubleshooting)  
+1. [Problem Statement](#problem-statement)
+2. [User Stories](#user-stories)
+
+   * [Female Students](#female-students)
+   * [Male Students](#male-students)
+3. [Core Features](#core-features)
+
+   * [Women’s Forum](#womens-forum)
+   * [ML-Powered Sentiment Classification](#ml-powered-sentiment-classification)
+   * [Period Necessities Sharing System](#period-necessities-sharing-system)
+   * [HeraHub: Education Center](#herahub-education-center)
+   * [Emergency Contacts Feature](#emergency-contacts-feature)
+4. [Installing BinuApp for Testing](#installing-binuapp-for-testing)
+5. [Design Philosophy](#design-philosophy)
+6. [Tech Stack](#tech-stack)
+7. [Folder Structure](#folder-structure)
+8. [Unit Testing](#unit-testing)
+9. [Usability Testing](#usability-testing)
+10. [Problems Encountered](#problems-encountered)
 
 ---
 
 ## Problem Statement
 
-University students, particularly women, often lack a safe, judgment-free space to discuss sensitive personal topics such as menstrual health, relationships, pregnancy concerns, and sexual health. Many hesitate to seek advice publicly due to stigma and privacy concerns. Additionally, there is a lack of awareness among male students regarding menstruation, hormonal changes, and relationship dynamics, which can lead to misunderstandings and inadequate support.
+University students often face barriers in accessing credible, empathetic, and stigma-free platforms to discuss and manage women’s health-related issues. Female students feel vulnerable discussing topics like menstrual health, sexual wellbeing, or pregnancy concerns due to societal judgment and digital traceability. Meanwhile, male students are left out of these conversations entirely—creating an empathy and knowledge gap that impacts relationships, peer support, and overall campus health culture.
 
-
-Our project aims to bridge this gap by:
-
-- Creating a social-media-like platform for women to anonymously discuss sensitive topics.
-- Facilitating sharing of period necessities (pads, tampons) through a location-based request system, akin to TraceTogether.
-- Educating men on menstrual health and relationship support through an interactive learning interface.
+Binu addresses the pressing lack of privacy‑conscious, health‑focused, and gender‑inclusive digital spaces on university campuses by combining anonymous social interaction, emergency support, and real‑time education.
 
 ---
 
-## Proposed Core Features
+## User Stories
 
-### User Stories
+### Female Students
 
-For Women:
-1. As a female university student who feels uncomfortable discussing period-related topics publicly, I want to join a safe online community where I can ask questions and share experiences anonymously.
-2. As a woman who unexpectedly ran out of menstrual products, I want to request pads/tampons from nearby users so I don’t have to leave campus or go to a store in an emergency.
-3. As a student struggling with relationship issues, I want to read advice from other women who have had similar experiences.
-4. As a student on campus, I want an emergency contact feature to quickly access women’s health clinics, counselors, and helplines.
+* **Anonymous Posting:** “I want to post about my health concerns without revealing my identity,” to overcome shame or fear.
+* **Urgent Supply Requests:** “I want to request menstrual products from nearby users when I need them urgently,” especially during campus emergencies.
+* **Supportive Advice:** “I want to access relationship advice from people with similar lived experiences,” which feels more comforting than clinical advice.
+* **Emergency Contacts:** “I want to quickly find campus or national helplines,” because in crises, time and clarity are critical.
 
-For Men:
-1. As a male student who wants to better understand menstruation, I want access to simple, clear educational content that helps me support my girlfriend or female friends.
-2. As a boyfriend who wants to be more caring during my partner’s period, I want tips on how to comfort her and avoid common mistakes.
-3. As a male student unfamiliar with pregnancy and sexual health topics, I want access to professional guidance to ensure I am well-informed.
+### Male Students
 
-### Core Features
-
-Women's Social Forum
-- A private and anonymous discussion board for female students to discuss sensitive topics such as menstrual health, relationships, pregnancy and mental well-being
-- Users can ask questions, post experiences, and upvote helpful responses
-- ML Powered Sentiment classification of topics
-- Female gender will be verified to access the forum
-
-Period Necessities Sharing System
-- Location-based "Help Request" feature to ping nearby female users when in urgent need of pads/tampons
-- Users receive a notification when someone nearby is requesting or offering menstrual products
-
-HeraHub
-- A hub for education and resources on women's health
-- AI Chatbot to answer common period and relationship queries
-- Emergency contact and support locator
-
-Cycle Tracker
-- Anticipate and predict periods based on previously recorded information
+* **Educational Support:** “I want to learn how periods work so I can support my girlfriend respectfully,” without awkward questions.
+* **Emotional Guidance:** “I want quick advice on how to be emotionally supportive during my partner’s cycle,” to avoid causing stress.
+* **Responsible Knowledge:** “I want to understand topics like pregnancy and consent,” so I can act responsibly and speak accurately among friends.
 
 ---
 
-## Tech Stack and Design
+## Core Features
 
-1. Swift & SwiftUI
-2. Firebase Storage & Cloud Firestore
-3. OpenAI API
+### Women’s Forum (Completed)
 
-### Design Philosophy
-Single Responsibility Principle
-- Each class or struct should have one clear responsibility.
-- See Folder Structure for examples.
+A secure, anonymous discussion board for women to share questions, stories, and support.
 
-MVVC (Model-View-ViewController) Design Pattern
-- Model: Represents App data and business logic. Models are Swift types (structs, classes) independent of the UI
+* **Post Creation:** Title, text, optional images, sentiment tagging, and engagement data.
+* **Commenting:** Add, edit, delete replies as subcollections.
+* **Likes:** Toggle likes stored in Firestore.
+* **Real-Time Updates:** `ForumViewModel` & `CommentViewModel` with Combine.
+* **Lazy Loading:** Smooth scrolling without UI freezes.
 
-- View: Purely for rendering the user interface. Contains SwiftUI views
+### ML-Powered Sentiment Classification (Completed)
 
-- ViewController: Sits between the Model and View. Responsible for owning the View (loading or instantiating the View), binds Models to Views (fetches data from Models) and handles user actions (such as tapping a button or scrolling) by updating the View when required.
+On‑device sentiment analysis tags posts as **positive**, **neutral**, or **negative** to guide empathetic responses.
 
-Interface Segregation Principle (ISP)
-- Prefer smaller, specific protocols over large general ones.
+* **Sentiment Enum:**
 
-Unit Testing
-- Set up a Unit Testing Bundle and tested using the built in XCTest Framework for fast testing. Determine test case inputs and outputs in advance, before implementing it.
+  * Positive: `NLTagger` score > 0.1
+  * Negative: score < -0.1
+  * Neutral: otherwise
+* **Implementation:** Apple’s NLTagger runs on device; badges appear in UI before saving posts.
 
----
+### Period Necessities Sharing System (In Progress)
 
-## Prerequisites
+Peer‑to‑peer requests for menstrual products via Bluetooth LE.
 
-- **macOS 13.0+**  
-- **Xcode 15.0+** (ensure Command Line Tools are installed)  
-- **Swift Package Manager (Built-in to Xcode)**
-- **Git** (for cloning the repo)  
-- **A Firebase project** (to obtain `GoogleService-Info.plist`)  
+* **Item Selection:** `Item` enum encodes requests (pads, tampons, pills) into UInt8.
+* **Bluetooth Broadcasting:** `BroadcastService` advertises with a unique UUID (energy‑efficient, \~10–15m range).
+* **Geo-Tagged Requests:** Coordinates sent after acceptance.
+* **Live Peer Discovery:** Background receivers see and notify near requests.
+* **Receiver Interface:** View requests, items, and proximity.
 
----
+> **Status:** Backend logic (broadcast/receive) is partially complete; persistent reconnection and UI flows remain under development.
 
-## Clone the Repository
+### HeraHub: Real-Time Women’s Health Education Center (Mostly Completed)
 
-1. Open Terminal.  
-2. Navigate to your desired parent directory:
-   ```bash
-   cd ~/Projects
-   ```
-3. Clone this repository:
-   ```bash
-   git clone https://github.com/ryan-toh/BinuApp.git
-   ```
-4. Change into the directory:
-   ```bash
-   cd BinuApp
-   ```
+Aggregates RSS feeds from credible sources (UN Women, CNA, HealthHub SG).
 
----
+* **SupportCard.swift:** Data model for title, link, image, summary.
+* **CombinedFeedLoader.swift:** XML parsing into `SupportCard` objects; segregates by source.
 
-## Install Dependencies
+> **Status:** Live updates on launch; planning offline caching for critical content.
 
-### Using Swift Package Manager
+### Emergency Contacts Feature (In Progress)
 
-1. Open the Xcode project (`.xcodeproj`).
-2. Navigate to **File → Add Packages...**  
-3. Search for each dependency and add the correct version:
-   - `Firebase`: https://github.com/firebase/firebase-ios-sdk  
-   - Any other SPM packages (e.g., Alamofire, Kingfisher, etc.)
-4. Xcode will automatically resolve and fetch SPM dependencies.
+In‑app directory of institutional helplines.
+
+* **Categories:** Medical, mental health, safety, peer support.
+* **Tap-to-Call:** One‑tap dialing.
+* **Location‑Aware:** Campus‑specific contacts.
 
 ---
 
-## Configure Firebase
+## Installing BinuApp for Testing
 
-1. In your Firebase console, create or select a project.  
-2. In **Project Settings → General → Your apps**, click **Add app** and choose **iOS+**.  
-3. Enter your **iOS bundle ID** (e.g., `com.yourcompany.myapp`).  
-4. Download the generated **`GoogleService-Info.plist`** file.  
-5. **Copy** `GoogleService-Info.plist` into the Xcode project: 
-   - drag `GoogleService-Info.plist` into Xcode’s Project Navigator under the root folder.  
-6. Confirm that in Xcode, `GoogleService-Info.plist` is included under **Build Phases → Copy Bundle Resources**.
-7. Return to the firebase console. Ensure that you are in the **overview tab** of the project you just created.
-8. **Enable Email/Password Authentication**
-   1. In the Firebase Console, click **Authentication** in the left sidebar.
-   2. Select the **Sign-in method** tab.
-   3. Under **Sign-in providers**, locate **Email/Password** and click **Edit** (pencil icon).
-   4. Toggle **Enable** to **On**, then click **Save**.
-   5. (Optional) Under **Templates → Email address confirmarion/Password reset**, you can customize the email templates if desired.  
-   6. Now your project will accept new user registrations and sign-ins via email and password.
-   
-9. **Configure Firestore Rules for Full Read/Write (Development Only)**
-   > ⚠️ These rules permit anyone (authenticated or not) to read and write all documents. Only use for development.  
-   1. In the Firebase Console, click **Firestore Database** in the left sidebar.
-   2. Select the **Rules** tab.
-   3. Replace any existing rules with the following:
-      ```js
-      service cloud.firestore {
-        match /databases/{database}/documents {
-          // Allow full read/write for every document:
-          match /{allPaths=**} {
-            allow read, write: if true;
-          }
-        }
-      }
-      ```
-   4. Click **Publish**.  
-   5. Once published, any client (even if not signed in) can perform reads and writes on Firestore.  
-   6. **IMPORTANT**: Before going to production, these rules must be locked down (e.g., `allow read, write: if request.auth != null && …`). For now, they remain wide open to facilitate front-end development.
-   
-10. **Configure Storage Rules for Full Read/Write (Development Only)**
-    > ⚠️ These rules permit anyone (authenticated or not) to upload, download, or delete any file. Only use for development.  
-    1. In the Firebase Console, click **Storage** in the left sidebar.
-    2. Select the **Rules** tab.
-    3. Replace any existing rules with:
-       ```js
-       service firebase.storage {
-         match /b/{bucket}/o {
-           // Allow full read/write on every path:
-           match /{allPaths=**} {
-             allow read, write: if true;
-           }
-         }
-       }
-       ```
-    4. Click **Publish**.  
-    5. Now any client (even if not signed in) can upload, download, or delete any file in your Storage bucket.
+### Prerequisites
 
+* **macOS:** Ventura 13.5 or later.
+* **Xcode:** 15.0 or later.
+
+### Download & Install
+
+1. Download the compressed app bundle:
+   [https://drive.google.com/file/d/1PwbfaCflKQiOruyD-VbBFte9PISGgZH-/view?usp=drive\_link](https://drive.google.com/file/d/1PwbfaCflKQiOruyD-VbBFte9PISGgZH-/view?usp=drive_link)
+2. Unzip the file; you’ll have `BinuApp.app` in `~/Downloads`.
+3. Launch Xcode and open **Simulator** (**Open Developer Tool > Simulator**).
+4. Drag `BinuApp.app` into the simulator window—it installs automatically.
+
+### Troubleshooting
+
+* **Unable to install:** Ensure Simulator OS ≥ iOS 17.0 and Xcode ≥ 15.0.
+
+  ```bash
+  xcrun simctl shutdown booted && xcrun simctl boot booted
+  ```
 
 ---
 
-## Open and Run in Xcode
+## Design Philosophy
 
-1. Open the workspace or project:
-   - **SPM**:  
-     ```bash
-     open MyApp.xcodeproj
-     ```
-2. Select a simulator or a physical device in the toolbar’s device selector.  
-3. Build the project (⌘B).  
-4. Run the app (⌘R).  
-5. The first launch may take a moment as Firebase initializes.
+* **Single Responsibility:** Modules handle one concern only.
+* **MVVM Pattern:**
+
+  * Model: Domain logic.
+  * View: SwiftUI rendering.
+  * ViewModel: State & logic.
+* **Interface Segregation:** Small, testable protocols (e.g., `AuthService`, `BroadcastService`).
+* **Unit Testing:** Dependency injection enables mocked Firestore, Sentiment, Bluetooth.
 
 ---
 
-## Environment Variables & Secrets
+## Tech Stack
 
-- **`GoogleService-Info.plist`** is not included in version control. Make sure each developer adds their own file.  
+* **Languages & Frameworks:** Swift, SwiftUI, Combine, CoreBluetooth, MultipeerConnectivity, CoreLocation, Apple NLTagger
+* **Backend & Cloud:** Firebase Firestore, Storage, Authentication (via `GoogleService-Info.plist`)
 
 ---
 
 ## Folder Structure
 
 ```
-.
-├── BinuApp
-│   ├── AppEntry.swift
-│   ├── Assets.xcassets
-│   │   ├── AccentColor.colorset
-│   │   │   └── Contents.json
-│   │   ├── AppIcon.appiconset
-│   │   │   ├── Contents.json
-│   │   │   └── logo.png
-│   │   └── Contents.json
-│   ├── ContentView.swift
-│   ├── Extensions
-│   │   └── UIImageExtension.swift
-│   ├── Item.swift
-│   ├── Models
-│   │   ├── Forum
-│   │   │   ├── CommentModel.swift
-│   │   │   ├── PostImageModel.swift
-│   │   │   ├── PostModel.swift
-│   │   │   └── SentimentModel.swift
-│   │   └── UserModel.swift
-│   ├── Preview Content
-│   │   └── Preview Assets.xcassets
-│   │       └── Contents.json
-│   ├── Services
-│   │   ├── Auth
-│   │   │   ├── AuthService.swift
-│   │   │   └── UserService.swift
-│   │   └── Forum
-│   │       ├── CommentService.swift
-│   │       ├── PostService.swift
-│   │       └── SentimentService.swift
-│   ├── ViewModels
-│   │   ├── Auth
-│   │   │   ├── AuthViewModel.swift
-│   │   │   └── OnboardingViewModel.swift
-│   │   ├── Forum
-│   │   │   └── ForumViewModel.swift
-│   │   ├── HeraHub
-│   │   │   └── LibraryViewModel.swift
-│   │   ├── PeerToPeer
-│   │   │   └── PeerToPeerViewModel.swift
-│   │   └── Profile
-│   │       └── AccountViewModel.swift
-│   └── Views
-│       ├── Auth
-│       │   ├── LoginView.swift
-│       │   ├── Onboarding
-│       │   │   └── EnterUsernameView.swift
-│       │   ├── SignUpView.swift
-│       │   └── WelcomeView.swift
-│       ├── Forum
-│       │   ├── CreatePostView.swift
-│       │   ├── ForumView.swift
-│       │   └── PostRowView.swift
-│       ├── HeraHub
-│       │   └── LibraryView.swift
-│       ├── MainTab
-│       │   └── MainTabView.swift
-│       ├── PeerToPeer
-│       │   └── PeerToPeerView.swift
-│       ├── Profile
-│       │   └── AccountView.swift
-│       └── Shared
-│           ├── ErrorBannerView.swift
-│           ├── LoadingSpinnerView.swift
-│           ├── NotReadyView.swift
-│           └── Text Boxes
-│               └── FullWidthTextBox.swift
-├── BinuAppTests
-│   └── BinuAppTests.swift
-├── BinuAppUITests
-│   ├── BinuAppUITests.swift
-│   └── BinuAppUITestsLaunchTests.swift
-└── README.md
+BinuApp/
+├── AppEntry.swift
+├── Assets.xcassets/
+├── ContentView.swift
+├── Extensions/
+│   └── UIImageExtension.swift
+├── Models/
+│   ├── Forum/
+│   └── UserModel.swift
+├── Services/
+│   ├── Auth/
+│   ├── Forum/
+│   └── PeerToPeer/
+├── ViewModels/
+│   ├── Auth/
+│   ├── Forum/
+│   ├── HeraHub/
+│   ├── PeerToPeer/
+│   └── Profile/
+├── Views/
+│   ├── Auth/
+│   ├── Forum/
+│   ├── HeraHub/
+│   ├── MainTab/
+│   ├── PeerToPeer/
+│   ├── Profile/
+│   └── Shared/
+└── Tests/
+    └── BinuAppTests.swift
 ```
 
 ---
 
-## Troubleshooting
+## Unit Testing
 
-- **“`GoogleService-Info.plist` not found”**  
-  - Ensure you added the file to the project and that it’s included in **Targets → Build Phases → Copy Bundle Resources**.
+We use **XCTest** to validate core logic, error handling, and state changes independently of UI or hardware.
 
-- **“Permission denied” errors on Firestore or Storage**  
-  - Inspect your Firebase Rules in the console to ensure full read/write access is allowed.  
+* Example: `BroadcastServiceTests.swift` mocks `PeripheralManager` to verify advertising behavior and service lifecycle.
+
+---
+
+## Usability Testing
+
+* **Self‑Evaluation:** Cognitive walkthroughs of key features; resolved issues in navigation and layout.
+* **High‑Fidelity Prototypes (In Progress):** Testing with target users to optimize help request flows.
+
+---
+
+## Problems Encountered
+
+1. **Bluetooth Connectivity:** Background scanning limits led to flaky peer discovery. Ongoing improvements in error handling and reconnection logic.
+2. **UI Crashes:** Occasional freezes during request flows. Expanding unit tests to isolate and fix issues.
+3. **Repo Collaboration:** Merge conflicts from concurrent work. Adopted feature‑branch workflow, PR reviews, and daily syncs.
+
+---
