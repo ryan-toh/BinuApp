@@ -1,6 +1,7 @@
 # Binu (formerly HeraHub)
 
 **Level of Achievement:** Apollo 11
+
 **Mission:** Foster an inclusive, safe, and intelligent platform for real-time support, education, and emergency aid around women’s health—accessible by everyone, regardless of gender.
 
 ---
