@@ -10,18 +10,28 @@ import CoreBluetooth
 import CoreLocation
 
 class BroadcastService: NSObject, ObservableObject {
-    private let peripheralManager: CBPeripheralManager
+//    private let peripheralManager: CBPeripheralManager
+    private let peripheralManager: PeripheralManaging // for testing purposes
     private var service: CBMutableService!
     private var characteristic: CBMutableCharacteristic!
 
     @Published var isBroadcasting = false
     private var currentCoordinates: CLLocationCoordinate2D?
 
-    override init() {
-        peripheralManager = CBPeripheralManager(delegate: nil, queue: nil)
+//    override init() {
+//        peripheralManager = CBPeripheralManager(delegate: nil, queue: nil)
+//        super.init()
+//        peripheralManager.delegate = self
+//    }
+    
+    // for testing purposes
+    init(peripheralManager: PeripheralManaging = CBPeripheralManager(delegate: nil, queue: nil)) {
+        self.peripheralManager = peripheralManager
         super.init()
-        peripheralManager.delegate = self
+        self.peripheralManager.delegate = self
     }
+    
+    
 
     func startBroadcasting(item: Item, coordinates: CLLocationCoordinate2D) {
         guard peripheralManager.state == .poweredOn else { return }

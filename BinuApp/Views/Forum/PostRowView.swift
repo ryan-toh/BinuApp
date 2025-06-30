@@ -15,7 +15,7 @@ struct PostRowView: View {
                 HStack {
                     Text(post.title)
                         .font(.headline)
-                        .foregroundColor(.black)
+                        .foregroundColor(.primary)
                     Spacer()
                     Text(sentimentEmoji(for: post.sentiment))
                         .font(.title2)
@@ -49,7 +49,7 @@ struct PostRowView: View {
                 // Body text
                 Text(post.text)
                     .font(.subheadline)
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
                     .lineLimit(2)
 
                 // Like / Comment / Delete Row
@@ -61,7 +61,7 @@ struct PostRowView: View {
                             Image(systemName: "heart")
                                 .foregroundColor(Color("FontColor"))
                             Text("\(post.likes.count)")
-                                .foregroundColor(.black)
+                                .foregroundColor(.primary)
                         }
                     }
 
@@ -69,7 +69,7 @@ struct PostRowView: View {
                         Image(systemName: "bubble.left")
                             .foregroundColor(Color("ExtraColor1"))
                         Text("\(post.comments.count)")
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                     }
 
                     Spacer()
