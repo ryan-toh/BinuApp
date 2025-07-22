@@ -7,6 +7,9 @@
 		<string>location</string>
 		<string>bluetooth-peripheral</string>
 		<string>bluetooth-central</string>
+		<string>remote-notification</string>
+		<string>processing</string>
+		<string>fetch</string>
 	</array>
 </dict>
 </plist>

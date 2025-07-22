@@ -10,17 +10,40 @@ import CoreBluetooth
 import CoreLocation
 import UserNotifications
 import UIKit
+
+// Legacy from v1
 import MultipeerConnectivity
 
 class ReceiverService: NSObject, ObservableObject {
-    private let centralManager: CBCentralManager
-    private var discoveredPeripheral: CBPeripheral?
+    static let shared = ReceiverService()
+    
+    private var centralManager: CBCentralManager!
+    private var peripheral: CBPeripheral?
+    
+    // maybe v4?
+    @Published var isScanning = false
+    @Published var discoveredDevices: [CBPeripheral] = []
+    @Published var bluetoothState: CBManagerState = .unknown
+    @Published var connectedDevice: CBPeripheral?
+    @Published var discoveredServices: [CBService] = []
+    @Published var selectedService: CBService?
+    @Published var discoveredCharacteristics: [CBCharacteristic] = []
+    @Published var lastMessage: String = ""
+    @Published var writeStatus: String = ""
+    @Published var isConnecting = false
+    
     private let targetServiceUUID = CBUUID(string: "A0F0FFA0-1B9F-4E8F-BB8D-6F9A8E7D5C4A")
     private let targetCharacteristicUUID = CBUUID(string: "B0F0FFB0-1B9F-4E8F-BB8D-6F9A8E7D5C4A")
 
     @Published var receivedBroadcast: BroadcastData?
+    @Published var discoveredItem: Item?
+    @Published private var currentItem: Item?
+    
     private var backgroundTaskID: UIBackgroundTaskIdentifier?
-    private var currentItem: Item?
+    
+    // For sending location information
+    private var writableCharacteristic: CBCharacteristic?
+    private var pendingLocationToSend: CLLocationCoordinate2D?
     
     // Legacy from v1
     @Published var foundRequests: [(peer: MCPeerID, item: Item)] = []
@@ -37,24 +60,25 @@ class ReceiverService: NSObject, ObservableObject {
     }
     
     // Legacy from v1
-    func connect(to peer: MCPeerID) {
-        
-    }
+//    func connect(to peer: MCPeerID) {
+//        
+//    }
     
-    // Legacy from v1
-    func sendLocation(_ location: CLLocationCoordinate2D) {
+    private override init() {
         
-    }
-
-    override init() {
-        centralManager = CBCentralManager(delegate: nil, queue: nil)
         super.init()
-        centralManager.delegate = self
+        centralManager = CBCentralManager(delegate: nil, queue: nil)
+//        centralManager.delegate = self
         requestNotificationPermission()
     }
 
+    // Search for broadcasters
     private func startScanning() {
         guard centralManager.state == .poweredOn else { return }
+        
+        isScanning = true
+        discoveredDevices.removeAll()
+        
         centralManager.scanForPeripherals(
             withServices: [targetServiceUUID],
             options: [CBCentralManagerScanOptionAllowDuplicatesKey: true]
@@ -62,6 +86,7 @@ class ReceiverService: NSObject, ObservableObject {
     }
 
     func stopScanning() {
+        isScanning = false
         centralManager.stopScan()
     }
 
@@ -69,6 +94,7 @@ class ReceiverService: NSObject, ObservableObject {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { _, _ in }
     }
 
+    // Helper function to alert user to connect
     private func sendNotification(for item: Item) {
         let content = UNMutableNotificationContent()
         content.title = "Nearby Help Available"
@@ -81,6 +107,41 @@ class ReceiverService: NSObject, ObservableObject {
             trigger: nil
         )
         UNUserNotificationCenter.current().add(request)
+    }
+    
+    // Legacy from v1
+    // Updated for v3
+    
+    // Call to accept the connection
+    func sendLocation(_ location: CLLocationCoordinate2D, to characteristic: CBCharacteristic) {
+        var data = Data()
+        data.append(withUnsafeBytes(of: location.latitude) { Data($0) })
+        data.append(withUnsafeBytes(of: location.longitude) { Data($0) })
+        
+        peripheral?.writeValue(data, for: characteristic, type: .withResponse)
+        DispatchQueue.main.async {
+            self.writeStatus = "Sending..."
+        }
+    }
+    
+    func connect() {
+        self.peripheral =
+        self.peripheral?.delegate = self
+        isConnecting = true
+        
+        // Add 1 second delay before connecting
+        let options: [String: Any] = [
+            CBConnectPeripheralOptionStartDelayKey: 1.0
+        ]
+        
+        centralManager.connect(peripheral, options: options)
+        
+        if let existing = backgroundTaskID {
+            UIApplication.shared.endBackgroundTask(existing)
+        }
+        backgroundTaskID = UIApplication.shared.beginBackgroundTask {
+            [weak self] in self?.backgroundTaskID = .invalid
+        }
     }
 }
 
@@ -111,14 +172,18 @@ extension ReceiverService: CBCentralManagerDelegate {
 
         currentItem = item
         discoveredPeripheral = peripheral
-        centralManager.connect(peripheral, options: nil)
-
-        if let existing = backgroundTaskID {
-            UIApplication.shared.endBackgroundTask(existing)
-        }
-        backgroundTaskID = UIApplication.shared.beginBackgroundTask {
-            [weak self] in self?.backgroundTaskID = .invalid
-        }
+        
+        // don't connect, get approval from notif first
+        sendNotification(for: item)
+        
+//        centralManager.connect(peripheral, options: nil)
+//
+//        if let existing = backgroundTaskID {
+//            UIApplication.shared.endBackgroundTask(existing)
+//        }
+//        backgroundTaskID = UIApplication.shared.beginBackgroundTask {
+//            [weak self] in self?.backgroundTaskID = .invalid
+//        }
     }
 
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
@@ -153,6 +218,12 @@ extension ReceiverService: CBPeripheralDelegate {
                     error: Error?) {
         guard let char = service.characteristics?.first(where: { $0.uuid == targetCharacteristicUUID }) else { return }
         peripheral.readValue(for: char)
+        
+        // If location is already cached
+        if let location = pendingLocationToSend {
+            sendLocation(to: CBCharacteristic())
+            pendingLocationToSend = nil
+        }
     }
 
     func peripheral(_ peripheral: CBPeripheral,
@@ -170,5 +241,16 @@ extension ReceiverService: CBPeripheralDelegate {
         }
         sendNotification(for: item)
         centralManager.cancelPeripheralConnection(peripheral)
+    }
+}
+
+// MARK: UNUserNotificationCenterDelegate
+extension ReceiverService: UNUserNotificationCenterDelegate {
+    // Handle notification tap
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        if response.notification.request.content.userInfo["action"] as? String == "connectToBroadcaster" {
+            connect()
+        }
+        completionHandler()
     }
 }

@@ -16,10 +16,10 @@ struct MainTabView: View {
 //                    Image(systemName: "phone.fill")
 //                    Text("Find Help")
 //                }
-            BroadcastTestView()
-                .tabItem{
+            ReceiverView()
+                .tabItem {
                     Image(systemName: "phone.fill")
-                    Text("Find Help")
+                    Text("Send Help")
                 }
 
             LibraryView()
@@ -36,7 +36,7 @@ struct MainTabView: View {
         }
         .accentColor(Color("FontColor")) // ✅ selected tab item tint
         .environmentObject(ForumViewModel())
-        //.environmentObject(PeerToPeerViewModel())
+//        .environmentObject(PeerToPeerViewModel())
  //       .environmentObject(LibraryViewModel())
     }
     

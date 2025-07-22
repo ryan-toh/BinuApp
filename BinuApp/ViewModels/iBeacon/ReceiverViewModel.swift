@@ -1,43 +1,54 @@
 //
-//  Untitled.swift
+//  ReceiverViewModel.swift
 //  BinuApp
 //
 //  Created by Ryan on 27/6/25.
 //
 
+import Foundation
 import CoreLocation
 import Combine
+
+// Legacy from v1
 import MultipeerConnectivity
 
-final class ReceiverViewModel: ObservableObject {
+class ReceiverViewModel: ObservableObject {
+    // Legacy from v1
     @Published var foundRequests: [(peer: MCPeerID, item: Item)] = []
     @Published var connectedPeers: [MCPeerID] = []
-    private let service = ReceiverService()
+    
+    // v3
+    private let receiverService = ReceiverService()
     private var cancellables = Set<AnyCancellable>()
-
+    @Published var broadcasterLocation: CLLocationCoordinate2D?
+    @Published var discoveredItem: Item?
+    @Published var notificationReceived: Bool = false
+    
     init() {
-        service.$foundRequests
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$foundRequests)
+        receiverService.$receivedBroadcast
+            .compactMap { $0?.coordinates }
+            .assign(to: &$broadcasterLocation)
 
-        service.$connectedPeers
-            .receive(on: DispatchQueue.main)
-            .assign(to: &$connectedPeers)
-    }
-
-    func startBrowsing() {
-        service.startBrowsing()
-    }
-
-    func stopBrowsing() {
-        service.stopBrowsing()
-    }
-
-    func connect(to peer: MCPeerID) {
-        service.connect(to: peer)
+        receiverService.$discoveredItem
+            .assign(to: &$discoveredItem)
     }
 
     func sendLocation(_ location: CLLocationCoordinate2D) {
-        service.sendLocation(location)
+        receiverService.sendLocation(location)
+    }
+    
+    // Legacy from v1
+    func startBrowsing() {
+//        service.startBrowsing()
+    }
+
+    // Legacy from v1
+    func stopBrowsing() {
+//        service.stopBrowsing()
+    }
+
+    // Legacy from v1
+    func connect(to peer: MCPeerID) {
+//        service.connect(to: peer)
     }
 }
