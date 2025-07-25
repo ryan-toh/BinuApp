@@ -10,18 +10,16 @@ struct MainTabView: View {
                     Image(systemName: "house.fill")
                     Text("Home")
                 }
-
-//            PeerToPeerView()
-//                .tabItem {
-//                    Image(systemName: "phone.fill")
-//                    Text("Find Help")
-//                }
-            ReceiverView()
+            PeripheralView()
                 .tabItem {
                     Image(systemName: "phone.fill")
-                    Text("Send Help")
+                    Text("Send Request")
                 }
-
+            CentralView()
+                .tabItem {
+                    Image(systemName: "phone")
+                    Text("Receive Request")
+                }
             LibraryView()
                 .tabItem {
                     Image(systemName: "book.fill")
@@ -34,7 +32,7 @@ struct MainTabView: View {
                     Text("Account")
                 }
         }
-        .accentColor(Color("FontColor")) // ✅ selected tab item tint
+        .accentColor(Color("FontColor")) // selected tab item tint
         .environmentObject(ForumViewModel())
 //        .environmentObject(PeerToPeerViewModel())
  //       .environmentObject(LibraryViewModel())

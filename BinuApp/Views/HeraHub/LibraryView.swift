@@ -234,5 +234,4 @@ struct LibraryView: View {
 
 #Preview {
     LibraryView()
-        .environmentObject(ReceiverService()) // ✅ needed for preview
 }
