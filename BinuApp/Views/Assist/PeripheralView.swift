@@ -486,7 +486,7 @@ struct PeripheralView: View {
 
     }
     
-    private func addSampleService() {
+    @MainActor private func addSampleService() {
         let characteristicUUID = CBUUID(string: "FFE1")
         let characteristic = CBMutableCharacteristic(
             type: characteristicUUID,
