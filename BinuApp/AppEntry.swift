@@ -53,9 +53,6 @@ struct AppEntry: App {
             }
             .onAppear {
                 authViewModel.listenForAuthChanges()
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
-                    // Handle granted/error if needed
-                }
             }
         }
     }

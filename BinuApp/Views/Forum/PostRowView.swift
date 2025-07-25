@@ -122,7 +122,6 @@ struct PostRowView: View {
         text: "This is a sample post body.",
         media: [],
         likes: [],
-        comments: [],
         sentiment: .positive
     )
     let authVM = AuthViewModel()

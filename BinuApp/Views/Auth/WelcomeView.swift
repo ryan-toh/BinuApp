@@ -2,6 +2,7 @@ import SwiftUI
 
 struct WelcomeView: View {
     @EnvironmentObject var authVM: AuthViewModel
+    @Environment(\.colorScheme) var colorScheme
 
     @State private var showLogin = false
     @State private var showSignUp = false
@@ -31,7 +32,6 @@ struct WelcomeView: View {
 
                     Spacer()
                 }
-
                 Spacer()
 
                 // Bottom Buttons

@@ -50,7 +50,7 @@ struct AuthService {
     static func signIn(email: String, password: String, completion: @escaping (Result<String, Error>) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error {
-                completion(.failure(error))
+                completion(.failure(handleError(error: error)))
             } else if let uid = result?.user.uid {
                 completion(.success(uid))
             } else {
@@ -74,6 +74,11 @@ struct AuthService {
         } catch {
             completion(.failure(error))
         }
+    }
+    
+    // MARK: - Helper Functions
+    private static func handleError(error: Error) -> Error {
+        return NSError(domain: "Auth", code: 100)
     }
 }
 
