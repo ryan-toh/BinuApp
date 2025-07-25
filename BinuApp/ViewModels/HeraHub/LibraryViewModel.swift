@@ -1,13 +1,21 @@
-//
-//  LibraryViewModel.swift
-//  BinuApp
-//
-//  Created by Ryan on 1/6/25.
-//
-
 import Foundation
 
-final class LibraryViewModel: ObservableObject {
-    /// Still in development
-}
+class LibraryViewModel: ObservableObject {
+    @Published var summaries: [HealthSummary] = []
 
+    init() {
+        loadLocalSummaries()
+    }
+
+    private func loadLocalSummaries() {
+        summaries = [
+            HealthSummary(
+                category: "Sexual Health",
+                title: "What is Sexual Health?",
+                summary: "Sexual health is a state of physical, emotional, mental, and social well-being. It requires respect, safety, and freedom from discrimination and violence.",
+                source: "https://www.who.int/health-topics/sexual-health"
+            ),
+            // Add more HealthSummary items as needed
+        ]
+    }
+}

@@ -1,4 +1,3 @@
-//
 //  CommentView.swift
 //  BinuApp
 //
@@ -16,24 +15,37 @@ struct CommentView: View {
 
     var body: some View {
         NavigationStack {
-            VStack {
-                if viewModel.isLoading {
-                    ProgressView()
-                }
-                List {
-                    ForEach(viewModel.comments) { comment in
-                        CommentRowView(
-                            comment: comment,
-                            onEdit: {
-                                editingComment = comment
-                            },
-                            onDelete: {
-                                viewModel.deleteComment(forPostId: postId, commentId: comment.id ?? "") { _ in }
+            ZStack {
+                Color("BGColor").ignoresSafeArea()
+
+                VStack(spacing: 0) {
+                    if viewModel.isLoading {
+                        ProgressView()
+                    } else if let error = viewModel.errorMessage {
+                        Text("Error: \(error)")
+                            .foregroundColor(.red)
+                            .padding()
+                    } else {
+                        ScrollView {
+                            LazyVStack(spacing: 16) {
+                                ForEach(viewModel.comments) { comment in
+                                    CommentRowView(
+                                        comment: comment,
+                                        onEdit: { editingComment = comment },
+                                        onDelete: {
+                                            viewModel.deleteComment(
+                                                forPostId: postId,
+                                                commentId: comment.id ?? ""
+                                            ) { _ in }
+                                        }
+                                    )
+                                }
                             }
-                        )
+                            .padding(.horizontal)
+                            .padding(.top)
+                        }
                     }
                 }
-                .listStyle(PlainListStyle())
             }
             .navigationTitle("Comments")
             .toolbar {
@@ -41,10 +53,10 @@ struct CommentView: View {
                     Button(action: { showCreateSheet = true }) {
                         Image(systemName: "plus.circle.fill")
                             .font(.title2)
+                            .foregroundColor(Color("FontColor"))
                     }
                 }
             }
-            // Create Comment Sheet
             .sheet(isPresented: $showCreateSheet, onDismiss: {
                 viewModel.fetchComments(forPostId: postId)
             }) {
@@ -54,7 +66,6 @@ struct CommentView: View {
                     onDismiss: { showCreateSheet = false }
                 )
             }
-            // Edit Comment Sheet (using sheet(item:) for safety)
             .sheet(item: $editingComment, onDismiss: {
                 viewModel.fetchComments(forPostId: postId)
             }) { editing in
@@ -66,9 +77,41 @@ struct CommentView: View {
                 )
             }
             .onAppear {
+                #if !DEBUG
                 viewModel.fetchComments(forPostId: postId)
+                #endif
             }
         }
     }
 }
 
+#Preview {
+    CommentView(
+        viewModel: {
+            let vm = CommentViewModel()
+            vm.comments = [
+                Comment(id: "c1", userId: "UserA", text: "First!"),
+                Comment(id: "c2", userId: "UserB", text: "Nice post."),
+                Comment(id: "c3", userId: "UserC", text: "Thanks for sharing!")
+            ]
+            return vm
+        }(),
+        postId: "mockPost"
+    )
+}
+
+
+#Preview {
+    CommentView(
+        viewModel: {
+            let vm = CommentViewModel()
+            vm.comments = [
+                Comment(id: "c1", userId: "UserA", text: "First!"),
+                Comment(id: "c2", userId: "UserB", text: "Nice post."),
+                Comment(id: "c3", userId: "UserC", text: "Thanks for sharing!")
+            ]
+            return vm
+        }(),
+        postId: "mockPost"
+    )
+}

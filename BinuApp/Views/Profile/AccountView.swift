@@ -1,10 +1,3 @@
-//
-//  AccountView.swift
-//  BinuApp
-//
-//  Created by Ryan on 1/6/25.
-//
-
 import SwiftUI
 
 struct AccountView: View {
@@ -12,51 +5,77 @@ struct AccountView: View {
     @State private var isSigningOut = false
     @State private var showError = false
     @State private var errorMessage = ""
-    
+
     var body: some View {
-        NavigationView {
-            VStack(spacing: 20) {
-                if let user = authVM.user {
-                    VStack(spacing: 8) {
-                        Text(user.username)
-                            .font(.title2)
-                            .bold()
-                        Text(user.email)
-                            .foregroundColor(.secondary)
-                        Text("Gender: \(user.gender)")
-                        Text("Age: \(user.age)")
+        NavigationStack {
+            ZStack {
+                Color("BGColor").ignoresSafeArea()
+
+                VStack(spacing: 20) {
+                    if let user = authVM.user {
+                        VStack(spacing: 8) {
+                            Text(user.username)
+                                .font(.title2)
+                                .bold()
+                                .foregroundColor(.black)
+
+                            Text(user.email)
+                                .foregroundColor(.secondary)
+
+                            Text("Gender: \(user.gender)")
+                                .foregroundColor(.black)
+
+                            Text("Age: \(user.age)")
+                                .foregroundColor(.black)
+                        }
+                        .padding()
+                        .background(Color("PostBackground"))
+                        .cornerRadius(12)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.black.opacity(0.05), lineWidth: 1)
+                        )
+                    } else {
+                        Text("No Profile Data")
+                            .foregroundColor(.gray)
                     }
-                } else {
-                    Text("No Profile Data")
-                        .foregroundColor(.gray)
-                }
-                
-                Spacer()
-                
-                Button(action: {
-                    isSigningOut = true
-                    authVM.signOut { success in
-                        isSigningOut = false
-                        if !success {
-                            errorMessage = authVM.authError?.localizedDescription ?? "Sign out failed. Please try again."
-                            showError = true
+
+                    Spacer()
+
+                    Button(action: {
+                        isSigningOut = true
+                        authVM.signOut { success in
+                            isSigningOut = false
+                            if !success {
+                                errorMessage = authVM.authError?.localizedDescription ?? "Sign out failed. Please try again."
+                                showError = true
+                            }
+                        }
+                    }) {
+                        if isSigningOut {
+                            ProgressView()
+                                .frame(maxWidth: .infinity)
+                        } else {
+                            Text("Sign Out")
+                                .foregroundColor(Color("BGColor"))
+                                .frame(maxWidth: .infinity)
                         }
                     }
-                }) {
-                    if isSigningOut {
-                        ProgressView()
-                            .frame(maxWidth: .infinity)
-                    } else {
-                        Text("Sign Out")
-                            .foregroundColor(.red)
-                            .frame(maxWidth: .infinity)
-                    }
+                    .padding()
+                    .background(Color("FontColor"))
+                    .cornerRadius(10)
+                    .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
+                    .disabled(isSigningOut)
                 }
-                .disabled(isSigningOut)
                 .padding()
             }
-            .padding()
-            .navigationTitle("Account")
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Account")
+                        .font(.title.bold())
+                        .foregroundColor(Color("FontColor"))
+                }
+            }
             .alert("Sign Out Error", isPresented: $showError) {
                 Button("OK", role: .cancel) { }
             } message: {
@@ -67,5 +86,15 @@ struct AccountView: View {
 }
 
 #Preview {
-    AccountView().environmentObject(AuthViewModel())
+    let mockAuthVM = AuthViewModel()
+    mockAuthVM.user = UserModel(
+        id: "user123",
+        email: "demo@mock.com",
+        username: "CoolRyan",
+        gender: "Male",
+        age: 28
+    )
+
+    return AccountView()
+        .environmentObject(mockAuthVM)
 }

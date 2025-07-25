@@ -1,47 +1,48 @@
-//
-//  MainTabView.swift
-//  BinuApp
-//
-//  Created by Ryan on 1/6/25.
-//
-
 import SwiftUI
 
 struct MainTabView: View {
     @EnvironmentObject var authVM: AuthViewModel
-    
+
     var body: some View {
         TabView {
             ForumView()
                 .tabItem {
-                    Label("Home", systemImage: "house.fill")
+                    Image(systemName: "house.fill")
+                    Text("Home")
                 }
-            
-//            BeaconSenderView()
+
+//            PeerToPeerView()
 //                .tabItem {
-//                    Label("Get Help", systemImage: "phone.fill")
+//                    Image(systemName: "phone.fill")
+//                    Text("Find Help")
 //                }
-            HelpRequestView()
+            ReceiverView()
                 .tabItem {
-                    Label("Provide Help", systemImage: "cross.case")
+                    Image(systemName: "phone.fill")
+                    Text("Send Help")
                 }
+
             LibraryView()
                 .tabItem {
-                    Label("Library", systemImage: "book.fill")
+                    Image(systemName: "book.fill")
+                    Text("Library for Him")
                 }
-            
+
             AccountView()
                 .tabItem {
-                    Label("Account", systemImage: "person.crop.circle")
+                    Image(systemName: "person.crop.circle")
+                    Text("Account")
                 }
         }
+        .accentColor(Color("FontColor")) // ✅ selected tab item tint
         .environmentObject(ForumViewModel())
-        .environmentObject(LibraryViewModel())
-        .environmentObject(HelpRequestViewModel(userId: authVM.user?.id ?? ""))
+//        .environmentObject(PeerToPeerViewModel())
+ //       .environmentObject(LibraryViewModel())
     }
+    
 }
-
 
 #Preview {
     MainTabView()
+        .environmentObject(AuthViewModel())
 }

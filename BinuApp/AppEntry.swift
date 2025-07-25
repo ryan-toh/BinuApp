@@ -13,6 +13,7 @@ import FirebaseAuth
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+
         FirebaseApp.configure()
         return true
     }
@@ -22,6 +23,21 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct AppEntry: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var authViewModel = AuthViewModel()
+    @StateObject private var beaconMonitor = ReceiverService() // create global ReceiverService
+    
+    // eungi: setting OVERALL COLOR THEME
+    init() {
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.backgroundColor = UIColor(named: "BGColor")
+
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+
+        UITabBar.appearance().tintColor = UIColor(named: "FontColor") // selected tab
+        UITabBar.appearance().unselectedItemTintColor = UIColor.lightGray
+    }
+    // eungi: END
 
     var body: some Scene {
         WindowGroup {
@@ -31,6 +47,7 @@ struct AppEntry: App {
                 } else if authViewModel.user == nil {
                     WelcomeView()
                         .environmentObject(authViewModel)
+                        .environmentObject(beaconMonitor) // inject ReceiverService here
                 } else {
                     MainTabView()
                         .environmentObject(authViewModel)
@@ -39,6 +56,7 @@ struct AppEntry: App {
             .onAppear {
                 authViewModel.listenForAuthChanges()
             }
+            .environmentObject(beaconMonitor) // inject globally to all views in Group (optional but safe)\
         }
     }
 }

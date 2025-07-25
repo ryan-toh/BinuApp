@@ -10,7 +10,7 @@ import SwiftUI
 struct LogoView: View {
     var body: some View {
         // Workaround as AppIcon asset is blocked from the image name space
-        Image("AppLogo")
+        Image("NewLogo")
             .resizable()
             .scaledToFit()
             .frame(width: 100, height: 100)
@@ -19,12 +19,6 @@ struct LogoView: View {
                     cornerRadius: 25
                 )
             )
-            .overlay {
-                RoundedRectangle(
-                    cornerRadius: 25
-                )
-                .stroke(.white, lineWidth: 4)
-        }
     }
 }
 
