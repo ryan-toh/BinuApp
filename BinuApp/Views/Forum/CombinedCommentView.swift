@@ -97,34 +97,33 @@ struct CombinedCommentView: View {
     }
 }
 
-#Preview {
-    let mockPost = Post(
-        id: "mock123",
-        userId: "user123",
-        title: "Sample Post",
-        text: "This is a sample post body to test the layout of CombinedCommentView.",
-        media: [],
-        likes: [],
-        comments: [],
-        sentiment: .neutral
-    )
-
-    let mockAuthVM = AuthViewModel()
-    mockAuthVM.user = UserModel(
-        id: "user123",
-        email: "mock@example.com",
-        username: "MockUser",
-        gender: "Other",
-        age: 30
-    )
-
-    let mockCommentVM = CommentViewModel()
-    mockCommentVM.comments = [
-        Comment(id: "c1", userId: "user123", text: "First comment!"),
-        Comment(id: "c2", userId: "user456", text: "I totally agree."),
-        Comment(id: "c3", userId: "user789", text: "Thanks for posting this.")
-    ]
-
-    return CombinedCommentView(post: mockPost, previewViewModel: mockCommentVM)
-        .environmentObject(mockAuthVM)
-}
+//#Preview {
+//    let mockPost = Post(
+//        id: "mock123",
+//        userId: "user123",
+//        title: "Sample Post",
+//        text: "This is a sample post body to test the layout of CombinedCommentView.",
+//        media: [],
+//        likes: [],
+//        sentiment: .neutral
+//    )
+//
+//    let mockAuthVM = AuthViewModel()
+//    mockAuthVM.user = UserModel(
+//        id: "user123",
+//        email: "mock@example.com",
+//        username: "MockUser",
+//        gender: "Other",
+//        age: 30
+//    )
+//
+//    let mockCommentVM = CommentViewModel()
+//    mockCommentVM.comments = [
+//        Comment(id: "c1", userId: "user123", text: "First comment!"),
+//        Comment(id: "c2", userId: "user456", text: "I totally agree."),
+//        Comment(id: "c3", userId: "user789", text: "Thanks for posting this.")
+//    ]
+//
+//    CombinedCommentView(post: mockPost, previewViewModel: mockCommentVM)
+//        .environmentObject(mockAuthVM)
+//}

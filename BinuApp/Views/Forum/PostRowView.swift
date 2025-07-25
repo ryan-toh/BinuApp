@@ -68,7 +68,7 @@ struct PostRowView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "bubble.left")
                             .foregroundColor(Color("ExtraColor1"))
-                        Text("\(post.comments.count)")
+                        Text("\(post.commentCount)")
                             .foregroundColor(.primary)
                     }
 
