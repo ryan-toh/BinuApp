@@ -53,6 +53,21 @@ struct ForumView: View {
                     .padding(.bottom, 4)
                     .accentColor(Color("FontColor"))
                     
+                    // 🔹 Always-visible Help Buttons
+                    HStack(spacing: 16) {
+                        Button("Provide Help") {
+                            showingCentralSheet = true
+                        }
+                        .buttonStyle(.borderedProminent)
+
+                        Button("Call for Help") {
+                            showingPeripheralSheet = true
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+
                     if forumVM.isLoading {
                         LoadingSpinnerView()
                     } else if let error = forumVM.errorMessage {
@@ -79,13 +94,6 @@ struct ForumView: View {
                     } else {
                         ScrollView {
                             LazyVStack(spacing: 16) {
-                                Button("Provide Help") {
-                                    showingCentralSheet = true
-                                }
-                                Button("Call for Help") {
-                                    showingPeripheralSheet = true
-                                }
-                            
                                 ForEach(filteredPosts()) { post in
                                     PostRowView(post: post)
                                         .environmentObject(authVM)
@@ -118,7 +126,7 @@ struct ForumView: View {
                     }
                 }
             }
-            .navigationBarTitleDisplayMode(.inline) // 🔥 Keeps title compact
+            .navigationBarTitleDisplayMode(.inline)
             .onAppear {
                 if !postsLoaded {
                     forumVM.fetchAllPosts()

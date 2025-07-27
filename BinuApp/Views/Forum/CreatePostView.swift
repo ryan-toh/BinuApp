@@ -17,6 +17,13 @@ struct CreatePostView: View {
     @State private var selectedImages: [UIImage] = []
     @State private var errorText: String?
     @State private var isUploading: Bool = false
+    // recently added
+    @State private var selectedTopics: [String] = []
+    
+    let availableTopics = [
+        "Period & Cycle", "Mental Health & Self-care", "Health", "Sex Life",
+        "My Body", "Relationships", "Self & Society", "Pregnancy"
+    ]
 
     var body: some View {
         ZStack {
@@ -96,6 +103,38 @@ struct CreatePostView: View {
                         .font(.subheadline)
                         .padding(.top, 5)
                 }
+                
+                // Topics
+                Text("Select up to 3 related topics:")
+                    .font(.headline)
+                    .foregroundColor(Color("FontColor"))
+
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))], spacing: 10) {
+                    ForEach(availableTopics, id: \.self) { topic in
+                        Button(action: {
+                            if selectedTopics.contains(topic) {
+                                selectedTopics.removeAll { $0 == topic }
+                            } else if selectedTopics.count < 3 {
+                                selectedTopics.append(topic)
+                            }
+                        }) {
+                            Text(topic)
+                                .font(.caption)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .fill(selectedTopics.contains(topic) ? Color("FontColor") : .clear)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .stroke(Color("FontColor"), lineWidth: 1)
+                                        )
+                                )
+                                .foregroundColor(selectedTopics.contains(topic) ? Color("BGColor") : Color("FontColor"))
+                        }
+                    }
+                }
+
 
                 Spacer()
 
@@ -160,9 +199,9 @@ struct CreatePostView: View {
         await MainActor.run { selectedImages = loaded }
     }
 
-    private func createPostAsync(userId: String, title: String, text: String, images: [UIImage]) async -> Bool {
+    private func createPostAsync(userId: String, title: String, text: String, images: [UIImage], topics: [String]) async -> Bool {
         await withCheckedContinuation { continuation in
-            forumVM.createPost(userId: userId, title: title, text: text, images: images) { success in
+            forumVM.createPost(userId: userId, title: title, text: text, images: images, topics: topics) { success in
                 continuation.resume(returning: success)
             }
         }
@@ -185,7 +224,8 @@ struct CreatePostView: View {
 
         await MainActor.run { isUploading = true }
 
-        let success = await createPostAsync(userId: uid, title: trimmedTitle, text: trimmedText, images: selectedImages)
+        let success = await createPostAsync(userId: uid, title: trimmedTitle, text: trimmedText, images: selectedImages, topics: selectedTopics)
+
 
         await MainActor.run {
             isUploading = false

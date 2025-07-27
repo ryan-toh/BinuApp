@@ -33,6 +33,7 @@ class PostService {
         title: String,
         text: String,
         images: [UIImage] = [],
+        topics: [String],
         completion: @escaping (Result<Post, Error>) -> Void
     ) {
         // 1. Compute sentiment
@@ -46,7 +47,8 @@ class PostService {
                 text: text,
                 media: [],
                 likes: [],
-                sentiment: sentiment
+                sentiment: sentiment,
+                topics: topics
             )
             writePostToFirestore(post, completion: completion)
             return
@@ -87,8 +89,10 @@ class PostService {
                 text: text,
                 media: postImages,
                 likes: [],
-                sentiment: sentiment
+                sentiment: sentiment,
+                topics: topics // ✅ add this
             )
+
             self.writePostToFirestore(post, completion: completion)
         }
     }
