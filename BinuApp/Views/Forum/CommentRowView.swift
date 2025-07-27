@@ -8,30 +8,37 @@
 import SwiftUI
 
 struct CommentRowView: View {
+    
+    @EnvironmentObject var authVM: AuthViewModel
+    
     let comment: Comment
     let onEdit: () -> Void
     let onDelete: () -> Void
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
+            // Line 1: Username + Menu
             HStack {
                 Text(comment.userId)
                     .font(.subheadline.bold())
                     .foregroundColor(Color("FontColor"))
-
+                
                 Spacer()
-
-                Menu {
-                    Button("Edit", action: onEdit)
-                    Button("Delete", role: .destructive, action: onDelete)
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .foregroundColor(.black)
-                        .rotationEffect(.degrees(90))
-                        .padding(.horizontal, 4)
+                
+                if comment.userId == authVM.user?.id {
+                    Menu {
+                        Button("Edit", action: onEdit)
+                        Button("Delete", role: .destructive, action: onDelete)
+                    } label: {
+                        Image(systemName: "ellipsis")
+                            .foregroundColor(.black)
+                            .rotationEffect(.degrees(90))
+                            .padding(.horizontal, 4)
+                    }
                 }
             }
-
+            
+            // Line 2: Comment Text
             Text(comment.text)
                 .foregroundColor(.black)
                 .font(.body)
@@ -47,14 +54,14 @@ struct CommentRowView: View {
 }
 
 
-#Preview {
-    CommentRowView(
-        comment: Comment(
-            id: "1",
-            userId: "AwesomeRyan",
-            text: "Binu best app to exist for real."
-        ),
-        onEdit: { print("Edit tapped") },
-        onDelete: { print("Delete tapped") }
-    )
-}
+//#Preview {
+//    CommentRowView(
+//        comment: Comment(
+//            id: "1",
+//            userId: "AwesomeRyan",
+//            text: "Binu best app to exist for real."
+//        ),
+//        onEdit: { print("Edit tapped") },
+//        onDelete: { print("Delete tapped") }
+//    )
+//}

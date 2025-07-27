@@ -48,7 +48,7 @@ struct CombinedCommentView: View {
                                             commentId: comment.id ?? ""
                                         ) { _ in }
                                     }
-                                )
+                                ).environmentObject(authVM)
                             }
                         }
                         .padding(.horizontal)

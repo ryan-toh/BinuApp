@@ -12,6 +12,8 @@ struct CommentView: View {
 
     @State private var showCreateSheet = false
     @State private var editingComment: Comment?
+    
+    @EnvironmentObject var authVM: AuthViewModel
 
     var body: some View {
         NavigationStack {
@@ -38,7 +40,7 @@ struct CommentView: View {
                                                 commentId: comment.id ?? ""
                                             ) { _ in }
                                         }
-                                    )
+                                    ).environmentObject(authVM)
                                 }
                             }
                             .padding(.horizontal)
