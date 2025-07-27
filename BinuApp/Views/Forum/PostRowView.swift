@@ -1,4 +1,5 @@
 import SwiftUI
+import FirebaseFirestore
 
 struct PostRowView: View {
     let post: Post
@@ -6,13 +7,16 @@ struct PostRowView: View {
 
     @EnvironmentObject var forumVM: ForumViewModel
     @EnvironmentObject private var authVM: AuthViewModel
-
+    @EnvironmentObject var postVM: PostViewModel
     @State private var showDeleteAlert = false
 
     var body: some View {
         Group {
             if isTappable {
-                NavigationLink(destination: CombinedCommentView(post: post)) {
+                NavigationLink(destination: CombinedCommentView(post: post)
+                    .environmentObject(authVM)
+                    .environmentObject(postVM))
+                {
                     content
                 }
                 .buttonStyle(PlainButtonStyle())
@@ -33,6 +37,15 @@ struct PostRowView: View {
                 Text(sentimentEmoji(for: post.sentiment))
                     .font(.title2)
             }
+            
+            // username
+            
+            Text(postVM.usernameMap[post.userId] ?? post.userId)
+                .font(.caption)
+                .foregroundColor(.gray)
+                .onAppear {
+                    postVM.fetchUsername(for: post.userId)
+                }
 
             // Optional image
             if let firstImage = post.media.first,
@@ -127,18 +140,18 @@ struct PostRowView: View {
 
 
 
-#Preview {
-    let mockPost = Post(
-        id: "1", userId: "user123",
-        title: "Sample Post",
-        text: "This is a sample post body.",
-        media: [],
-        likes: [],
-        sentiment: .positive
-    )
-    let authVM = AuthViewModel()
-    authVM.user = UserModel(id: "user123", email: "test@example.com", username: "TestUser", gender: "Other", age: 25)
-    return PostRowView(post: mockPost)
-        .environmentObject(authVM)
-        .environmentObject(ForumViewModel())
-} 
+//#Preview {
+//    let mockPost = Post(
+//        id: "1", userId: "user123",
+//        title: "Sample Post",
+//        text: "This is a sample post body.",
+//        media: [],
+//        likes: [],
+//        sentiment: .positive
+//    )
+//    let authVM = AuthViewModel()
+//    authVM.user = UserModel(id: "user123", email: "test@example.com", username: "TestUser", gender: "Other", age: 25)
+//    return PostRowView(post: mockPost)
+//        .environmentObject(authVM)
+//        .environmentObject(ForumViewModel())
+//} 

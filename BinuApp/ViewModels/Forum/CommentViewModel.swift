@@ -7,14 +7,32 @@
 
 import Foundation
 import Combine
+import FirebaseFirestore
 
 final class CommentViewModel: ObservableObject, Identifiable {
     @Published var comments: [Comment] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published var usernameMap: [String: String] = [:]
     
     private let commentService = CommentService()
     private var cancellables = Set<AnyCancellable>()
+    
+    func fetchUsername(for userId: String) {
+        if usernameMap[userId] != nil { return }  // already cached
+
+        Firestore.firestore().collection("users").document(userId).getDocument { snapshot, error in
+            guard let doc = snapshot,
+                  let user = try? doc.data(as: UserModel.self) else {
+                print("❌ Failed to fetch username for \(userId)")
+                return
+            }
+
+            DispatchQueue.main.async {
+                self.usernameMap[userId] = user.username
+            }
+        }
+    }
     
     func fetchComments(forPostId postId: String) {
         isLoading = true

@@ -4,9 +4,11 @@ struct CombinedCommentView: View {
     let post: Post
     @StateObject private var commentVM: CommentViewModel
     @EnvironmentObject var authVM: AuthViewModel
+    @EnvironmentObject var postVM: PostViewModel
 
     @State private var showCreateSheet = false
     @State private var editingComment: Comment?
+    
 
     // For preview
     init(post: Post, previewViewModel: CommentViewModel? = nil) {
@@ -21,6 +23,7 @@ struct CombinedCommentView: View {
                 PostRowView(post: post, isTappable: false)
                     .environmentObject(authVM)
                     .environmentObject(ForumViewModel())
+                    .environmentObject(postVM)
                     .padding()
                     .background(Color("PostBackground"))
                     .cornerRadius(12)
@@ -48,7 +51,9 @@ struct CombinedCommentView: View {
                                             commentId: comment.id ?? ""
                                         ) { _ in }
                                     }
-                                ).environmentObject(authVM)
+                                )
+                                .environmentObject(authVM)
+                                .environmentObject(commentVM)
                             }
                         }
                         .padding(.horizontal)

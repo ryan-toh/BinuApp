@@ -12,6 +12,33 @@ class AuthViewModel: ObservableObject {
     private let db = Firestore.firestore()
     private var authStateListener: AuthStateDidChangeListenerHandle?
     
+    
+    // added for udpating user info
+    func updateProfile(username: String, gender: String, age: Int, completion: @escaping () -> Void) {
+        guard var currentUser = user, let uid = currentUser.id else { return }
+
+        currentUser.username = username
+        currentUser.gender = gender
+        currentUser.age = age
+
+        do {
+            try db.collection("users").document(uid).setData(from: currentUser) { [weak self] error in
+                if let error = error {
+                    self?.authError = error
+                } else {
+                    DispatchQueue.main.async {
+                        self?.user = currentUser
+                    }
+                }
+                completion()
+            }
+        } catch {
+            self.authError = error
+            completion()
+        }
+    }
+
+    
     func listenForAuthChanges() {
         authStateListener = Auth.auth().addStateDidChangeListener { [weak self] (_, user) in
             guard let self = self else { return }

@@ -5,6 +5,7 @@ struct AccountView: View {
     @State private var isSigningOut = false
     @State private var showError = false
     @State private var errorMessage = ""
+    @State private var showingEditProfile = false
 
     var body: some View {
         NavigationStack {
@@ -41,7 +42,30 @@ struct AccountView: View {
                     }
 
                     Spacer()
+                    
+                    // edit profile
+                    Button {
+                        showingEditProfile = true
+                    } label: {
+                        HStack {
+                            Image(systemName: "pencil.circle.fill")
+                            Text("Edit Profile")
+                        }
+                        .font(.body.bold())
+                        .foregroundColor(Color("FontColor"))
+                        .padding(.vertical, 10)
+                        .frame(maxWidth: .infinity)
+                        .background(Color("PostBackground"))
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                    }
+                    .sheet(isPresented: $showingEditProfile) {
+                        EditProfileView()
+                            .environmentObject(authVM)
+                    }
 
+                    
+                    // sign out
                     Button(action: {
                         isSigningOut = true
                         authVM.signOut { success in

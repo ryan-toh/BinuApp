@@ -40,7 +40,9 @@ struct CommentView: View {
                                                 commentId: comment.id ?? ""
                                             ) { _ in }
                                         }
-                                    ).environmentObject(authVM)
+                                    )
+                                    .environmentObject(authVM)
+                                    .environmentObject(viewModel)
                                 }
                             }
                             .padding(.horizontal)
