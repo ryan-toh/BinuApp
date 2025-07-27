@@ -1,5 +1,13 @@
 import SwiftUI
 
+enum ForumTab: String, CaseIterable, Identifiable {
+    case popular = "Popular"
+    case recent = "Most Recent"
+    case mine = "My Posts"
+    
+    var id: String { self.rawValue }
+}
+
 struct ForumView: View {
     @EnvironmentObject var forumVM: ForumViewModel
     @EnvironmentObject var authVM: AuthViewModel
@@ -9,13 +17,41 @@ struct ForumView: View {
     @State private var postsLoaded = false
     @State private var showingCentralSheet = false
     @State private var showingPeripheralSheet = false
+    @State private var selectedTab: ForumTab = .popular
+
+    // MARK: - Filter logic
+    func filteredPosts() -> [Post] {
+        switch selectedTab {
+        case .popular:
+            return forumVM.posts.sorted { $0.likes.count > $1.likes.count }
+        case .recent:
+            return forumVM.posts.sorted {
+                ($0.createdAt?.dateValue() ?? .distantPast) >
+                ($1.createdAt?.dateValue() ?? .distantPast)
+            }
+        case .mine:
+            return forumVM.posts.filter { $0.userId == authVM.user?.id }
+        }
+    }
 
     var body: some View {
         NavigationStack {
             ZStack {
                 Color("BGColor").ignoresSafeArea()
 
-                Group {
+                VStack(spacing: 0) {
+                    // 🔹 Tab bar
+                    Picker("Select Tab", selection: $selectedTab) {
+                        ForEach(ForumTab.allCases) { tab in
+                            Text(tab.rawValue).tag(tab)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+                    .padding(.bottom, 4)
+                    .accentColor(Color("FontColor"))
+
                     if forumVM.isLoading {
                         LoadingSpinnerView()
                     } else if let error = forumVM.errorMessage {
@@ -48,7 +84,8 @@ struct ForumView: View {
                                 Button("Call for Help") {
                                     showingPeripheralSheet = true
                                 }
-                                ForEach(forumVM.posts) { post in
+
+                                ForEach(filteredPosts()) { post in
                                     PostRowView(post: post)
                                         .environmentObject(authVM)
                                         .environmentObject(forumVM)
@@ -91,13 +128,11 @@ struct ForumView: View {
                     .environmentObject(authVM)
                     .environmentObject(forumVM)
             }
-            // Sheet for CentralView
             .sheet(isPresented: $showingCentralSheet) {
-                NavigationStack { // Ensures navigation titles/toolbars show
+                NavigationStack {
                     CentralView()
                 }
             }
-            // Sheet for PeripheralView
             .sheet(isPresented: $showingPeripheralSheet) {
                 NavigationStack {
                     PeripheralView()
@@ -106,9 +141,3 @@ struct ForumView: View {
         }
     }
 }
-
-//#Preview {
-//    ForumView()
-//        .environmentObject(ForumViewModel())
-//        .environmentObject(AuthViewModel())
-//}
