@@ -30,7 +30,6 @@ struct PeripheralView: View {
     private static let allServices = "(all)"
 
     var body: some View {
-        
         VStack {
             VStack(spacing: 16) {
                 
@@ -45,16 +44,9 @@ struct PeripheralView: View {
                         .foregroundStyle(.red)
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
-                
-                Button("Add Sample Service") {
-                    addSampleService()
-                }
-
             }
             .padding(.top, 16)
             .padding(.horizontal, 32)
-
-            
             List {
                 Section {
                     if peripheralManager.addedServices.isEmpty {
@@ -73,44 +65,44 @@ struct PeripheralView: View {
                                 })
                                 
                             }
-                        
+                            
                             NavigationLink(destination: {
                                 ServiceDetailView(service: service)
                                     .environment(peripheralManager)
-
+                                
                             }, label: {
-      
-                                    VStack(spacing: 8) {
-                                        Text("ID: \(service.uuid)")
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                        Text("Primary: \(service.isPrimary)")
-                                            .font(.subheadline)
-                                            .foregroundStyle(.gray)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                        Text("Characteristics: \(service.characteristics?.count ?? 0)")
-                                            .font(.subheadline)
-                                            .foregroundStyle(.gray)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                        Text("Included services: \(service.includedServices?.count ?? 0)")
-                                            .font(.subheadline)
-                                            .foregroundStyle(.gray)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-
-                                    }
-
+                                
+                                VStack(spacing: 8) {
+                                    Text("ID: \(service.uuid)")
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text("Primary: \(service.isPrimary)")
+                                        .font(.subheadline)
+                                        .foregroundStyle(.gray)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text("Characteristics: \(service.characteristics?.count ?? 0)")
+                                        .font(.subheadline)
+                                        .foregroundStyle(.gray)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text("Included services: \(service.includedServices?.count ?? 0)")
+                                        .font(.subheadline)
+                                        .foregroundStyle(.gray)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    
+                                }
+                                
                             })
                             .disabled(isEditing)
                             
                         }
-                    
+                        
                         
                     }
-                
+                    
                 } header: {
                     Text("Added services")
                 }
             }
-
+            
         }
         .multilineTextAlignment(.leading)
         .navigationTitle("My Services")
@@ -158,7 +150,7 @@ struct PeripheralView: View {
                             .buttonStyle(.bordered)
                             
                             Button(action: {
-                                let service = CBMutableService(type: CBUUID(nsuuid: UUID()) , primary: isPrimary)
+                                let service = CBMutableService(type: CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961") , primary: isPrimary)
                                 service.characteristics = addedCharacteristics
                                 let includedServices: [CBService] = self.includedServices.map({$0 as CBService})
 
@@ -484,22 +476,6 @@ struct PeripheralView: View {
             }
         })
 
-    }
-    
-    @MainActor private func addSampleService() {
-        let characteristicUUID = CBUUID(string: "FFE1")
-        let characteristic = CBMutableCharacteristic(
-            type: characteristicUUID,
-            properties: [.read, .notify],
-            value: nil,
-            permissions: [.readable]
-        )
-        
-        let serviceUUID = CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")
-        let service = CBMutableService(type: serviceUUID, primary: true)
-        service.characteristics = [characteristic]
-        
-        peripheralManager.addService(service)
     }
 }
 

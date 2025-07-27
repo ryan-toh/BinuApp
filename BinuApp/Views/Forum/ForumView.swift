@@ -7,6 +7,8 @@ struct ForumView: View {
 
     @State private var showingCreatePost = false
     @State private var postsLoaded = false
+    @State private var showingCentralSheet = false
+    @State private var showingPeripheralSheet = false
 
     var body: some View {
         NavigationStack {
@@ -40,6 +42,12 @@ struct ForumView: View {
                     } else {
                         ScrollView {
                             LazyVStack(spacing: 16) {
+                                Button("Provide Help") {
+                                    showingCentralSheet = true
+                                }
+                                Button("Call for Help") {
+                                    showingPeripheralSheet = true
+                                }
                                 ForEach(forumVM.posts) { post in
                                     PostRowView(post: post)
                                         .environmentObject(authVM)
@@ -82,6 +90,18 @@ struct ForumView: View {
                 CreatePostView()
                     .environmentObject(authVM)
                     .environmentObject(forumVM)
+            }
+            // Sheet for CentralView
+            .sheet(isPresented: $showingCentralSheet) {
+                NavigationStack { // Ensures navigation titles/toolbars show
+                    CentralView()
+                }
+            }
+            // Sheet for PeripheralView
+            .sheet(isPresented: $showingPeripheralSheet) {
+                NavigationStack {
+                    PeripheralView()
+                }
             }
         }
     }

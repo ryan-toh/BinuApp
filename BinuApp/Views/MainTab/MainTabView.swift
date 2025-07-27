@@ -16,16 +16,16 @@ struct MainTabView: View {
                     Image(systemName: "house.fill")
                     Text("Home")
                 }
-            PeripheralView()
-                .tabItem {
-                    Image(systemName: "phone.fill")
-                    Text("Send Request")
-                }
-            CentralView()
-                .tabItem {
-                    Image(systemName: "phone")
-                    Text("Receive Request")
-                }
+//            PeripheralView()
+//                .tabItem {
+//                    Image(systemName: "phone.fill")
+//                    Text("Send Request")
+//                }
+//            CentralView()
+//                .tabItem {
+//                    Image(systemName: "phone")
+//                    Text("Receive Request")
+//                }
             LibraryView()
                 .tabItem {
                     Image(systemName: "book.fill")
