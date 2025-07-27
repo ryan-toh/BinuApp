@@ -4,14 +4,19 @@ class LibraryViewModel: NSObject, ObservableObject, XMLParserDelegate {
     @Published var summaries: [HealthSummary] = []
     @Published var unWomenCards: [SupportCard] = []
     @Published var cnaCards: [SupportCard] = []
-    
+
+    // Lazy-load flags
+    @Published var didLoadUN = false
+    @Published var didLoadCNA = false
+
+    // Temporary XML parsing state
     private var currentElement = ""
     private var currentTitle = ""
     private var currentLink = ""
     private var currentDescription = ""
     private var insideItem = false
     private var currentSource: String = ""
-    
+
     private let keywords = ["female", "women", "feminine", "girl", "girls", "woman", "period", "sexual"]
 
     override init() {
@@ -19,10 +24,15 @@ class LibraryViewModel: NSObject, ObservableObject, XMLParserDelegate {
         loadLocalSummaries()
     }
 
-    func loadAllFeeds() {
-        unWomenCards = []
-        cnaCards = []
+    func loadUNFeedIfNeeded() {
+        guard !didLoadUN else { return }
+        didLoadUN = true
         parseFeed(from: "https://www.unwomen.org/en/rss-feeds/news", source: "UN")
+    }
+
+    func loadCNAFeedIfNeeded() {
+        guard !didLoadCNA else { return }
+        didLoadCNA = true
         parseFeed(from: "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml&category=10416", source: "CNA")
     }
 

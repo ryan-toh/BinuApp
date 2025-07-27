@@ -2,31 +2,38 @@ import SwiftUI
 
 struct LibraryView: View {
     @StateObject private var viewModel = LibraryViewModel()
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
                 Color("BGColor").ignoresSafeArea()
-                
+
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
-                        // Title
                         Text("For Him")
                             .font(.largeTitle)
                             .bold()
                             .foregroundColor(.black)
                             .padding(.horizontal)
-                        
-                        // WHO Local Summaries
+
+                        // WHO Section
                         SectionHeader("Understand from WHO...")
                         HorizontalCardScroll(items: viewModel.summaries) { item in
                             VStack(alignment: .leading, spacing: 8) {
-                                Text(item.category).font(.caption).foregroundColor(Color("BGColor"))
-                                Text(item.title).font(.subheadline).bold().foregroundColor(Color("BGColor"))
-                                Text(item.summary).font(.footnote).foregroundColor(.black).lineLimit(3)
+                                Text(item.category)
+                                    .font(.caption)
+                                    .foregroundColor(Color("BGColor"))
+                                Text(item.title)
+                                    .font(.subheadline).bold()
+                                    .foregroundColor(Color("BGColor"))
+                                Text(item.summary)
+                                    .font(.footnote)
+                                    .foregroundColor(.black)
+                                    .lineLimit(3)
                                 if let url = URL(string: item.source) {
                                     Link("Read more on WHO", destination: url)
-                                        .font(.caption).foregroundColor(Color("BGColor"))
+                                        .font(.caption)
+                                        .foregroundColor(Color("BGColor"))
                                 }
                             }
                             .padding()
@@ -38,12 +45,19 @@ struct LibraryView: View {
 
                         // UN Women
                         SectionHeader("UN Women: Stay updated about women's health issues globally...")
+                            .onAppear {
+                                viewModel.loadUNFeedIfNeeded()
+                            }
+
                         HorizontalCardScroll(items: viewModel.unWomenCards) { card in
                             VStack(alignment: .leading, spacing: 8) {
-                                Text(card.title).foregroundColor(Color("FontColor")).font(.subheadline).bold()
+                                Text(card.title)
+                                    .foregroundColor(Color("FontColor"))
+                                    .font(.subheadline).bold()
                                 if let url = URL(string: card.link ?? "") {
                                     Link("Read more...", destination: url)
-                                        .font(.footnote).foregroundColor(.black)
+                                        .font(.footnote)
+                                        .foregroundColor(.black)
                                 }
                             }
                             .padding()
@@ -55,12 +69,19 @@ struct LibraryView: View {
 
                         // CNA
                         SectionHeader("CNA: Stay updated about women's health issues in Singapore...")
+                            .onAppear {
+                                viewModel.loadCNAFeedIfNeeded()
+                            }
+
                         HorizontalCardScroll(items: viewModel.cnaCards) { card in
                             VStack(alignment: .leading, spacing: 8) {
-                                Text(card.title).foregroundColor(Color("FontColor")).font(.subheadline).bold()
+                                Text(card.title)
+                                    .foregroundColor(Color("FontColor"))
+                                    .font(.subheadline).bold()
                                 if let url = URL(string: card.link ?? "") {
                                     Link("Read more...", destination: url)
-                                        .font(.footnote).foregroundColor(.black)
+                                        .font(.footnote)
+                                        .foregroundColor(.black)
                                 }
                             }
                             .padding()
@@ -74,9 +95,6 @@ struct LibraryView: View {
                     }
                     .padding(.top)
                 }
-            }
-            .onAppear {
-                viewModel.loadAllFeeds()
             }
         }
     }
