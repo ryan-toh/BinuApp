@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		311B310D2E365E150016B44E /* LibraryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311B310C2E365E150016B44E /* LibraryModels.swift */; };
 		3154129E2DE37ADB00447409 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 3154129D2DE37ADB00447409 /* FirebaseAuth */; };
 		315412A02DE37ADB00447409 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 3154129F2DE37ADB00447409 /* FirebaseCore */; };
 		315412A22DE37ADB00447409 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 315412A12DE37ADB00447409 /* FirebaseFirestore */; };
 		315412A42DE37ADB00447409 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 315412A32DE37ADB00447409 /* FirebaseStorage */; };
 		318971462DFC334C005A4955 /* waves.gif in Resources */ = {isa = PBXBuildFile; fileRef = 318971452DFC334C005A4955 /* waves.gif */; };
-		31C612562E10402600714D50 /* HealthSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C612552E10402600714D50 /* HealthSummary.swift */; };
 		31E787D52E338B0800D8AD3F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31E787D42E338B0800D8AD3F /* GoogleService-Info.plist */; };
 		31EF9E572DFF0000008FD5C7 /* CombinedCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */; };
 		780B65352DEC102E00F58AF5 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65342DEC102E00F58AF5 /* CommentService.swift */; };
@@ -101,8 +101,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		311B310C2E365E150016B44E /* LibraryModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryModels.swift; sourceTree = "<group>"; };
 		318971452DFC334C005A4955 /* waves.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = waves.gif; sourceTree = "<group>"; };
-		31C612552E10402600714D50 /* HealthSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HealthSummary.swift; sourceTree = "<group>"; };
 		31E787D42E338B0800D8AD3F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedCommentView.swift; sourceTree = "<group>"; };
 		780B65342DEC102E00F58AF5 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
@@ -208,6 +208,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		311B310B2E365DF50016B44E /* LIbrary */ = {
+			isa = PBXGroup;
+			children = (
+				311B310C2E365E150016B44E /* LibraryModels.swift */,
+			);
+			path = LIbrary;
+			sourceTree = "<group>";
+		};
 		780B65382DEC18A800F58AF5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -468,7 +476,7 @@
 		78F6FB7C2DE33F2F002D834A /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				31C612552E10402600714D50 /* HealthSummary.swift */,
+				311B310B2E365DF50016B44E /* LIbrary */,
 				78309CBC2E0C2FFC00EB17B6 /* iBeacon */,
 				78F6FB932DE34B5A002D834A /* Forum */,
 				780B656C2DEC1E1C00F58AF5 /* UserModel.swift */,
@@ -718,9 +726,9 @@
 				780B65682DEC1B7400F58AF5 /* LoadingSpinnerView.swift in Sources */,
 				78EBD2EC2E32335A0094CE8C /* CBCharacteristicExtension.swift in Sources */,
 				780B65752DEC2C3800F58AF5 /* CreatePostView.swift in Sources */,
-				31C612562E10402600714D50 /* HealthSummary.swift in Sources */,
 				78F6FB882DE33FC0002D834A /* FullWidthTextBox.swift in Sources */,
 				780B653F2DEC197600F58AF5 /* AuthViewModel.swift in Sources */,
+				311B310D2E365E150016B44E /* LibraryModels.swift in Sources */,
 				780B654C2DEC1A4B00F58AF5 /* LibraryViewModel.swift in Sources */,
 				78F6FBA82DE34F4C002D834A /* SentimentModel.swift in Sources */,
 				780B65372DEC104C00F58AF5 /* SentimentService.swift in Sources */,

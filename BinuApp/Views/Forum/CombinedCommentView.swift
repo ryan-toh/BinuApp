@@ -18,7 +18,7 @@ struct CombinedCommentView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 // ✅ Post section
-                PostRowView(post: post)
+                PostRowView(post: post, isTappable: false)
                     .environmentObject(authVM)
                     .environmentObject(ForumViewModel())
                     .padding()
@@ -69,9 +69,7 @@ struct CombinedCommentView: View {
                 }
             }
             .onAppear {
-                #if !DEBUG
                 commentVM.fetchComments(forPostId: post.id ?? "")
-                #endif
             }
             .sheet(isPresented: $showCreateSheet, onDismiss: {
                 commentVM.fetchComments(forPostId: post.id ?? "")
