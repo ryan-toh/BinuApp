@@ -43,10 +43,16 @@ class LibraryViewModel: NSObject, ObservableObject, XMLParserDelegate {
                 title: "What is Sexual Health?",
                 summary: "Sexual health is a state of physical, emotional, mental, and social well-being. It requires respect, safety, and freedom from discrimination and violence.",
                 source: "https://www.who.int/health-topics/sexual-health"
+            ),
+
+            HealthSummary(
+                category: "Gender-Based Violence",
+                title: "Violence Against Women",
+                summary: "1 in 3 women worldwide have experienced physical or sexual violence, mostly by an intimate partner. Ending this starts with awareness, safety, and support systems for survivors.",
+                source: "https://www.who.int/news-room/fact-sheets/detail/violence-against-women"
             )
         ]
     }
-
     private func parseFeed(from urlString: String, source: String) {
         guard let url = URL(string: urlString),
               let parser = XMLParser(contentsOf: url) else {
