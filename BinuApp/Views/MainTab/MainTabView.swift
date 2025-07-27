@@ -31,6 +31,12 @@ struct MainTabView: View {
                     Image(systemName: "book.fill")
                     Text("Library for Him")
                 }
+            
+            EmergencyView()
+                .tabItem {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                    Text("Emergency")
+                }
 
             AccountView()
                 .tabItem {
