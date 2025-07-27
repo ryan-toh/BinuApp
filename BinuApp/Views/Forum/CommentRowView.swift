@@ -10,6 +10,7 @@ import SwiftUI
 struct CommentRowView: View {
     
     @EnvironmentObject var authVM: AuthViewModel
+    @EnvironmentObject var commentVM: CommentViewModel
     
     let comment: Comment
     let onEdit: () -> Void
@@ -19,7 +20,10 @@ struct CommentRowView: View {
         VStack(alignment: .leading, spacing: 4) {
             // Line 1: Username + Menu
             HStack {
-                Text(comment.userId)
+                Text(commentVM.usernameMap[comment.userId] ?? comment.userId)
+                    .onAppear {
+                        commentVM.fetchUsername(for: comment.userId)
+                    }
                     .font(.subheadline.bold())
                     .foregroundColor(Color("FontColor"))
                 

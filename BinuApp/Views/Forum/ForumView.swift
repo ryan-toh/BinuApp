@@ -3,6 +3,8 @@ import SwiftUI
 struct ForumView: View {
     @EnvironmentObject var forumVM: ForumViewModel
     @EnvironmentObject var authVM: AuthViewModel
+    @EnvironmentObject var postVM: PostViewModel
+
     @State private var showingCreatePost = false
     @State private var postsLoaded = false
 
@@ -42,6 +44,7 @@ struct ForumView: View {
                                     PostRowView(post: post)
                                         .environmentObject(authVM)
                                         .environmentObject(forumVM)
+                                        .environmentObject(postVM)
                                         .padding(.horizontal)
                                 }
                             }
@@ -84,8 +87,8 @@ struct ForumView: View {
     }
 }
 
-#Preview {
-    ForumView()
-        .environmentObject(ForumViewModel())
-        .environmentObject(AuthViewModel())
-}
+//#Preview {
+//    ForumView()
+//        .environmentObject(ForumViewModel())
+//        .environmentObject(AuthViewModel())
+//}

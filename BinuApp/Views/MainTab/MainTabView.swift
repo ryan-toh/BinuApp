@@ -2,10 +2,16 @@ import SwiftUI
 
 struct MainTabView: View {
     @EnvironmentObject var authVM: AuthViewModel
+    @StateObject var forumVM = ForumViewModel()
+    @StateObject var postVM = PostViewModel()
+    
 
     var body: some View {
         TabView {
             ForumView()
+                .environmentObject(forumVM)
+                .environmentObject(authVM)
+                .environmentObject(postVM)
                 .tabItem {
                     Image(systemName: "house.fill")
                     Text("Home")
@@ -33,7 +39,6 @@ struct MainTabView: View {
                 }
         }
         .accentColor(Color("FontColor")) // selected tab item tint
-        .environmentObject(ForumViewModel())
 //        .environmentObject(PeerToPeerViewModel())
  //       .environmentObject(LibraryViewModel())
     }
