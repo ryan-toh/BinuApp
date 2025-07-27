@@ -85,10 +85,7 @@ struct ForumView: View {
                                 Button("Call for Help") {
                                     showingPeripheralSheet = true
                                 }
-                                Button("Call for Help Simple") {
-                                    showingPeripheralSheetSimple = true
-                                }
-
+                            
                                 ForEach(filteredPosts()) { post in
                                     PostRowView(post: post)
                                         .environmentObject(authVM)
