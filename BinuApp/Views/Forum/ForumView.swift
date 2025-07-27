@@ -7,6 +7,7 @@ struct ForumView: View {
     @State private var postsLoaded = false
     @State private var showingCentralSheet = false
     @State private var showingPeripheralSheet = false
+    @State private var showingPeripheralSheetSimple = false
 
     var body: some View {
         NavigationStack {
@@ -45,6 +46,9 @@ struct ForumView: View {
                                 }
                                 Button("Call for Help") {
                                     showingPeripheralSheet = true
+                                }
+                                Button("Call for Help Simple") {
+                                    showingPeripheralSheetSimple = true
                                 }
                                 ForEach(forumVM.posts) { post in
                                     PostRowView(post: post)
@@ -98,6 +102,11 @@ struct ForumView: View {
             .sheet(isPresented: $showingPeripheralSheet) {
                 NavigationStack {
                     PeripheralView()
+                }
+            }
+            .sheet(isPresented: $showingPeripheralSheetSimple) {
+                NavigationStack {
+                    PeripheralViewSimple()
                 }
             }
         }

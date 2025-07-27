@@ -42,6 +42,7 @@
 		7833482D2DF6C2C000207E2C /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7833482C2DF6C2C000207E2C /* CommentView.swift */; };
 		7833482F2DF6C2D400207E2C /* CreateCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7833482E2DF6C2D400207E2C /* CreateCommentView.swift */; };
 		783348312DF6C2DD00207E2C /* EditCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783348302DF6C2DD00207E2C /* EditCommentView.swift */; };
+		7837DF552E369804005EA8BB /* PeripheralViewSimple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7837DF542E3697FF005EA8BB /* PeripheralViewSimple.swift */; };
 		78510CC82E114A98004D18A6 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 78510CC72E114A98004D18A6 /* FirebaseCore */; };
 		78510CCA2E114A9F004D18A6 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 78510CC92E114A9F004D18A6 /* FirebaseStorage */; };
 		78510CCC2E114AA9004D18A6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 78510CCB2E114AA9004D18A6 /* FirebaseFirestore */; };
@@ -132,6 +133,7 @@
 		7833482C2DF6C2C000207E2C /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		7833482E2DF6C2D400207E2C /* CreateCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCommentView.swift; sourceTree = "<group>"; };
 		783348302DF6C2DD00207E2C /* EditCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCommentView.swift; sourceTree = "<group>"; };
+		7837DF542E3697FF005EA8BB /* PeripheralViewSimple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralViewSimple.swift; sourceTree = "<group>"; };
 		78510CD02E114FB6004D18A6 /* PeripheralManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralManaging.swift; sourceTree = "<group>"; };
 		78510CD22E11514B004D18A6 /* BroadcastServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastServiceTests.swift; sourceTree = "<group>"; };
 		785BDEE92E0FE56D00E212BB /* BroadcastDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastDataModel.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 		78EBD2DD2E322B6D0094CE8C /* Assist */ = {
 			isa = PBXGroup;
 			children = (
+				7837DF542E3697FF005EA8BB /* PeripheralViewSimple.swift */,
 				78EBD2E22E322DB50094CE8C /* CentralView.swift */,
 				78EBD2DE2E322B720094CE8C /* PeripheralView.swift */,
 			);
@@ -704,6 +707,7 @@
 				78F6FBA32DE34E75002D834A /* CommentModel.swift in Sources */,
 				78EBD2DC2E2F6E680094CE8C /* PeripheralManager.swift in Sources */,
 				785BDEEC2E0FE59F00E212BB /* ItemPickerView.swift in Sources */,
+				7837DF552E369804005EA8BB /* PeripheralViewSimple.swift in Sources */,
 				7833482F2DF6C2D400207E2C /* CreateCommentView.swift in Sources */,
 				78EBD2E62E3230840094CE8C /* DataExtension.swift in Sources */,
 				7833482D2DF6C2C000207E2C /* CommentView.swift in Sources */,

@@ -5,38 +5,6 @@
 //  Created by Ryan on 22/7/25.
 //
 
-// Notes:
-
-/*
- 
- need to add 2 CBCharacterstic objects
- - one to advertise the Item ID
- - one to receive the coordinate of the receiver
- 
- 
- For a CBCharacteristic Object, there are four properties we need to specify.
-
-     UUID: just an identifies the characteristic.
-     properties: The CBCharacteristicProperties of the characteristic that determine the access to and use of the characteristic’s value and descriptors.
-     value: The characteristic value to cache. If nil, the value is dynamic and the peripheral manager fetches it on demand.
-     permissions: The permissions of the characteristic value.
- * can also add a CBUUIDCharactersticUserDescriptionString
- and CBUUIDCharacteristicFormatString <- To provide more information about characteristic value
- 
- To receive coordinate of receiver
- - Value to be kept nil so that the coordinate of the receiver can be seen
- 
- To advertise the Item ID
- We create a descriptor using the init(type:value:) method on the CBMutableDescriptor class, where type is a 128-bit UUID that identifies the characteristic and value is the descriptor value to cache.
-
- Three important things to keep in mind here.
-
-     Only two descriptor types are currently supported: CBUUIDCharacteristicUserDescriptionString and CBUUIDCharacteristicFormatString
-     value has to be non-nil
-     value cannot be updated dynamically
-
- */
-
 import SwiftUI
 import CoreBluetooth
 
@@ -55,6 +23,28 @@ enum PeripheralManagerError: Error {
 
 @Observable
 class PeripheralManager: NSObject {
+    // Helper Function
+    func createSingleWritableService(withDescription description: String) -> CBMutableService {
+        // 1. Create the characteristic
+        let characteristic = CBMutableCharacteristic(
+            type: CBUUID(string: "E100"), // random char UUID
+            properties: .write,
+            value: nil,
+            permissions: .writeable
+        )
+        // 2. Add the description as a User Description descriptor
+        let descriptor = CBMutableDescriptor(
+            type: CBUUID(string: CBUUIDCharacteristicUserDescriptionString),
+            value: description
+        )
+        characteristic.descriptors = [descriptor]
+        // 3. Create the service with the fixed UUID and assign the characteristic
+        let serviceUUID = CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")
+        let service = CBMutableService(type: serviceUUID, primary: true)
+        service.characteristics = [characteristic]
+        return service
+    }
+    
     var error: PeripheralManagerError? = nil {
         didSet {
             if error != nil {
@@ -86,6 +76,9 @@ class PeripheralManager: NSObject {
 }
     
 extension PeripheralManager {
+    
+
+    
     
     private func checkBluetooth() -> Bool {
         if peripheralManager?.state != .poweredOn {
@@ -225,8 +218,7 @@ extension PeripheralManager {
             }
         }
     }
-    
-    
+
     @MainActor
     private func updateValueHelper(_ data: Data, for characteristic: CBCharacteristic, onSubscribedCentrals centrals: [CBCentral]?) throws {
         
