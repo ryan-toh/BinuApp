@@ -51,7 +51,7 @@
 		78510CCC2E114AA9004D18A6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 78510CCB2E114AA9004D18A6 /* FirebaseFirestore */; };
 		78510CCE2E114AAC004D18A6 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 78510CCD2E114AAC004D18A6 /* FirebaseAuth */; };
 		78510CD12E114FBB004D18A6 /* PeripheralManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78510CD02E114FB6004D18A6 /* PeripheralManaging.swift */; };
-		78510CD32E115151004D18A6 /* BroadcastServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78510CD22E11514B004D18A6 /* BroadcastServiceTests.swift */; };
+		78510CD32E115151004D18A6 /* CentralManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78510CD22E11514B004D18A6 /* CentralManagerTests.swift */; };
 		785BDEEA2E0FE57300E212BB /* BroadcastDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785BDEE92E0FE56D00E212BB /* BroadcastDataModel.swift */; };
 		785BDEEC2E0FE59F00E212BB /* ItemPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785BDEEB2E0FE59F00E212BB /* ItemPickerView.swift */; };
 		785BDF002E1036A000E212BB /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785BDEFF2E10369800E212BB /* NotificationExtension.swift */; };
@@ -141,7 +141,7 @@
 		783348302DF6C2DD00207E2C /* EditCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCommentView.swift; sourceTree = "<group>"; };
 		7837DF542E3697FF005EA8BB /* CentralView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralView2.swift; sourceTree = "<group>"; };
 		78510CD02E114FB6004D18A6 /* PeripheralManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralManaging.swift; sourceTree = "<group>"; };
-		78510CD22E11514B004D18A6 /* BroadcastServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastServiceTests.swift; sourceTree = "<group>"; };
+		78510CD22E11514B004D18A6 /* CentralManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentralManagerTests.swift; sourceTree = "<group>"; };
 		785BDEE92E0FE56D00E212BB /* BroadcastDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastDataModel.swift; sourceTree = "<group>"; };
 		785BDEEB2E0FE59F00E212BB /* ItemPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPickerView.swift; sourceTree = "<group>"; };
 		785BDEFF2E10369800E212BB /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
@@ -477,7 +477,7 @@
 		78F6FB192DE31EDB002D834A /* BinuAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				78510CD22E11514B004D18A6 /* BroadcastServiceTests.swift */,
+				78510CD22E11514B004D18A6 /* CentralManagerTests.swift */,
 				78F6FB1A2DE31EDB002D834A /* BinuAppTests.swift */,
 			);
 			path = BinuAppTests;
@@ -781,7 +781,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78F6FB1B2DE31EDB002D834A /* BinuAppTests.swift in Sources */,
-				78510CD32E115151004D18A6 /* BroadcastServiceTests.swift in Sources */,
+				78510CD32E115151004D18A6 /* CentralManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
