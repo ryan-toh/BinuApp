@@ -9,6 +9,7 @@
 import SwiftUI
 import CoreBluetooth
 
+// Receiver
 enum CentralManagerError: Error {
     case invalidManager
     case bluetoothNotAvailable

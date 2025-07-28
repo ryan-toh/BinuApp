@@ -9,6 +9,7 @@ import SwiftUI
 import CoreBluetooth
 
 
+// Sender
 enum PeripheralManagerError: Error {
     case invalidManager
     case bluetoothNotAvailable
@@ -28,9 +29,9 @@ class PeripheralManager: NSObject {
         // 1. Create the characteristic
         let characteristic = CBMutableCharacteristic(
             type: CBUUID(string: "E100"), // random char UUID
-            properties: .write,
+            properties: [.write, .read],
             value: nil,
-            permissions: .writeable
+            permissions: [.readable, .writeable]
         )
         // 2. Add the description as a User Description descriptor
         let descriptor = CBMutableDescriptor(
