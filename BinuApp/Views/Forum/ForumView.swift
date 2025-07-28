@@ -49,10 +49,25 @@ struct ForumView: View {
                     }
                     .pickerStyle(.segmented)
                     .padding(.horizontal)
-                    .padding(.top, 8)
+                    .padding(.top, 4)
                     .padding(.bottom, 4)
                     .accentColor(Color("FontColor"))
                     
+                    // 🔹 Always-visible Help Buttons
+                    HStack(spacing: 16) {
+                        Button("Provide Help") {
+                            showingCentralSheet = true
+                        }
+                        .buttonStyle(.borderedProminent)
+
+                        Button("Call for Help") {
+                            showingPeripheralSheet = true
+                        }
+                        .buttonStyle(.borderedProminent)
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 8)
+
                     if forumVM.isLoading {
                         LoadingSpinnerView()
                     } else if let error = forumVM.errorMessage {
@@ -79,74 +94,63 @@ struct ForumView: View {
                     } else {
                         ScrollView {
                             LazyVStack(spacing: 16) {
-                                Button("Provide Help") {
-                                    showingCentralSheet = true
+                                ForEach(filteredPosts()) { post in
+                                    PostRowView(post: post)
+                                        .environmentObject(authVM)
+                                        .environmentObject(forumVM)
+                                        .environmentObject(postVM)
+                                        .padding(.horizontal)
                                 }
-                                Button("Call for Help") {
-                                    showingPeripheralSheet = true
-                                }
-                                Button("Call for Help Simple") {
-                                    showingPeripheralSheetSimple = true
-                                }
-                                ForEach(forumVM.posts) { post in
-                                    
-                                    ForEach(filteredPosts()) { post in
-                                        PostRowView(post: post)
-                                            .environmentObject(authVM)
-                                            .environmentObject(forumVM)
-                                            .environmentObject(postVM)
-                                            .padding(.horizontal)
-                                    }
-                                }
-                                .padding(.top)
                             }
-                            .refreshable {
-                                forumVM.fetchAllPosts()
-                            }
+                            .padding(.top)
+                        }
+                        .refreshable {
+                            forumVM.fetchAllPosts()
                         }
                     }
                 }
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        Text("Forum")
-                            .font(.title.bold())
+            }
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Forum")
+                        .font(.title.bold())
+                        .foregroundColor(Color("FontColor"))
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showingCreatePost = true
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.title2)
                             .foregroundColor(Color("FontColor"))
                     }
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button {
-                            showingCreatePost = true
-                        } label: {
-                            Image(systemName: "plus.circle.fill")
-                                .font(.title2)
-                                .foregroundColor(Color("FontColor"))
-                        }
-                    }
                 }
-                .onAppear {
-                    if !postsLoaded {
-                        forumVM.fetchAllPosts()
-                        postsLoaded = true
-                    }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                if !postsLoaded {
+                    forumVM.fetchAllPosts()
+                    postsLoaded = true
                 }
-                .sheet(isPresented: $showingCreatePost) {
-                    CreatePostView()
-                        .environmentObject(authVM)
-                        .environmentObject(forumVM)
+            }
+            .sheet(isPresented: $showingCreatePost) {
+                CreatePostView()
+                    .environmentObject(authVM)
+                    .environmentObject(forumVM)
+            }
+            .sheet(isPresented: $showingCentralSheet) {
+                NavigationStack {
+                    CentralView()
                 }
-                .sheet(isPresented: $showingCentralSheet) {
-                    NavigationStack {
-                        CentralView()
-                    }
+            }
+            .sheet(isPresented: $showingPeripheralSheet) {
+                NavigationStack {
+                    PeripheralView()
                 }
-                .sheet(isPresented: $showingPeripheralSheet) {
-                    NavigationStack {
-                        PeripheralView()
-                    }
-                }
-                .sheet(isPresented: $showingPeripheralSheetSimple) {
-                    NavigationStack {
-                        PeripheralViewSimple()
-                    }
+            }
+            .sheet(isPresented: $showingPeripheralSheetSimple) {
+                NavigationStack {
+                    PeripheralViewSimple()
                 }
             }
         }

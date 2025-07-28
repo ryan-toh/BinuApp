@@ -77,6 +77,24 @@ struct PostRowView: View {
                 .font(.subheadline)
                 .foregroundColor(.primary)
                 .lineLimit(2)
+            
+            // topics
+            
+            if !post.topics.isEmpty {
+                HStack {
+                    ForEach(post.topics, id: \.self) { topic in
+                        Text(topic)
+                            .font(.caption2)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color("FontColor").opacity(0.1))
+                            )
+                            .foregroundColor(Color("FontColor"))
+                    }
+                }
+            }
 
             // Like / Comment / Delete Row
             HStack(spacing: 16) {

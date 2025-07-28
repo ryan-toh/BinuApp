@@ -39,10 +39,11 @@ final class ForumViewModel: ObservableObject {
         title: String,
         text: String,
         images: [UIImage] = [],
+        topics: [String],
         completion: @escaping (Bool) -> Void
     ) {
         isLoading = true
-        postService.createPost(userId: userId, title: title, text: text, images: images) { [weak self] result in
+        postService.createPost(userId: userId, title: title, text: text, images: images, topics: topics) { [weak self] result in
             DispatchQueue.main.async {
                 self?.isLoading = false
                 switch result {
