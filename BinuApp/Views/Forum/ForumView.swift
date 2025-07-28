@@ -18,6 +18,7 @@ struct ForumView: View {
     @State private var showingCentralSheet = false
     @State private var showingPeripheralSheet = false
     @State private var showingPeripheralSheetSimple = false
+    @State private var showingCentralSheetSimple = false
     @State private var selectedTab: ForumTab = .popular
 
     // MARK: - Filter logic
@@ -140,17 +141,12 @@ struct ForumView: View {
             }
             .sheet(isPresented: $showingCentralSheet) {
                 NavigationStack {
-                    CentralView()
+                    CentralView2()
                 }
             }
             .sheet(isPresented: $showingPeripheralSheet) {
                 NavigationStack {
                     PeripheralView()
-                }
-            }
-            .sheet(isPresented: $showingPeripheralSheetSimple) {
-                NavigationStack {
-                    PeripheralViewSimple()
                 }
             }
         }

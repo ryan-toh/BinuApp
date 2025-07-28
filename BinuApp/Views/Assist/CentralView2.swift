@@ -1,16 +1,7 @@
-//
-//  CentralView.swift
-//  BinuApp
-//
-//  Created by Ryan on 24/7/25.
-//
-
-
 import SwiftUI
 import CoreBluetooth
 
-// Receiver
-struct CentralView: View {
+struct CentralView2: View {
     @State private var centralManager = CentralManager()
     @State private var scanning: Bool = false
     @State private var scanningUUIDs: [CBUUID]? = [CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")]
@@ -24,199 +15,193 @@ struct CentralView: View {
     @State private var showEdit: Bool = false
 
     var body: some View {
-        VStack {
-            VStack(spacing: 16) {
-                HStack(spacing: 32)  {
-                    Text("**Scan**")
+        ZStack {
+            Color("BGColor").ignoresSafeArea()
+            VStack {
+                // Title bar
+                HStack {
+                    Image(systemName: "person.2.wave.2.fill")
+                        .foregroundColor(.accentColor)
+                        .font(.system(size: 30, weight: .medium))
+                        .padding(.trailing, 5)
+                    Text("Provide Help Nearby")
+                        .font(.largeTitle.bold())
+                        .foregroundColor(.primary)
+                        .shadow(radius: 1)
                     Spacer()
-                        .frame(maxWidth: .infinity)
+                    Button {
+                        scanning = false
+                        showEdit = true
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
+                            .imageScale(.large)
+                            .foregroundColor(.accentColor)
+                            .padding(.vertical, 5)
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.top, 20)
+
+                // Toggle, with glowing accent
+                HStack {
+                    Label("Active Scan", systemImage: scanning ? "dot.radiowaves.left.and.right" : "antenna.radiowaves.left.and.right.slash")
+                        .fontWeight(.medium)
+                        .foregroundColor(scanning ? .accentColor : .gray)
+                    Spacer()
                     Toggle("", isOn: $scanning)
+                        .toggleStyle(.switch)
+                        .tint(.accentColor)
                 }
-                
-//                VStack {
-//                    Text("Scan options")
-//                        .fontWeight(.bold)
-//                        .frame(maxWidth: .infinity, alignment: .leading)
-//                    Text("Service UUIDs: \(scanningUUIDs?.map{$0.uuidString}.joined(separator: ", ") ?? "Any")")
-//                        .frame(maxWidth: .infinity, alignment: .leading)
-//                    Text("Allow duplicate key: \(allowDuplicateKey)")
-//                        .frame(maxWidth: .infinity, alignment: .leading)
-//                    Text("Solicited Service UUIDs: \((solicitedServiceUUIDs).isEmpty ? "Not Specified" :solicitedServiceUUIDs.map{$0.uuidString}.joined(separator: ", "))")
-//                        .frame(maxWidth: .infinity, alignment: .leading)
-//
-//                }
-                .font(.subheadline)
-                .foregroundStyle(.gray)
+                .padding([.horizontal, .top], 20)
 
-                
+                // Error status
                 if let error = centralManager.error {
-                    Text("Error: \(error)")
-                        .foregroundStyle(.red)
-                        .frame(maxWidth: .infinity, alignment: .center)
-
-                }
-            }
-            .padding(.top, 16)
-            .padding(.horizontal, 32)
-            
-            
-            List {
-                Section {
-                    if centralManager.discoveredPeripherals.isEmpty {
-                        Text("No peripherals found")
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundColor(.red)
+                        Text("\(error.localizedDescription)")
+                            .foregroundColor(.red)
                     }
-                    
-                    ForEach(centralManager.discoveredPeripherals, id: \.identifier) { peripheral in
-                        NavigationLink(destination: {
-                            PeripheralDetailView(peripheralId: peripheral.identifier)
-                                .environment(centralManager)
+                    .padding([.horizontal, .bottom], 12)
+                }
 
-                        }, label: {
-                            VStack(spacing: 8) {
-                                
-//                                if peripheral.state == .connected {
-//                                    Text("ID: \(peripheral.identifier)  \(Image(systemName: "personalhotspot"))")
-//                                        .frame(maxWidth: .infinity, alignment: .leading)
-//                                } else {
-//                                    Text("ID: \(peripheral.identifier)")
-//                                        .frame(maxWidth: .infinity, alignment: .leading)
-//                                }
-                                
-                                Text("Name: \(peripheral.name ?? "(not specified)")")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-//                                    .font(.subheadline)
-//                                    .foregroundStyle(.gray)
-//                                    .frame(maxWidth: .infinity, alignment: .leading)
-//                                Text("Services: \(peripheral.services == nil ? "(not discovered yet)" : "\(peripheral.services!.count)")")
-//                                    .font(.subheadline)
-//                                    .foregroundStyle(.gray)
-//                                    .frame(maxWidth: .infinity, alignment: .leading)
-
+                // Help request list
+                List {
+                    Section {
+                        if centralManager.discoveredPeripherals.isEmpty {
+                            VStack {
+                                Image(systemName: "magnifyingglass")
+                                    .font(.system(size: 36))
+                                    .padding(.bottom, 8)
+                                    .foregroundColor(.gray.opacity(0.5))
+                                Text("No help requests nearby.\nLeave scanning on.")
+                                    .foregroundColor(.secondary)
+                                    .multilineTextAlignment(.center)
                             }
-                        })
-
+                            .frame(maxWidth: .infinity, minHeight: 120)
+                            .background(.clear)
+                        } else {
+                            ForEach(centralManager.discoveredPeripherals, id: \.identifier) { peripheral in
+                                NavigationLink(destination: PeripheralDetailView(peripheralId: peripheral.identifier)
+                                                .environment(centralManager)) {
+                                    HStack(spacing: 18) {
+                                        // Simple avatar based on hash
+                                        ZStack {
+                                            Circle()
+                                                .fill(LinearGradient(gradient: Gradient(colors: [
+                                                    Color.accentColor.opacity(0.19), Color.accentColor.opacity(0.47)
+                                                ]),
+                                                    startPoint: .topLeading,
+                                                    endPoint: .bottomTrailing))
+                                                .frame(width: 46, height: 46)
+                                            Image(systemName: "person.fill")
+                                                .font(.title2)
+                                                .foregroundColor(.accentColor)
+                                        }
+                                        VStack(alignment: .leading, spacing: 3) {
+                                            Text(peripheral.name ?? "Anonymous User")
+                                                .font(.headline)
+                                                .foregroundColor(.primary)
+                                            Text("Tap to view & assist")
+                                                .foregroundColor(.blue)
+                                                .font(.subheadline)
+                                        }
+                                        Spacer()
+                                        // Connection status indicator
+                                        if peripheral.state == .connected {
+                                            Image(systemName: "link.circle.fill")
+                                                .foregroundColor(.green)
+                                        }
+                                    }
+                                    .padding([.vertical], 8)
+                                }
+                                .listRowBackground(Color(.secondarySystemGroupedBackground))
+                            }
+                        }
+                    } header: {
+                        Text("Nearby Help Requests")
+                            .font(.title3)
+                            .foregroundColor(Color("BGColor"))
+                            .padding(.bottom, 4)
                     }
-                } header: {
-//                    Text("Discovered peripherals")
-                    Text("Help Requests")
                 }
+                .listStyle(.insetGrouped)
+                .background(.clear)
             }
+            // MARK: - Scan Settings Sheet
+            .sheet(isPresented: $showEdit) {
+                VStack(spacing: 28) {
+                    HStack {
+                        Text("Scan Settings")
+                            .font(.title2.weight(.semibold))
+                            .foregroundColor(.accentColor)
+                        Spacer()
+                        Button("Done") { showEdit = false }
+                            .padding(.horizontal, 10)
+                            .foregroundColor(.accentColor)
+                    }
+                    .padding(.vertical)
 
-        }
-        .multilineTextAlignment(.leading)
-        .navigationTitle("Provide Help")
-        .navigationBarTitleDisplayMode(.inline)
-        .onDisappear {
-            scanning = false
-        }
-        .onChange(of: scanning, initial: true, {
-            if scanning {
-                centralManager.startScanning(serviceUUIDs: scanningUUIDs, allowDuplicateKey: allowDuplicateKey, solicitedServiceUUIDs: solicitedServiceUUIDs)
-            } else {
-                centralManager.stopScanning()
+                    VStack(alignment: .leading, spacing: 14) {
+                        HStack {
+                            Text("Service UUIDs")
+                                .font(.headline)
+                            Spacer()
+                        }
+                        TextField("Comma separated…", text: $scanningUUIDsString)
+                            .textFieldStyle(.roundedBorder)
+                            .font(.callout)
+                        Text("Only 128-bit UUIDs. Leave blank to scan all.")
+                            .font(.footnote)
+                            .foregroundColor(.gray)
+                        Divider()
+                        Toggle("Allow Duplicate Responses", isOn: $allowDuplicateKeyEdit)
+                        Divider()
+                        Text("Solicited Service UUIDs")
+                            .font(.headline)
+                        TextField("Comma separated…", text: $solicitedServiceUUIDsString)
+                            .textFieldStyle(.roundedBorder)
+                            .font(.callout)
+                    }
+                    .padding()
+                    .background(.regularMaterial)
+                    .cornerRadius(16)
+
+                    Spacer()
+                    Button("Save & Close") {
+                        scanningUUIDs = scanningUUIDsString.cbUUIDs
+                        solicitedServiceUUIDs = solicitedServiceUUIDsString.cbUUIDs ?? []
+                        allowDuplicateKey = allowDuplicateKeyEdit
+                        showEdit = false
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .padding(.top)
+                }
+                .padding(.horizontal, 30)
+                .background(Color("BGColor").ignoresSafeArea())
             }
-        })
-        .onChange(of: centralManager.restoredScanningOption, initial: true, {
-            if let option = centralManager.restoredScanningOption {
+        }
+        .navigationBarHidden(true)
+        .onDisappear { scanning = false }
+        .onChange(of: scanning, initial: true) { _, isNowScanning in
+            if isNowScanning {
+                centralManager.startScanning(
+                    serviceUUIDs: scanningUUIDs,
+                    allowDuplicateKey: allowDuplicateKey,
+                    solicitedServiceUUIDs: solicitedServiceUUIDs
+                )
+            } else { centralManager.stopScanning() }
+        }
+        .onChange(of: centralManager.restoredScanningOption, initial: true) { _, opt in
+            if let option = opt {
                 self.scanningUUIDs = option.serviceUUID
                 self.allowDuplicateKey = option.allowDuplicates
                 self.solicitedServiceUUIDs = option.solicitedServiceUUIDs
             }
-        })
-        .toolbar(content: {
-            Button(action: {
-                scanning = false
-                showEdit = true
-            }, label: {
-                Text("Edit")
-            })
-        })
-        .sheet(isPresented: $showEdit, content: {
-            VStack(spacing: 24) {
-                
-                HStack {
-                    Text("Scan options")
-                        .font(.headline)
-                        .lineLimit(1)
-                    
-                    HStack(spacing: 16) {
-                                                
-                        Button(action: {
-                            showEdit = false
-                        }, label: {
-                            Text("Cancel")
-                                .foregroundStyle(.red)
-                        })
-                        .buttonStyle(.bordered)
-                        
-                        Button(action: {
-                            scanningUUIDs = scanningUUIDsString.cbUUIDs
-                            solicitedServiceUUIDs = solicitedServiceUUIDsString.cbUUIDs ?? []
-                            allowDuplicateKey = allowDuplicateKeyEdit
-                            showEdit = false
-                        }, label: {
-                            Text("Save")
-                        })
-                        .buttonStyle(.bordered)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-
-                }
-                    
-        
-                VStack {
-                    Text("Service CBUUIDs to scan for")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Text("\",\" separated. 128-bit UUID only. \nLeave it empty to scan for all services.")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .font(.subheadline)
-                        .foregroundStyle(.gray)
-                    
-                    TextField("", text: $scanningUUIDsString, axis: .vertical)
-                        .lineLimit(3, reservesSpace: true)
-                }
-                
-                Button(action: {
-                    allowDuplicateKeyEdit.toggle()
-                }, label: {
-                    HStack {
-                        Text("Allow Duplicate Keys")
-                        Image(systemName: allowDuplicateKeyEdit ? "checkmark.square" : "square")
-                            .resizable()
-                            .fontWeight(.bold)
-                            .frame(width: 12, height: 12)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-
-                })
-                
-                VStack {
-                    Text("Solicited CBUUIDs")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-
-                    Text("\",\" separated. 128-bit UUID only.")
-                        .font(.subheadline)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .foregroundStyle(.gray)
-                    
-                    TextField("", text: $solicitedServiceUUIDsString, axis: .vertical)
-                        .lineLimit(3, reservesSpace: true)
-                }
-                
-            }
-            .textFieldStyle(.roundedBorder)
-            .padding(.all, 32)
-            .frame(maxHeight: .infinity, alignment: .top)
-            .presentationDetents(.init([.fraction(0.7)]))
-            .background(.gray.opacity(0.2))
-            .onAppear {
-                solicitedServiceUUIDsString = solicitedServiceUUIDs.map{$0.uuidString}.joined(separator: ", ")
-                scanningUUIDsString = scanningUUIDs?.map{$0.uuidString}.joined(separator: ", ") ?? ""
-                allowDuplicateKeyEdit = allowDuplicateKey
-            }
-        })
+        }
     }
 }
+
 
 private struct PeripheralDetailView: View {
     @Environment(CentralManager.self) private var centralManager
@@ -395,133 +380,6 @@ private struct PeripheralDetailView: View {
         }
     }
 }
-
-//private struct PeripheralDetailView: View {
-//    @Environment(CentralManager.self) private var centralManager
-//    var peripheralId: UUID
-//
-//    @State private var connected: Bool = false
-//    
-//    var body: some View {
-//        if let peripheral = centralManager.discoveredPeripherals.first(where: { $0.identifier == peripheralId }) {
-//            let services = peripheral.services
-//            
-//            VStack {
-//                VStack(spacing: 16) {
-//                    HStack(spacing: 32)  {
-//                        Text("**Connect**")
-//                        Spacer()
-//                            .frame(maxWidth: .infinity)
-//                        Toggle("", isOn: $connected)
-//                    }
-//
-//                    
-//                    if let error = centralManager.error {
-//                        Text("Error: \(error)")
-//                            .foregroundStyle(.red)
-//                            .frame(maxWidth: .infinity, alignment: .center)
-//
-//                    }
-//                }
-//                .padding(.top, 16)
-//                .padding(.horizontal, 32)
-//                
-//                List {
-//                    Section {
-//
-//                        if services == nil {
-//                            Text(peripheral.state == .connected ? "Discovering..." : "Connect to discover")
-//                        } else if services!.isEmpty {
-//                            Text("No services discovered.")
-//                        }
-//                        
-//                        if let services {
-//                            ForEach(services, id: \.uuid) { service in
-//                                
-//                                NavigationLink(destination: {
-//                                    ServiceDetailView(peripheralId: peripheralId, serviceId: service.uuid)
-//                                        .environment(centralManager)
-//
-//                                }, label: {
-//                                    VStack(spacing: 8) {
-//                                        Text("ID: \(service.uuid)")
-//                                            .frame(maxWidth: .infinity, alignment: .leading)
-//                                        Text("Primary: \(service.isPrimary)")
-//                                            .font(.subheadline)
-//                                            .foregroundStyle(.gray)
-//                                            .frame(maxWidth: .infinity, alignment: .leading)
-//                                        
-//                                        Text("Characteristics: \(service.characteristics == nil ? "(not discovered yet)" : "\(service.characteristics!.count)")")
-//                                            .font(.subheadline)
-//                                            .foregroundStyle(.gray)
-//                                            .frame(maxWidth: .infinity, alignment: .leading)
-//                                        
-//                                        Text("Included Services: \(service.includedServices == nil ? "(not discovered yet)" : "\(service.includedServices!.count)")")
-//                                            .font(.subheadline)
-//                                            .foregroundStyle(.gray)
-//                                            .frame(maxWidth: .infinity, alignment: .leading)
-//
-//                                    }
-//                                })
-//
-//                            }
-//
-//                        }
-//                    } header: {
-//                        Text("Services")
-//                    }
-//                }
-//            }
-//            .navigationTitle("Peripheral: \(peripheral.name ?? peripheral.identifier.uuidString)")
-//            .navigationBarTitleDisplayMode(.inline)
-//            .multilineTextAlignment(.leading)
-//            .onAppear {
-//                connected = peripheral.state == .connected
-//                if peripheral.services == nil && connected {
-//                    centralManager.discoverServices(peripheral, serviceUUIDs: centralManager.scanningOption.serviceUUID)
-//                }
-//            }
-//            .onChange(of: connected, initial: true, {
-//                if connected {
-//                    centralManager.makeConnection(peripheral)
-//                } else {
-//                    centralManager.cancelConnection(peripheral)
-//                }
-//            })
-//            .onChange(of: peripheral.state, {
-//                print("peripheral State changed: \(peripheral.state)")
-//
-//                switch peripheral.state {
-//                case .connected:
-//                    self.connected = true
-//                    print("connected")
-//                case .disconnected:
-//                    self.connected = false
-//                    print( "disconnected")
-//                case .connecting:
-//                    print("connecting")
-//                case .disconnecting:
-//                    print("disconnecting")
-//                @unknown default:
-//                    break
-//                }
-//            })
-//  
-//        } else {
-//            VStack {
-//                Text("Cannot find peripheral with the given ID")
-//                    .foregroundStyle(.red)
-//            }
-//            .padding(.all, 32)
-//
-//            .navigationTitle("Peripheral")
-//            .navigationBarTitleDisplayMode(.inline)
-//            .multilineTextAlignment(.leading)
-//        }
-//        
-//    }
-//
-//}
 
 
 private struct ServiceDetailView: View {

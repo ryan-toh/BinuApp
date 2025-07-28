@@ -24,25 +24,48 @@ enum PeripheralManagerError: Error {
 
 @Observable
 class PeripheralManager: NSObject {
+    var lastWrittenValue: String = ""
+    private(set) var writableCharacteristic: CBMutableCharacteristic?
+    
     // Helper Function
+//    func createSingleWritableService(withDescription description: String) -> CBMutableService {
+//        // 1. Create the characteristic
+//        let characteristic = CBMutableCharacteristic(
+//            type: CBUUID(string: "E100"), // random char UUID
+//            properties: [.write, .read],
+//            value: nil,
+//            permissions: [.readable, .writeable]
+//        )
+//        // 2. Add the description as a User Description descriptor
+//        let descriptor = CBMutableDescriptor(
+//            type: CBUUID(string: CBUUIDCharacteristicUserDescriptionString),
+//            value: description
+//        )
+//        characteristic.descriptors = [descriptor]
+//        // 3. Create the service with the fixed UUID and assign the characteristic
+//        let serviceUUID = CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")
+//        let service = CBMutableService(type: serviceUUID, primary: true)
+//        service.characteristics = [characteristic]
+//        return service
+//    }
+    
     func createSingleWritableService(withDescription description: String) -> CBMutableService {
-        // 1. Create the characteristic
-        let characteristic = CBMutableCharacteristic(
-            type: CBUUID(string: "E100"), // random char UUID
-            properties: [.write, .read],
-            value: nil,
-            permissions: [.readable, .writeable]
-        )
-        // 2. Add the description as a User Description descriptor
-        let descriptor = CBMutableDescriptor(
-            type: CBUUID(string: CBUUIDCharacteristicUserDescriptionString),
-            value: description
-        )
-        characteristic.descriptors = [descriptor]
-        // 3. Create the service with the fixed UUID and assign the characteristic
         let serviceUUID = CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")
+        let charUUID = CBUUID(string: "E100")
         let service = CBMutableService(type: serviceUUID, primary: true)
-        service.characteristics = [characteristic]
+        let properties: CBCharacteristicProperties = [.write, .read]
+        let permissions: CBAttributePermissions = [.writeable, .readable]
+        let char = CBMutableCharacteristic(
+            type: charUUID,
+            properties: properties,
+            value: nil, // value will be set dynamically
+            permissions: permissions
+        )
+        // Descriptor for description
+        let userDescription = CBMutableDescriptor(type: CBUUID(string:CBUUIDCharacteristicUserDescriptionString), value: description)
+        char.descriptors = [userDescription]
+        self.writableCharacteristic = char // Store for updates
+        service.characteristics = [char]
         return service
     }
     
@@ -332,32 +355,43 @@ extension PeripheralManager: CBPeripheralManagerDelegate {
     // invoked when Central made a write request
     // handle the request (update the value)
     // respond using respondToRequest:withResult:
+//    func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
+//        print("peripheral receive write request")
+//        var data = Data()
+//
+//        for aRequest in requests {
+//            guard var requestValue = aRequest.value else {
+//                    continue
+//            }
+//
+//            requestValue = requestValue.dropFirst(aRequest.offset)
+//            data.append(requestValue)
+//            print("Received write request of \(requestValue.count) bytes: \(requestValue.string)")
+//        }
+//        
+//        if let firstRequest = requests.first {
+//            DispatchQueue.main.async {
+//                do {
+//                    try self.updateValueHelper(data, for: firstRequest.characteristic, onSubscribedCentrals: nil)
+//                    peripheral.respond(to: firstRequest, withResult: .success)
+//                } catch(let error) {
+//                    if let error  = error as? PeripheralManagerError {
+//                        self.error = error
+//                    }
+//                    peripheral.respond(to: firstRequest, withResult: .invalidHandle)
+//                }
+//            }
+//        }
+//    }
+//    
+    // For processing central text
     func peripheralManager(_ peripheral: CBPeripheralManager, didReceiveWrite requests: [CBATTRequest]) {
-        print("peripheral receive write request")
-        var data = Data()
-
-        for aRequest in requests {
-            guard var requestValue = aRequest.value else {
-                    continue
+        for request in requests {
+            if let char = writableCharacteristic, request.characteristic.uuid == char.uuid, let value = request.value, let str = String(data: value, encoding: .utf8) {
+                self.lastWrittenValue = str // update observable value
+                char.value = value // update underlying CBMutableCharacteristic value
             }
-
-            requestValue = requestValue.dropFirst(aRequest.offset)
-            data.append(requestValue)
-            print("Received write request of \(requestValue.count) bytes: \(requestValue.string)")
-        }
-        
-        if let firstRequest = requests.first {
-            DispatchQueue.main.async {
-                do {
-                    try self.updateValueHelper(data, for: firstRequest.characteristic, onSubscribedCentrals: nil)
-                    peripheral.respond(to: firstRequest, withResult: .success)
-                } catch(let error) {
-                    if let error  = error as? PeripheralManagerError {
-                        self.error = error
-                    }
-                    peripheral.respond(to: firstRequest, withResult: .invalidHandle)
-                }
-            }
+            peripheral.respond(to: request, withResult: .success)
         }
     }
 }

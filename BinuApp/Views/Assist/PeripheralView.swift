@@ -25,6 +25,27 @@ struct PeripheralView: View {
                 }
                 .toggleStyle(SwitchToggleStyle(tint: Color("FontColor")))
                 .padding(.horizontal)
+                
+                if !peripheralManager.lastWrittenValue.isEmpty {
+                    Group {
+                        Text("Received value:")
+                            .font(.subheadline)
+                            .foregroundColor(Color("FontColor"))
+                        Text("“\(peripheralManager.lastWrittenValue)”")
+                            .font(.title2)
+                            .bold()
+                            .foregroundStyle(.green)
+                            .padding(.bottom, 8)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                } else {
+                    Text("Waiting for response..")
+                        .font(.title2)
+                        .bold()
+                        .padding(.bottom, 8)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+
 
                 ScrollView {
                     VStack(spacing: 16) {

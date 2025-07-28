@@ -37,7 +37,11 @@ struct ScanningOption: Equatable {
 
 @Observable
 class CentralManager: NSObject {
-    
+    let targetServiceUUID = CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")
+    let targetCharacteristicUUID = CBUUID(string: "E100")
+    let userDescriptionUUID = CBUUID(string: CBUUIDCharacteristicUserDescriptionString)
+    var characteristicDescriptions: [UUID: String] = [:]
+
     var error: CentralManagerError? = nil {
         didSet {
             if error != nil {
@@ -288,20 +292,20 @@ extension CentralManager: CBCentralManagerDelegate {
     }
     
     
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        print("did discover peripheral")
-        print(peripheral)
-        updatePeripheral(peripheral)
-    }
+//    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+//        print("did discover peripheral")
+//        print(peripheral)
+//        updatePeripheral(peripheral)
+//    }
     
     
-    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        print("Peripheral Connected ", peripheral)
-        peripheral.delegate = self
-        discoverServices(peripheral, serviceUUIDs: self.scanningOption.serviceUUID)
-        updatePeripheral(peripheral)
-        
-    }
+//    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+//        print("Peripheral Connected ", peripheral)
+//        peripheral.delegate = self
+//        discoverServices(peripheral, serviceUUIDs: self.scanningOption.serviceUUID)
+//        updatePeripheral(peripheral)
+//        
+//    }
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         print("Failed to connect to ", peripheral)
@@ -337,16 +341,16 @@ extension CentralManager: CBPeripheralDelegate {
     }
     
     
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: (any Error)?) {
-        print("service discovered for peripheral:" , peripheral)
-        print("services :" , peripheral.services as Any)
-        print(self.discoveredPeripherals.first?.services as Any)
-        if let error {
-            self.setError(.discoverServicesError(error.localizedDescription))
-            return
-        }
-        self.updatePeripheral(peripheral)
-    }
+//    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: (any Error)?) {
+//        print("service discovered for peripheral:" , peripheral)
+//        print("services :" , peripheral.services as Any)
+//        print(self.discoveredPeripherals.first?.services as Any)
+//        if let error {
+//            self.setError(.discoverServicesError(error.localizedDescription))
+//            return
+//        }
+//        self.updatePeripheral(peripheral)
+//    }
     
     func peripheral(_ peripheral: CBPeripheral, didDiscoverIncludedServicesFor service: CBService, error: (any Error)?) {
         print("discovered included services")
@@ -361,35 +365,35 @@ extension CentralManager: CBPeripheralDelegate {
     }
     
     
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: (any Error)?) {
-        print("characteristic found for service: ", service)
-        print(service.characteristics as Any)
-        
-        for characteristic in service.characteristics ?? [] {
-            discoverDescriptors(peripheral, for: characteristic)
-            // first read to get the initial value if there is any
-            readCharacteristicValue(peripheral, for: characteristic)
-        }
-        
-        if let error {
-            setError(.discoverCharacteristicsError(error.localizedDescription))
-            return
-        }
-        self.updatePeripheral(peripheral)
-    }
+//    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: (any Error)?) {
+//        print("characteristic found for service: ", service)
+//        print(service.characteristics as Any)
+//        
+//        for characteristic in service.characteristics ?? [] {
+//            discoverDescriptors(peripheral, for: characteristic)
+//            // first read to get the initial value if there is any
+//            readCharacteristicValue(peripheral, for: characteristic)
+//        }
+//        
+//        if let error {
+//            setError(.discoverCharacteristicsError(error.localizedDescription))
+//            return
+//        }
+//        self.updatePeripheral(peripheral)
+//    }
     
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverDescriptorsFor characteristic: CBCharacteristic, error: (any Error)?) {
-        print("descriptor found for characteristic: ", characteristic)
-        print(characteristic.descriptors as Any)
-
-        if let error {
-            setError(.discoverDescriptorError(error.localizedDescription))
-            return
-        }
-        if let userDescriptor = characteristic.descriptors?.first(where: {$0.uuid == CBUUID(string: CBUUIDCharacteristicUserDescriptionString)}) {
-            self.readDescriptorValue(peripheral, for: userDescriptor)
-        }
-    }
+//    func peripheral(_ peripheral: CBPeripheral, didDiscoverDescriptorsFor characteristic: CBCharacteristic, error: (any Error)?) {
+//        print("descriptor found for characteristic: ", characteristic)
+//        print(characteristic.descriptors as Any)
+//
+//        if let error {
+//            setError(.discoverDescriptorError(error.localizedDescription))
+//            return
+//        }
+//        if let userDescriptor = characteristic.descriptors?.first(where: {$0.uuid == CBUUID(string: CBUUIDCharacteristicUserDescriptionString)}) {
+//            self.readDescriptorValue(peripheral, for: userDescriptor)
+//        }
+//    }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateNotificationStateFor characteristic: CBCharacteristic, error: (any Error)?) {
         if let error {
@@ -399,43 +403,107 @@ extension CentralManager: CBPeripheralDelegate {
         
     }
     
-    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: (any Error)?) {
-        print("didUpdateValueFor", characteristic)
+//    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: (any Error)?) {
+//        print("didUpdateValueFor", characteristic)
+//
+//        if let error {
+//            setError(.updateCharacteristicValueError(error.localizedDescription))
+//            return
+//        }
+//        if let data = characteristic.value,  !data.string.isEmpty  {
+//            if self.receivedData[characteristic] == nil {
+//                self.receivedData[characteristic] = []
+//            }
+//            self.receivedData[characteristic]?.insert(data, at: 0)
+//        }
+//        self.updatePeripheral(peripheral)
+//    }
+    
+//    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor descriptor: CBDescriptor, error: (any Error)?) {
+//        print("didUpdateValueFor", descriptor)
+//        if let error {
+//            setError(.updateDescriptorValueError(error.localizedDescription))
+//            return
+//        }
+//        self.updatePeripheral(peripheral)
+//    }
+//    
+//    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: (any Error)?) {
+//        print("didWriteValueFor")
+//
+//        if let error {
+//            print("error writing value")
+//            setError(.writeCharacteristicError(error.localizedDescription))
+//            self.updatePeripheral(peripheral)
+//            return
+//        } else if !characteristic.isNotifying {
+//            print("reading value")
+//            self.readCharacteristicValue(peripheral, for: characteristic)
+//        }
+//
+//    }
+    
+    // Make sure these are inside your CentralManager
 
-        if let error {
-            setError(.updateCharacteristicValueError(error.localizedDescription))
-            return
+    // Autoconnect as soon as we find the right peripheral
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        // Autoconnect if not connected or connecting
+        let isAlreadyConnecting = discoveredPeripherals.contains(where: {
+            $0.identifier == peripheral.identifier &&
+            ($0.state == .connected || $0.state == .connecting)
+        })
+        if !isAlreadyConnecting {
+            makeConnection(peripheral)
         }
-        if let data = characteristic.value,  !data.string.isEmpty  {
-            if self.receivedData[characteristic] == nil {
-                self.receivedData[characteristic] = []
-            }
-            self.receivedData[characteristic]?.insert(data, at: 0)
+        updatePeripheral(peripheral)
+    }
+
+    // Once connected, discover only the target service (saves time)
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        peripheral.delegate = self
+        discoverServices(peripheral, serviceUUIDs: [targetServiceUUID])
+        updatePeripheral(peripheral)
+    }
+
+    // Only discover the E100 characteristic for the target service
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: (any Error)?) {
+        if let error { setError(.discoverServicesError(error.localizedDescription)); return }
+        guard let service = peripheral.services?.first(where: { $0.uuid == targetServiceUUID }) else { return }
+        peripheral.discoverCharacteristics([targetCharacteristicUUID], for: service)
+        updatePeripheral(peripheral)
+    }
+
+    // When E100 is found, look for its User Description descriptor
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: (any Error)?) {
+        if let error { setError(.discoverCharacteristicsError(error.localizedDescription)); return }
+        guard let characteristic = service.characteristics?.first(where: { $0.uuid == targetCharacteristicUUID }) else { return }
+        discoverDescriptors(peripheral, for: characteristic)
+    }
+
+    // Attempt to read the User Description of E100
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverDescriptorsFor characteristic: CBCharacteristic, error: (any Error)?) {
+        if let error { setError(.discoverDescriptorError(error.localizedDescription)); return }
+        if characteristic.uuid == targetCharacteristicUUID,
+           let userDesc = characteristic.descriptors?.first(where: { $0.uuid == userDescriptionUUID }) {
+            readDescriptorValue(peripheral, for: userDesc)
         }
-        self.updatePeripheral(peripheral)
     }
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor descriptor: CBDescriptor, error: (any Error)?) {
-        print("didUpdateValueFor", descriptor)
         if let error {
             setError(.updateDescriptorValueError(error.localizedDescription))
             return
         }
-        self.updatePeripheral(peripheral)
-    }
-    
-    func peripheral(_ peripheral: CBPeripheral, didWriteValueFor characteristic: CBCharacteristic, error: (any Error)?) {
-        print("didWriteValueFor")
-
-        if let error {
-            print("error writing value")
-            setError(.writeCharacteristicError(error.localizedDescription))
-            self.updatePeripheral(peripheral)
-            return
-        } else if !characteristic.isNotifying {
-            print("reading value")
-            self.readCharacteristicValue(peripheral, for: characteristic)
+        // Save characteristic description for E100
+        if descriptor.uuid == userDescriptionUUID,
+           let value = descriptor.value as? String,
+           let char = descriptor.characteristic,
+           char.uuid == targetCharacteristicUUID {
+            characteristicDescriptions[peripheral.identifier] = value
         }
-
+        updatePeripheral(peripheral)
     }
+
+
 }
+
