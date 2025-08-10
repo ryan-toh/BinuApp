@@ -11,13 +11,28 @@ import FirebaseCore
 import FirebaseAuth
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    var centralManager: CentralManager? // Your existing class
+    
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-
+        
         FirebaseApp.configure()
+        
+        // Start your CentralManager at launch
+        centralManager = CentralManager()
+        
         return true
     }
 }
+
+//class AppDelegate: NSObject, UIApplicationDelegate {
+//    func application(_ application: UIApplication,
+//                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+//
+//        FirebaseApp.configure()
+//        return true
+//    }
+//}
 
 @main
 struct AppEntry: App {

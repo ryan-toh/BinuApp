@@ -29,7 +29,6 @@ struct WelcomeView: View {
                             .fixedSize(horizontal: false, vertical: true)
                     }
                     .padding(.leading, 30)
-
                     Spacer()
                 }
                 Spacer()
