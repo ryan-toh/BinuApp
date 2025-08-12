@@ -264,9 +264,9 @@ extension CentralManager: CBCentralManagerDelegate {
                         advertisementData: [String : Any],
                         rssi RSSI: NSNumber) {
         // Notify right away (we may not have descriptor text yet)
-        notifyOnce(peripheral: peripheral,
-                   title: "Someone nearby needs help",
-                   body: "Tap to open and see the request.")
+//        notifyOnce(peripheral: peripheral,
+//                   title: "Someone nearby needs help",
+//                   body: "Tap to open and see the request.")
 
         // Autoconnect if not already connecting/connected
         let isAlreadyConnecting = discoveredPeripherals.contains {
