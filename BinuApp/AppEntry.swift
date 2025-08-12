@@ -18,26 +18,21 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         
         FirebaseApp.configure()
         
-        // Start your CentralManager at launch
-        centralManager = CentralManager()
+        // Configure notificstions
+        NotificationHelper.shared.configure()
         
         return true
     }
 }
 
-//class AppDelegate: NSObject, UIApplicationDelegate {
-//    func application(_ application: UIApplication,
-//                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-//
-//        FirebaseApp.configure()
-//        return true
-//    }
-//}
 
 @main
 struct AppEntry: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var authViewModel = AuthViewModel()
+    // Start your CentralManager at launch
+    @State private var centralManager = CentralManager()
+    @State private var showCentralFromNotification = false
     
     // eungi: setting OVERALL COLOR THEME
     init() {
@@ -62,12 +57,19 @@ struct AppEntry: App {
                     WelcomeView()
                         .environmentObject(authViewModel)
                 } else {
-                    MainTabView()
+                    MainTabView(centralManager: centralManager)
                         .environmentObject(authViewModel)
                 }
             }
             .onAppear {
                 authViewModel.listenForAuthChanges()
+                centralManager.startScanning(serviceUUIDs: [centralManager.targetServiceUUID])
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .openCentralFromNotification)) { _ in
+                showCentralFromNotification = true
+            }
+            .sheet(isPresented: $showCentralFromNotification) {
+                CentralView2(centralManager: centralManager)
             }
         }
     }

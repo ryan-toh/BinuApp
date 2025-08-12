@@ -12,7 +12,8 @@ struct ForumView: View {
     @EnvironmentObject var forumVM: ForumViewModel
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var postVM: PostViewModel
-
+    
+    @State var centralManager: CentralManager
     @State private var showingCreatePost = false
     @State private var postsLoaded = false
     @State private var showingCentralSheet = false
@@ -141,7 +142,8 @@ struct ForumView: View {
             }
             .sheet(isPresented: $showingCentralSheet) {
                 NavigationStack {
-                    CentralView2()
+                    CentralView2(centralManager: centralManager)
+//                    CentralView(centralManager: centralManager)
                 }
             }
             .sheet(isPresented: $showingPeripheralSheet) {

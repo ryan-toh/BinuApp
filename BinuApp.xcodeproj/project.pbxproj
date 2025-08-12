@@ -60,6 +60,7 @@
 		78A744042E1147C4002A25C7 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 78A744032E1147C4002A25C7 /* FirebaseCore */; };
 		78A744062E114807002A25C7 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 78A744052E114807002A25C7 /* FirebaseStorage */; };
 		78A744082E11480C002A25C7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 78A744072E11480C002A25C7 /* FirebaseFirestore */; };
+		78C18BEB2E4B2EA60081C2EF /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C18BEA2E4B2EA60081C2EF /* NotificationHelper.swift */; };
 		78D1E1802E0E586B00F77CB3 /* ItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1E17F2E0E586B00F77CB3 /* ItemModel.swift */; };
 		78EBD2DC2E2F6E680094CE8C /* PeripheralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EBD2DB2E2F6E610094CE8C /* PeripheralManager.swift */; };
 		78EBD2DF2E322B720094CE8C /* PeripheralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EBD2DE2E322B720094CE8C /* PeripheralView.swift */; };
@@ -146,6 +147,7 @@
 		785BDEEB2E0FE59F00E212BB /* ItemPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemPickerView.swift; sourceTree = "<group>"; };
 		785BDEFF2E10369800E212BB /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		785BDF012E1117AF00E212BB /* UUIDExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UUIDExtension.swift; sourceTree = "<group>"; };
+		78C18BEA2E4B2EA60081C2EF /* NotificationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		78D1E17F2E0E586B00F77CB3 /* ItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemModel.swift; sourceTree = "<group>"; };
 		78EBD2DB2E2F6E610094CE8C /* PeripheralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralManager.swift; sourceTree = "<group>"; };
 		78EBD2DE2E322B720094CE8C /* PeripheralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeripheralView.swift; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 		780B65382DEC18A800F58AF5 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				78C18BE92E4B2EA00081C2EF /* Notifications */,
 				78EBD2DA2E2F6CA70094CE8C /* Assist */,
 				780B653C2DEC190E00F58AF5 /* Forum */,
 				780B653B2DEC18D100F58AF5 /* Auth */,
@@ -391,6 +394,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		78C18BE92E4B2EA00081C2EF /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				78C18BEA2E4B2EA60081C2EF /* NotificationHelper.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		78EBD2DA2E2F6CA70094CE8C /* Assist */ = {
@@ -727,6 +738,7 @@
 				7837DF552E369804005EA8BB /* CentralView2.swift in Sources */,
 				7833482F2DF6C2D400207E2C /* CreateCommentView.swift in Sources */,
 				78EBD2E62E3230840094CE8C /* DataExtension.swift in Sources */,
+				78C18BEB2E4B2EA60081C2EF /* NotificationHelper.swift in Sources */,
 				7833482D2DF6C2C000207E2C /* CommentView.swift in Sources */,
 				780B65522DEC1A8400F58AF5 /* SignUpView.swift in Sources */,
 				31EF9E572DFF0000008FD5C7 /* CombinedCommentView.swift in Sources */,

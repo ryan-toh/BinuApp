@@ -4,11 +4,12 @@ struct MainTabView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @StateObject var forumVM = ForumViewModel()
     @StateObject var postVM = PostViewModel()
+    @State var centralManager: CentralManager
     
 
     var body: some View {
         TabView {
-            ForumView()
+            ForumView(centralManager: centralManager)
                 .environmentObject(forumVM)
                 .environmentObject(authVM)
                 .environmentObject(postVM)
@@ -52,6 +53,6 @@ struct MainTabView: View {
 }
 
 #Preview {
-    MainTabView()
+    MainTabView(centralManager: CentralManager())
         .environmentObject(AuthViewModel())
 }
