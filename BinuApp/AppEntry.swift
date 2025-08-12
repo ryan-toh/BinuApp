@@ -10,13 +10,29 @@ import SwiftData
 import FirebaseCore
 import FirebaseAuth
 
+//class AppDelegate: NSObject, UIApplicationDelegate {
+//    var centralManager: CentralManager? // Your existing class
+//    
+//    func application(_ application: UIApplication,
+//                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+//        
+//        FirebaseApp.configure()
+//        
+//        // Configure notificstions
+//        NotificationHelper.shared.configure()
+//        
+//        return true
+//    }
+//}
+
 class AppDelegate: NSObject, UIApplicationDelegate {
-    var centralManager: CentralManager? // Your existing class
+    let centralManager = CentralManager()
     
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         
         FirebaseApp.configure()
+        centralManager.startScanning(serviceUUIDs: [centralManager.targetServiceUUID])
         
         // Configure notificstions
         NotificationHelper.shared.configure()
@@ -26,15 +42,63 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 
+//@main
+//struct AppEntry: App {
+//    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+//    @StateObject private var authViewModel = AuthViewModel()
+//    // Start your CentralManager at launch
+//    @State private var centralManager = CentralManager()
+//    @State private var showCentralFromNotification = false
+//    
+//    // eungi: setting OVERALL COLOR THEME
+//    init() {
+//        let tabBarAppearance = UITabBarAppearance()
+//        tabBarAppearance.configureWithOpaqueBackground()
+//        tabBarAppearance.backgroundColor = UIColor(named: "BGColor")
+//
+//        UITabBar.appearance().standardAppearance = tabBarAppearance
+//        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+//
+//        UITabBar.appearance().tintColor = UIColor(named: "FontColor") // selected tab
+//        UITabBar.appearance().unselectedItemTintColor = UIColor.lightGray
+//    }
+//    // eungi: END
+//
+//    var body: some Scene {
+//        WindowGroup {
+//            Group {
+//                if authViewModel.isCheckingAuthState {
+//                    LogoView()
+//                } else if authViewModel.user == nil {
+//                    WelcomeView()
+//                        .environmentObject(authViewModel)
+//                } else {
+//                    MainTabView(centralManager: centralManager)
+//                        .environmentObject(authViewModel)
+//                        .environment(centralManager)
+//                }
+//            }
+//            .onAppear {
+//                authViewModel.listenForAuthChanges()
+//                centralManager.startScanning(serviceUUIDs: [centralManager.targetServiceUUID])
+//            }
+//            .onReceive(NotificationCenter.default.publisher(for: .openCentralFromNotification)) { _ in
+//                showCentralFromNotification = true
+//            }
+//            .sheet(isPresented: $showCentralFromNotification) {
+//                CentralView2(centralManager: centralManager)        
+//            }
+//        }
+//    }
+//}
+
 @main
 struct AppEntry: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     @StateObject private var authViewModel = AuthViewModel()
-    // Start your CentralManager at launch
-    @State private var centralManager = CentralManager()
     @State private var showCentralFromNotification = false
-    
-    // eungi: setting OVERALL COLOR THEME
+
+    // Global tab appearance setup
     init() {
         let tabBarAppearance = UITabBarAppearance()
         tabBarAppearance.configureWithOpaqueBackground()
@@ -42,11 +106,9 @@ struct AppEntry: App {
 
         UITabBar.appearance().standardAppearance = tabBarAppearance
         UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-
-        UITabBar.appearance().tintColor = UIColor(named: "FontColor") // selected tab
-        UITabBar.appearance().unselectedItemTintColor = UIColor.lightGray
+        UITabBar.appearance().tintColor = UIColor(named: "FontColor")     // selected tab
+        UITabBar.appearance().unselectedItemTintColor = .lightGray
     }
-    // eungi: END
 
     var body: some Scene {
         WindowGroup {
@@ -57,21 +119,24 @@ struct AppEntry: App {
                     WelcomeView()
                         .environmentObject(authViewModel)
                 } else {
-                    MainTabView(centralManager: centralManager)
+                    // Use the SAME CentralManager instance provided by the AppDelegate
+                    MainTabView(centralManager: delegate.centralManager)
                         .environmentObject(authViewModel)
-                        .environment(centralManager)
+                        .environment(delegate.centralManager) // Observation framework injection
                 }
             }
             .onAppear {
                 authViewModel.listenForAuthChanges()
-                centralManager.startScanning(serviceUUIDs: [centralManager.targetServiceUUID])
+                // No need to start scanning here; AppDelegate did it already.
             }
             .onReceive(NotificationCenter.default.publisher(for: .openCentralFromNotification)) { _ in
                 showCentralFromNotification = true
             }
             .sheet(isPresented: $showCentralFromNotification) {
-                CentralView2(centralManager: centralManager)        
+                // Present the same shared instance in sheets as well
+                CentralView2(centralManager: delegate.centralManager)
             }
         }
     }
 }
+

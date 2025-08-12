@@ -4,7 +4,7 @@ final class NotificationHelper {
     static let shared = NotificationHelper()
     private init() {}
 
-    func configure() {
+    @MainActor func configure() {
         // delegate + permission
         UNUserNotificationCenter.current().delegate = ForegroundBannerDelegate.shared
         Notifier.requestAuthorization()

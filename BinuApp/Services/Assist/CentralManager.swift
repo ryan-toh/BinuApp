@@ -1,6 +1,7 @@
 import SwiftUI
 import CoreBluetooth
 import UserNotifications
+import Foundation
 
 // Receiver
 enum CentralManagerError: Error {
@@ -57,15 +58,17 @@ class CentralManager: NSObject {
 
     // CoreBluetooth
     private var centralManager: CBCentralManager?
-    private let managerUID: NSString = "ItsukiCentralManager"
+    private let managerUID: NSString = "BinuCentralManager"
 
     override init() {
         super.init()
         // default scan target
         self.scanningOption = .init(serviceUUID: [targetServiceUUID], allowDuplicates: false)
 
-        // notifications
-        Notifier.requestAuthorization()
+        // Hop to main actor without blocking init
+        Task { @MainActor in
+            Notifier.requestAuthorization()
+        }
 
         // central with state restoration
         centralManager = CBCentralManager(delegate: self, queue: nil, options: [
@@ -242,9 +245,9 @@ extension CentralManager: CBCentralManagerDelegate {
     }
 
     func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {
-        // Restore previously discovered peripherals
-        let previousPeripheral = dict[CBCentralManagerRestoredStatePeripheralsKey] as? [CBPeripheral] ?? []
-        self.discoveredPeripherals = previousPeripheral
+        // Restore previously discovered peripherals - Deprecated
+//        let previousPeripheral = dict[CBCentralManagerRestoredStatePeripheralsKey] as? [CBPeripheral] ?? []
+//        self.discoveredPeripherals = previousPeripheral
 
         // Restore prior scan options
         let previousScanningService = dict[CBCentralManagerRestoredStateScanServicesKey] as? [CBUUID]

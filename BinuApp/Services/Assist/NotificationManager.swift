@@ -13,7 +13,7 @@ extension Notification.Name {
 }
 
 enum Notifier {
-    static func requestAuthorization() {
+    @MainActor static func requestAuthorization() {
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
         // show banner even when app is foregrounded
@@ -31,6 +31,7 @@ enum Notifier {
     }
 }
 
+@MainActor
 final class ForegroundBannerDelegate: NSObject, UNUserNotificationCenterDelegate {
         static let shared = ForegroundBannerDelegate()
         //    private override init() {}

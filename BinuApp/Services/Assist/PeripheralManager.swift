@@ -223,8 +223,22 @@ extension PeripheralManager {
         ])
     }
 
-    func stopAdvertising() {
-        peripheralManager?.stopAdvertising()
+//    func stopAdvertising() {
+//        peripheralManager?.stopAdvertising()
+//    }
+
+    @MainActor
+    func stopAdvertising(removeServices: Bool = true) {
+        guard let peripheralManager else { return }
+        if peripheralManager.isAdvertising {
+            peripheralManager.stopAdvertising()
+        }
+        if removeServices {
+            // ensures a restored session can't silently resume later
+            peripheralManager.removeAllServices()
+            addedServices.removeAll()
+            writableCharacteristic = nil
+        }
     }
 
     
