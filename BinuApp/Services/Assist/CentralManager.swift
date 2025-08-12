@@ -91,7 +91,7 @@ extension CentralManager {
     }
 
     // Scan (UI can call this, but scanning also auto-starts once BT is on)
-    @MainActor
+//    @MainActor
     func startScanning(serviceUUIDs: [CBUUID]?, allowDuplicateKey: Bool = false, solicitedServiceUUIDs: [CBUUID] = []) {
         guard checkBluetooth() else { return }
         // Clean old peripherals

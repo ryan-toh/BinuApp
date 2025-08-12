@@ -12,10 +12,6 @@ extension Notification.Name {
     static let openCentralFromNotification = Notification.Name("openCentralFromNotification")
 }
 
-final class ForegroundBannerDelegate: NSObject, UNUserNotificationCenterDelegate {
-    static let shared = ForegroundBannerDelegate()
-    private override init() {}
-
 enum Notifier {
     static func requestAuthorization() {
         let center = UNUserNotificationCenter.current()
@@ -36,9 +32,10 @@ enum Notifier {
 }
 
 final class ForegroundBannerDelegate: NSObject, UNUserNotificationCenterDelegate {
-    static let shared = ForegroundBannerDelegate()
-    private override init() {}
-
+        static let shared = ForegroundBannerDelegate()
+        //    private override init() {}
+        override init() {}
+    
     // show banners while app is in foreground too
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
@@ -46,7 +43,7 @@ final class ForegroundBannerDelegate: NSObject, UNUserNotificationCenterDelegate
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                    didReceive response: UNNotificationResponse) async {
-            NotificationCenter.default.post(name: .openCentralFromNotification, object: nil)
-        }
+                                didReceive response: UNNotificationResponse) async {
+        NotificationCenter.default.post(name: .openCentralFromNotification, object: nil)
+    }
 }
