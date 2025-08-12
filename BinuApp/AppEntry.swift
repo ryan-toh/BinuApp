@@ -59,6 +59,7 @@ struct AppEntry: App {
                 } else {
                     MainTabView(centralManager: centralManager)
                         .environmentObject(authViewModel)
+                        .environment(centralManager)
                 }
             }
             .onAppear {
@@ -69,7 +70,8 @@ struct AppEntry: App {
                 showCentralFromNotification = true
             }
             .sheet(isPresented: $showCentralFromNotification) {
-                CentralView2(centralManager: centralManager)
+                CentralView2()                        // <-- read from environment
+                    .environment(centralManager)      // (defensive in case the sheet isn’t under the root env)
             }
         }
     }
