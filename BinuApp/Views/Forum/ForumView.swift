@@ -36,6 +36,7 @@ struct ForumView: View {
             return forumVM.posts.filter { $0.userId == authVM.user?.id }
         }
     }
+    let columns = [GridItem(.flexible(), spacing: 12), GridItem(.flexible(), spacing: 12)]
 
     var body: some View {
         NavigationStack {
@@ -43,6 +44,42 @@ struct ForumView: View {
                 Color("BGColor").ignoresSafeArea()
                 
                 VStack(spacing: 0) {
+                    // 🔹 Always-visible Help Buttons
+                    LazyVGrid(columns: columns, spacing: 12) {
+                        TileButton(
+                            title: "Provide Help",
+                            systemImage: "hand.raised.fill",
+                            tint: Color.green
+                        ) { showingCentralSheet = true }
+
+                        TileButton(
+                            title: "Call for Help",
+                            systemImage: "megaphone.fill",
+                            tint: Color.blue
+                        ) { showingPeripheralSheet = true }
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 12)
+
+//                    HStack(spacing: 16) {
+//                        Button("Provide Help") {
+//                            showingCentralSheet = true
+//                        }
+//                        .buttonStyle(.borderedProminent)
+//
+//                        Button("Call for Help") {
+//                            showingPeripheralSheet = true
+//                        }
+//                        .buttonStyle(.borderedProminent)
+//                    }
+//                    .padding(.horizontal)
+//                    .padding(.top, 8)
+                    
+                    Text("Forum")
+                        .font(.title.bold())
+                        .foregroundColor(Color("FontColor"))
+                        .padding()
+                    
                     // 🔹 Tab bar
                     Picker("Select Tab", selection: $selectedTab) {
                         ForEach(ForumTab.allCases) { tab in
@@ -55,20 +92,6 @@ struct ForumView: View {
                     .padding(.bottom, 4)
                     .accentColor(Color("FontColor"))
                     
-                    // 🔹 Always-visible Help Buttons
-                    HStack(spacing: 16) {
-                        Button("Provide Help") {
-                            showingCentralSheet = true
-                        }
-                        .buttonStyle(.borderedProminent)
-
-                        Button("Call for Help") {
-                            showingPeripheralSheet = true
-                        }
-                        .buttonStyle(.borderedProminent)
-                    }
-                    .padding(.horizontal)
-                    .padding(.top, 8)
 
                     if forumVM.isLoading {
                         LoadingSpinnerView()
@@ -114,7 +137,7 @@ struct ForumView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("Forum")
+                    Text("Home")
                         .font(.title.bold())
                         .foregroundColor(Color("FontColor"))
                 }

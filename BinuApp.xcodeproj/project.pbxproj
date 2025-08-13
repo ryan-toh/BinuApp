@@ -20,6 +20,7 @@
 		318971462DFC334C005A4955 /* waves.gif in Resources */ = {isa = PBXBuildFile; fileRef = 318971452DFC334C005A4955 /* waves.gif */; };
 		31E787D52E338B0800D8AD3F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31E787D42E338B0800D8AD3F /* GoogleService-Info.plist */; };
 		31EF9E572DFF0000008FD5C7 /* CombinedCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */; };
+		78008D682E4C5258000D91FF /* TileButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78008D672E4C5258000D91FF /* TileButton.swift */; };
 		780B65352DEC102E00F58AF5 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65342DEC102E00F58AF5 /* CommentService.swift */; };
 		780B65372DEC104C00F58AF5 /* SentimentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65362DEC104C00F58AF5 /* SentimentService.swift */; };
 		780B653F2DEC197600F58AF5 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B653E2DEC197600F58AF5 /* AuthViewModel.swift */; };
@@ -117,6 +118,7 @@
 		318971452DFC334C005A4955 /* waves.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = waves.gif; sourceTree = "<group>"; };
 		31E787D42E338B0800D8AD3F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedCommentView.swift; sourceTree = "<group>"; };
+		78008D672E4C5258000D91FF /* TileButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileButton.swift; sourceTree = "<group>"; };
 		780B65342DEC102E00F58AF5 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		780B65362DEC104C00F58AF5 /* SentimentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimentService.swift; sourceTree = "<group>"; };
 		780B653E2DEC197600F58AF5 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 		780B65592DEC1ADD00F58AF5 /* Forum */ = {
 			isa = PBXGroup;
 			children = (
+				78008D672E4C5258000D91FF /* TileButton.swift */,
 				780B655A2DEC1AEB00F58AF5 /* ForumView.swift */,
 				780B655C2DEC1AF700F58AF5 /* PostRowView.swift */,
 				31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */,
@@ -747,6 +750,7 @@
 				78C18BEB2E4B2EA60081C2EF /* NotificationHelperz.swift in Sources */,
 				7833482D2DF6C2C000207E2C /* CommentView.swift in Sources */,
 				780B65522DEC1A8400F58AF5 /* SignUpView.swift in Sources */,
+				78008D682E4C5258000D91FF /* TileButton.swift in Sources */,
 				31EF9E572DFF0000008FD5C7 /* CombinedCommentView.swift in Sources */,
 				783348312DF6C2DD00207E2C /* EditCommentView.swift in Sources */,
 				780B65502DEC1A7E00F58AF5 /* LoginView.swift in Sources */,
