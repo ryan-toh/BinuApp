@@ -28,27 +28,6 @@ class PeripheralManager: NSObject {
     private(set) var writableCharacteristic: CBMutableCharacteristic?
     
     // Helper Function
-//    func createSingleWritableService(withDescription description: String) -> CBMutableService {
-//        // 1. Create the characteristic
-//        let characteristic = CBMutableCharacteristic(
-//            type: CBUUID(string: "E100"), // random char UUID
-//            properties: [.write, .read],
-//            value: nil,
-//            permissions: [.readable, .writeable]
-//        )
-//        // 2. Add the description as a User Description descriptor
-//        let descriptor = CBMutableDescriptor(
-//            type: CBUUID(string: CBUUIDCharacteristicUserDescriptionString),
-//            value: description
-//        )
-//        characteristic.descriptors = [descriptor]
-//        // 3. Create the service with the fixed UUID and assign the characteristic
-//        let serviceUUID = CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")
-//        let service = CBMutableService(type: serviceUUID, primary: true)
-//        service.characteristics = [characteristic]
-//        return service
-//    }
-    
     func createSingleWritableService(withDescription description: String) -> CBMutableService {
         let serviceUUID = CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")
         let charUUID = CBUUID(string: "E100")
@@ -93,16 +72,13 @@ class PeripheralManager: NSObject {
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil, options: [
             CBPeripheralManagerOptionShowPowerAlertKey: true,
             // allow state restore
-            CBPeripheralManagerOptionRestoreIdentifierKey: managerUID
+//            CBPeripheralManagerOptionRestoreIdentifierKey: managerUID
         ])
     }
 
 }
     
 extension PeripheralManager {
-    
-
-    
     
     private func checkBluetooth() -> Bool {
         if peripheralManager?.state != .poweredOn {

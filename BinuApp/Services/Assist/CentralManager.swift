@@ -33,6 +33,7 @@ class CentralManager: NSObject {
     let targetServiceUUID = CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")
     let targetCharacteristicUUID = CBUUID(string: "E100")
     let userDescriptionUUID = CBUUID(string: CBUUIDCharacteristicUserDescriptionString)
+    private(set) var connectedTargetPeripherals: [CBPeripheral] = []
 
     // state
     var characteristicDescriptions: [UUID: String] = [:]
@@ -52,9 +53,9 @@ class CentralManager: NSObject {
     private let alwaysScan = true                 // <-- force background scanning
     private(set) var isScanning = false
 
-    // local de-dupe for notifications
-    private var lastNotifiedAt: [UUID: Date] = [:]
-    private let notifyCooldown: TimeInterval = 60 * 5 // 5 min per device
+    // Dedupe: don't resend the same request text within this window
+    private var recentRequestTimestamps: [String: Date] = [:]
+    private let requestDedupeWindow: TimeInterval = 3 * 60
 
     // CoreBluetooth
     private var centralManager: CBCentralManager?
@@ -62,6 +63,7 @@ class CentralManager: NSObject {
 
     override init() {
         super.init()
+        print("init was called")
         // default scan target
         self.scanningOption = .init(serviceUUID: [targetServiceUUID], allowDuplicates: false)
 
@@ -80,6 +82,45 @@ class CentralManager: NSObject {
 
 // MARK: - API
 extension CentralManager {
+    private func shouldNotify(forRequest value: String, from peripheral: CBPeripheral) -> Bool {
+        // For global (cross-device) dedupe:
+        let key = value
+        // For per-device dedupe instead, use:
+        // let key = "\(peripheral.identifier.uuidString)|\(value)"
+
+        let now = Date()
+
+        // prune old entries
+        recentRequestTimestamps = recentRequestTimestamps.filter { now.timeIntervalSince($0.value) < requestDedupeWindow }
+
+        // check window
+        if let last = recentRequestTimestamps[key], now.timeIntervalSince(last) < requestDedupeWindow {
+            return false
+        }
+
+        // record and allow
+        recentRequestTimestamps[key] = now
+        return true
+    }
+    
+    private func addConnectedTarget(_ peripheral: CBPeripheral) {
+        DispatchQueue.main.async {
+            if !self.connectedTargetPeripherals.contains(where: { $0.identifier == peripheral.identifier }) {
+                self.connectedTargetPeripherals.append(peripheral)
+            } else {
+                // keep the latest instance reference/state
+                if let i = self.connectedTargetPeripherals.firstIndex(where: { $0.identifier == peripheral.identifier }) {
+                    self.connectedTargetPeripherals[i] = peripheral
+                }
+            }
+        }
+    }
+    
+    private func removeConnectedTarget(_ peripheral: CBPeripheral) {
+        DispatchQueue.main.async {
+            self.connectedTargetPeripherals.removeAll { $0.identifier == peripheral.identifier }
+        }
+    }
 
     private func checkBluetooth() -> Bool {
         if centralManager?.state != .poweredOn {
@@ -214,18 +255,19 @@ extension CentralManager {
                 }
             }
         }
+        removeConnectedTarget(peripheral)
         centralManager.cancelPeripheralConnection(peripheral)
     }
 
-    // MARK: - Local notifications
-    private func notifyOnce(peripheral: CBPeripheral, title: String, body: String) {
-        let now = Date()
-        if let last = lastNotifiedAt[peripheral.identifier], now.timeIntervalSince(last) < notifyCooldown {
-            return
-        }
-        lastNotifiedAt[peripheral.identifier] = now
-        Notifier.sendNow(id: "help.\(peripheral.identifier.uuidString)", title: title, body: body)
-    }
+//    // MARK: - Local notifications
+//    private func notifyOnce(peripheral: CBPeripheral, title: String, body: String) {
+//        let now = Date()
+//        if let last = lastNotifiedAt[peripheral.identifier], now.timeIntervalSince(last) < notifyCooldown {
+//            return
+//        }
+//        lastNotifiedAt[peripheral.identifier] = now
+//        Notifier.sendNow(id: "help.\(peripheral.identifier.uuidString)", title: title, body: body)
+//    }
 }
 
 // MARK: - CBCentralManagerDelegate
@@ -296,12 +338,19 @@ extension CentralManager: CBCentralManagerDelegate {
                         isReconnecting: Bool,
                         error: (any Error)?) {
         if let error { setError(.disConnectError(error.localizedDescription)) }
+        removeConnectedTarget(peripheral)
         if !isReconnecting { self.makeConnection(peripheral) } // auto-retry
     }
 }
 
 // MARK: - CBPeripheralDelegate
 extension CentralManager: CBPeripheralDelegate {
+    func peripheral(_ peripheral: CBPeripheral, didModifyServices invalidatedServices: [CBService]) {
+        if invalidatedServices.contains(where: {$0.uuid == targetServiceUUID}) {
+            removeConnectedTarget(peripheral)
+        }
+    }
+    
     func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: (any Error)?) {
         if let error { setError(.discoverServicesError(error.localizedDescription)); return }
         guard let service = peripheral.services?.first(where: { $0.uuid == targetServiceUUID }) else { return }
@@ -311,6 +360,10 @@ extension CentralManager: CBPeripheralDelegate {
 
     func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: (any Error)?) {
         if let error { setError(.discoverCharacteristicsError(error.localizedDescription)); return }
+        if let hasTarget = service.characteristics?.contains(where: { $0.uuid == targetCharacteristicUUID }),
+           hasTarget {
+            addConnectedTarget(peripheral)
+        }
         guard let characteristic = service.characteristics?.first(where: { $0.uuid == targetCharacteristicUUID }) else { return }
         discoverDescriptors(peripheral, for: characteristic)
     }
@@ -331,6 +384,10 @@ extension CentralManager: CBPeripheralDelegate {
            let char = descriptor.characteristic,
            char.uuid == targetCharacteristicUUID {
             characteristicDescriptions[peripheral.identifier] = value
+            
+            // skip if we've sent this request recently
+            guard shouldNotify(forRequest: value, from: peripheral) else { return }
+            
             Notifier.sendNow(
                 id: "help.detail.\(peripheral.identifier.uuidString)",
                 title: "Help request nearby",

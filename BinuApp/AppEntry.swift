@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 import FirebaseCore
 import FirebaseAuth
+import CoreBluetooth
 
 //class AppDelegate: NSObject, UIApplicationDelegate {
 //    var centralManager: CentralManager? // Your existing class
@@ -24,7 +25,7 @@ import FirebaseAuth
 //        return true
 //    }
 //}
-
+//
 class AppDelegate: NSObject, UIApplicationDelegate {
     let centralManager = CentralManager()
     
@@ -44,6 +45,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 //@main
 //struct AppEntry: App {
+//    @State private var scanningUUIDs: [CBUUID]? = [CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")]
+//    @State private var allowDuplicateKey: Bool = false
+//    @State private var solicitedServiceUUIDs: [CBUUID] = [CBUUID(string: "E100")]
+//    
 //    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
 //    @StateObject private var authViewModel = AuthViewModel()
 //    // Start your CentralManager at launch
@@ -75,12 +80,16 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 //                } else {
 //                    MainTabView(centralManager: centralManager)
 //                        .environmentObject(authViewModel)
-//                        .environment(centralManager)
 //                }
 //            }
 //            .onAppear {
 //                authViewModel.listenForAuthChanges()
-//                centralManager.startScanning(serviceUUIDs: [centralManager.targetServiceUUID])
+//                centralManager.startScanning(
+//                    serviceUUIDs: scanningUUIDs,
+//                    allowDuplicateKey: allowDuplicateKey,
+//                    solicitedServiceUUIDs: solicitedServiceUUIDs
+//                )
+////                centralManager.startScanning(serviceUUIDs: [centralManager.targetServiceUUID])
 //            }
 //            .onReceive(NotificationCenter.default.publisher(for: .openCentralFromNotification)) { _ in
 //                showCentralFromNotification = true

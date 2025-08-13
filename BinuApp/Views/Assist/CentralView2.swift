@@ -7,11 +7,14 @@ struct CentralView2: View {
     @State private var scanning: Bool = true
     @State private var scanningUUIDs: [CBUUID]? = [CBUUID(string: "E20A39F4-73F5-4BC4-A12F-17D1AD07A961")]
     @State private var allowDuplicateKey: Bool = false
-    @State private var solicitedServiceUUIDs: [CBUUID] = []
+    @State private var solicitedServiceUUIDs: [CBUUID] = [CBUUID(string: "E100")]
     
     @State private var scanningUUIDsString: String = ""
     @State private var allowDuplicateKeyEdit: Bool = false
     @State private var solicitedServiceUUIDsString: String = ""
+    
+    @State private var stablePeripherals: [CBPeripheral] = []
+    @State private var debounceWorkItem: DispatchWorkItem?
 
     var body: some View {
         ZStack {
@@ -34,7 +37,7 @@ struct CentralView2: View {
 
                 // Toggle, with glowing accent
                 HStack {
-                    Label("Active Scan", systemImage: scanning ? "dot.radiowaves.left.and.right" : "antenna.radiowaves.left.and.right.slash")
+                    Label("Enable Scanning", systemImage: scanning ? "dot.radiowaves.left.and.right" : "antenna.radiowaves.left.and.right.slash")
                         .fontWeight(.medium)
                         .foregroundColor(scanning ? .accentColor : .gray)
                     Spacer()
@@ -58,7 +61,8 @@ struct CentralView2: View {
                 // Help request list
                 List {
                     Section {
-                        if centralManager.discoveredPeripherals.isEmpty {
+//                        if centralManager.discoveredPeripherals.isEmpty
+                        if stablePeripherals.isEmpty {
                             VStack {
                                 Image(systemName: "magnifyingglass")
                                     .font(.system(size: 36))
@@ -71,7 +75,8 @@ struct CentralView2: View {
                             .frame(maxWidth: .infinity, minHeight: 120)
                             .background(.clear)
                         } else {
-                            ForEach(centralManager.discoveredPeripherals, id: \.identifier) { peripheral in
+//                            ForEach(centralManager.discoveredPeripherals, id: \.identifier)
+                            ForEach(stablePeripherals, id: \.identifier) { peripheral in
                                 NavigationLink(destination: PeripheralDetailView(peripheralId: peripheral.identifier)
                                                 .environment(centralManager)) {
                                     HStack(spacing: 18) {
@@ -117,10 +122,18 @@ struct CentralView2: View {
                 }
                 .listStyle(.insetGrouped)
                 .background(.clear)
+                .onChange(of: centralManager.connectedTargetPeripherals) { newValue in
+                    debounceWorkItem?.cancel()
+                    let workItem = DispatchWorkItem {
+                        stablePeripherals = newValue
+                    }
+                    debounceWorkItem = workItem
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: workItem)
+                }
             }
         }
         .navigationBarHidden(true)
-        .onDisappear { scanning = false }
+//        .onDisappear { scanning = false }
         .onChange(of: scanning, initial: true) { _, isNowScanning in
             if isNowScanning {
                 centralManager.startScanning(
