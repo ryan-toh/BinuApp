@@ -119,7 +119,7 @@ In‑app directory of institutional helplines.
 ### Download & Install
 
 1. Download the compressed app bundle:
-   [https://drive.google.com/file/d/1PwbfaCflKQiOruyD-VbBFte9PISGgZH-/view?usp=drive\_link](https://drive.google.com/file/d/1PwbfaCflKQiOruyD-VbBFte9PISGgZH-/view?usp=drive_link)
+   [https://drive.google.com/file/d/1lMLtRsbZ_2MLkMb5YQEk2rKTY6DS8gfM/view?usp=sharing](https://drive.google.com/file/d/1lMLtRsbZ_2MLkMb5YQEk2rKTY6DS8gfM/view?usp=sharing)
 2. Unzip the file; you’ll have `BinuApp.app` in `~/Downloads`.
 3. Launch Xcode and open **Simulator** (**Open Developer Tool > Simulator**).
 4. Drag `BinuApp.app` into the simulator window—it installs automatically.
