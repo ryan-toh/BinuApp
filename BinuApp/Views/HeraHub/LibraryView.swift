@@ -1,5 +1,15 @@
+//
+//  LibraryView.swift
+//  BinuApp
+//
+//  Created by Hong Eungi on 24/7/25.
+//
+
 import SwiftUI
 
+/**
+ Shows RSS Feeds from WHO & CNA using methods and published variables from LibraryViewModel
+ */
 struct LibraryView: View {
     @StateObject private var viewModel = LibraryViewModel()
 

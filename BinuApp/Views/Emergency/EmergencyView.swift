@@ -1,5 +1,15 @@
+//
+//  EmergencyView.swift
+//  BinuApp
+//
+//  Created by Ryan on 24/7/25.
+//
+
 import SwiftUI
 
+/**
+ Emergency Contacts Page
+ */
 struct EmergencyView: View {
     var body: some View {
         NavigationStack {

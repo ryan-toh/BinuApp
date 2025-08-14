@@ -1,10 +1,19 @@
+//
+//  CreatePostView.swift
+//  BinuApp
+//
+//  Created by Ryan Toh on 13/6/25.
+//
+
 import SwiftUI
 import PhotosUI
 
-/// A production‐ready view for creating and uploading a new post.
-/// - Displays a “Uploading…” overlay while the network call is in progress.
-/// - Wraps the callback‐based createPost(...) in async/await to ensure the spinner always stops.
-/// - Automatically dismisses on success; shows an alert on failure.
+/**
+ View for creating and uploading a new post.
+ */
+// Displays a “Uploading…” overlay while the network call is in progress.
+// Wraps the callback‐based createPost(...) in async/await to ensure the spinner always stops.
+// Automatically dismisses on success; shows an alert on failure.
 
 struct CreatePostView: View {
     @EnvironmentObject private var authVM: AuthViewModel
@@ -17,7 +26,6 @@ struct CreatePostView: View {
     @State private var selectedImages: [UIImage] = []
     @State private var errorText: String?
     @State private var isUploading: Bool = false
-    // recently added
     @State private var selectedTopics: [String] = []
     
     let availableTopics = [
@@ -55,7 +63,7 @@ struct CreatePostView: View {
                         RoundedRectangle(cornerRadius: 12)
                             .stroke(Color("FontColor").opacity(0.1), lineWidth: 1)
                     )
-                    .scrollContentBackground(.hidden) //  removes the ugly white default textbox
+                    .scrollContentBackground(.hidden) //  removes white default textbox
 
 
                 // Photo Picker

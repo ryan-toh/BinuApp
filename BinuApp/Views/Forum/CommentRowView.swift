@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct CommentRowView: View {
-    
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var commentVM: CommentViewModel
     
@@ -56,16 +55,3 @@ struct CommentRowView: View {
         )
     }
 }
-
-
-//#Preview {
-//    CommentRowView(
-//        comment: Comment(
-//            id: "1",
-//            userId: "AwesomeRyan",
-//            text: "Binu best app to exist for real."
-//        ),
-//        onEdit: { print("Edit tapped") },
-//        onDelete: { print("Delete tapped") }
-//    )
-//}

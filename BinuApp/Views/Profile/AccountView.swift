@@ -1,5 +1,15 @@
+//
+//  AccountView.swift
+//  BinuApp
+//
+//  Created by Hong Eungi on 24/7/25.
+//
+
 import SwiftUI
 
+/**
+ Shows account information to the user
+ */
 struct AccountView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @State private var isSigningOut = false

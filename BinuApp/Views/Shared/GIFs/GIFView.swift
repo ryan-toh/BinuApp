@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-/// A SwiftUI wrapper for displaying a looping GIF
+/**
+ A SwiftUI wrapper for displaying a looping GIF (Unused)
+ */
 struct GIFView: UIViewRepresentable {
     let gifName: String
 

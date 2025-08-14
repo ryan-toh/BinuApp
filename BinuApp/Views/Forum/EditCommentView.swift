@@ -1,3 +1,10 @@
+//
+//  EditCommentView.swift
+//  BinuApp
+//
+//  Created by Ryan on 9/6/25.
+//
+
 import SwiftUI
 
 struct EditCommentView: View {

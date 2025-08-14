@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-/// A simple banner view that displays an error message in a red background.
+/**
+ A simple banner view that displays an error message in a red background.
+ */
 struct ErrorBannerView: View {
     let message: String
 

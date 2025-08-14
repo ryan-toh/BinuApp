@@ -1,3 +1,10 @@
+//
+//  ForumView.swift
+//  BinuApp
+//
+//  Created by Hong Eungi on 13/8/25.
+//
+
 import SwiftUI
 
 enum ForumTab: String, CaseIterable, Identifiable {
@@ -8,6 +15,9 @@ enum ForumTab: String, CaseIterable, Identifiable {
     var id: String { self.rawValue }
 }
 
+/**
+ Displays the Provide Help and Call for Help Buttons along with a scrollable feed of posts
+ */
 struct ForumView: View {
     @EnvironmentObject var forumVM: ForumViewModel
     @EnvironmentObject var authVM: AuthViewModel
@@ -60,27 +70,13 @@ struct ForumView: View {
                     }
                     .padding(.horizontal)
                     .padding(.top, 12)
-
-//                    HStack(spacing: 16) {
-//                        Button("Provide Help") {
-//                            showingCentralSheet = true
-//                        }
-//                        .buttonStyle(.borderedProminent)
-//
-//                        Button("Call for Help") {
-//                            showingPeripheralSheet = true
-//                        }
-//                        .buttonStyle(.borderedProminent)
-//                    }
-//                    .padding(.horizontal)
-//                    .padding(.top, 8)
                     
                     Text("Forum")
                         .font(.title.bold())
                         .foregroundColor(Color("FontColor"))
                         .padding()
                     
-                    // 🔹 Tab bar
+                    // Tab bar
                     Picker("Select Tab", selection: $selectedTab) {
                         ForEach(ForumTab.allCases) { tab in
                             Text(tab.rawValue).tag(tab)
@@ -166,7 +162,6 @@ struct ForumView: View {
             .sheet(isPresented: $showingCentralSheet) {
                 NavigationStack {
                     CentralView2(centralManager: centralManager)
-//                    CentralView(centralManager: centralManager)
                 }
             }
             .sheet(isPresented: $showingPeripheralSheet) {

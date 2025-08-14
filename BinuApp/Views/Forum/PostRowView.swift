@@ -1,9 +1,16 @@
+//
+//  PostRowView.swift
+//  BinuApp
+//
+//  Created by Hong Eungi on 13/7/25.
+//
+
 import SwiftUI
 import FirebaseFirestore
 
 struct PostRowView: View {
     let post: Post
-    var isTappable: Bool = true  // 👈 new parameter
+    var isTappable: Bool = true
 
     @EnvironmentObject var forumVM: ForumViewModel
     @EnvironmentObject private var authVM: AuthViewModel
@@ -79,7 +86,6 @@ struct PostRowView: View {
                 .lineLimit(2)
             
             // topics
-            
             if !post.topics.isEmpty {
                 HStack {
                     ForEach(post.topics, id: \.self) { topic in
@@ -155,21 +161,3 @@ struct PostRowView: View {
         }
     }
 }
-
-
-
-//#Preview {
-//    let mockPost = Post(
-//        id: "1", userId: "user123",
-//        title: "Sample Post",
-//        text: "This is a sample post body.",
-//        media: [],
-//        likes: [],
-//        sentiment: .positive
-//    )
-//    let authVM = AuthViewModel()
-//    authVM.user = UserModel(id: "user123", email: "test@example.com", username: "TestUser", gender: "Other", age: 25)
-//    return PostRowView(post: mockPost)
-//        .environmentObject(authVM)
-//        .environmentObject(ForumViewModel())
-//} 

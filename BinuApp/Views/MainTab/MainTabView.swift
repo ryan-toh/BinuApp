@@ -1,12 +1,22 @@
+//
+//  MainTabView.swift
+//  BinuApp
+//
+//  Created by Ryan on 27/5/25.
+//
+
 import SwiftUI
 
+/**
+ The main navigation page for the app.
+ */
 struct MainTabView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @StateObject var forumVM = ForumViewModel()
     @StateObject var postVM = PostViewModel()
     @State var centralManager: CentralManager
     
-
+    // Tab bar
     var body: some View {
         TabView {
             ForumView(centralManager: centralManager)
@@ -35,7 +45,7 @@ struct MainTabView: View {
                     Text("Account")
                 }
         }
-        .accentColor(Color("FontColor")) // selected tab item tint
+        .accentColor(Color("FontColor"))
     }
 }
 

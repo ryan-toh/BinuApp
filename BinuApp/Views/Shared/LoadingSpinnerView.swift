@@ -7,7 +7,9 @@
 
 import SwiftUI
 
-/// A full-screen loading spinner. Use this when `isLoading == true`.
+/**
+ A full-screen loading spinner. Use this when `isLoading == true`
+ */
 struct LoadingSpinnerView: View {
     var body: some View {
         VStack {

@@ -5,11 +5,12 @@
 //  Created by Ryan on 24/7/25.
 //
 
-
 import SwiftUI
 import CoreBluetooth
 
-// Receiver
+/**
+ Development Receiver View
+ */
 struct CentralView: View {
     @State private var centralManager: CentralManager
     @State private var scanning: Bool = false

@@ -1,5 +1,15 @@
+//
+//  AccountView.swift
+//  BinuApp
+//
+//  Created by Hong Eungi on 24/7/25.
+//
+
 import SwiftUI
 
+/**
+ Profile edit interface
+ */
 struct EditProfileView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @Environment(\.dismiss) var dismiss

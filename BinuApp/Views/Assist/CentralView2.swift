@@ -1,7 +1,16 @@
+//
+//  CentralView2.swift
+//  BinuApp
+//
+//  Created by Ryan on 24/7/25.
+//
+
 import SwiftUI
 import CoreBluetooth
 
-// New Receiver
+/**
+ Simplified Receiver for User-Facing Application
+ */
 struct CentralView2: View {
     @State var centralManager: CentralManager
     @State private var scanning: Bool = true
@@ -61,7 +70,6 @@ struct CentralView2: View {
                 // Help request list
                 List {
                     Section {
-//                        if centralManager.discoveredPeripherals.isEmpty
                         if stablePeripherals.isEmpty {
                             VStack {
                                 Image(systemName: "magnifyingglass")
@@ -75,7 +83,6 @@ struct CentralView2: View {
                             .frame(maxWidth: .infinity, minHeight: 120)
                             .background(.clear)
                         } else {
-//                            ForEach(centralManager.discoveredPeripherals, id: \.identifier)
                             ForEach(stablePeripherals, id: \.identifier) { peripheral in
                                 NavigationLink(destination: PeripheralDetailView(peripheralId: peripheral.identifier)
                                                 .environment(centralManager)) {
@@ -133,7 +140,6 @@ struct CentralView2: View {
             }
         }
         .navigationBarHidden(true)
-//        .onDisappear { scanning = false }
         .onChange(of: scanning, initial: true) { _, isNowScanning in
             if isNowScanning {
                 centralManager.startScanning(
@@ -273,52 +279,6 @@ private struct PeripheralDetailView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 18)
             .background(Color("BGColor").ignoresSafeArea())
-
-//            VStack(alignment: .leading, spacing: 18) {
-//                Text("User: \(peripheral.name ?? peripheral.identifier.uuidString)")
-//                    .font(.headline)
-//                    .padding(.top)
-//
-//                Text("Requested Item:")
-//                Text(description)
-//                    .font(.body)
-//                    .foregroundStyle(.blue)
-//
-//                Divider()
-//
-//                Text("Send Instructions")
-//                TextField("Provide location info here...", text: $inputValue)
-//                    .textFieldStyle(.roundedBorder)
-//                    .disabled(isWriting)
-//
-//                Button("Send", action: {
-//                    guard let data = inputValue.data(using: .utf8) else {
-//                        self.writeError = "Failed to encode input."
-//                        return
-//                    }
-//                    isWriting = true
-//                    writeError = nil
-//                    // Try writeWithResponse first, fallback to withoutResponse
-//                    let writeType: CBCharacteristicWriteType = characteristic.properties.contains(.write) ? .withResponse : .withoutResponse
-//                    centralManager.writeValue(peripheral, data: data, for: characteristic, type: writeType)
-//                    // Optionally, clear or reset after write
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//                        isWriting = false
-//                    }
-//                })
-//                .buttonStyle(.borderedProminent)
-//                .disabled(isWriting || inputValue.isEmpty)
-//
-//                if let writeError {
-//                    Text(writeError)
-//                        .foregroundStyle(.red)
-//                        .font(.footnote)
-//                }
-//
-//                Text("Peripheral State: \(String(describing: peripheral.state))")
-//                    .font(.footnote)
-//                    .foregroundStyle(.gray)
-//            }
             .onAppear {
                 if peripheral.state != .connected {
                     centralManager.makeConnection(peripheral)
