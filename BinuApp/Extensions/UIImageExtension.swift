@@ -10,6 +10,9 @@ import SwiftUI
 import UIKit
 import ImageIO
 
+/**
+ GIF Loading Support (Unused)
+ */
 extension UIImage {
     /// Load an animated GIF from the app bundle
     static func gif(name: String) -> UIImage? {
@@ -88,6 +91,3 @@ extension UIImage {
         array.reduce(array.first ?? 1) { gcdForPair($0, $1) }
     }
 }
-
-
-

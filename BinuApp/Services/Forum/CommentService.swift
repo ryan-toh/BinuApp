@@ -8,7 +8,9 @@
 import Foundation
 import FirebaseFirestore
 
-/// CRUD Support for Comments on Posts.
+/**
+CRUD Support for Comments on Posts.
+*/
 class CommentService {
     private let db = Firestore.firestore()
     private let postsCollection = "posts"
@@ -26,14 +28,14 @@ class CommentService {
             .document(postId)
             .collection(commentsSubcollection)
         
-        // 1) Create a new DocumentReference with an auto-generated ID
+        // 1. Create a new DocumentReference with an auto-generated ID
         let newRef = commentsRef.document()
         
-        // 2) Make a mutable copy and inject the generated ID
+        // 2. Make a mutable copy and inject the generated ID
         var commentToSave = comment
         commentToSave.id = newRef.documentID
         
-        // 3) Write the comment data to Firestore
+        // 3. Write the comment data to Firestore
         do {
             try newRef.setData(from: commentToSave) { error in
                 if let error = error {

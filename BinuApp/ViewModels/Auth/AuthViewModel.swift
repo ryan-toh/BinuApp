@@ -1,8 +1,18 @@
+//
+//  AuthViewModel.swift
+//  BinuApp
+//
+//  Created by Hong Eungi on 27/6/25.
+//
+
 import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 import Combine
 
+/**
+ Calls AuthService methods for WelcomeView
+ */
 class AuthViewModel: ObservableObject {
     @Published var user: UserModel?
     @Published var authError: Error?
@@ -13,7 +23,7 @@ class AuthViewModel: ObservableObject {
     private var authStateListener: AuthStateDidChangeListenerHandle?
     
     
-    // added for udpating user info
+    // MARK: - Update Profile Methods
     func updateProfile(username: String, gender: String, age: Int, completion: @escaping () -> Void) {
         guard var currentUser = user, let uid = currentUser.id else { return }
 

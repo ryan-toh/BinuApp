@@ -1,5 +1,5 @@
 //
-//  HomeViewModel.swift
+//  ForumViewModel.swift
 //  BinuApp
 //
 //  Created by Ryan on 1/6/25.
@@ -9,7 +9,9 @@ import Foundation
 import Combine
 import UIKit
 
-/// VM between PostService & Forum Views
+/**
+ Fetches Forum Posts using methods from PostService so that ForumView may display them
+ */
 final class ForumViewModel: ObservableObject {
     @Published var posts: [Post] = []
     @Published var isLoading = false
@@ -18,7 +20,7 @@ final class ForumViewModel: ObservableObject {
     private let postService = PostService()
     private var cancellables = Set<AnyCancellable>()
     
-    /// All posts from all users are fetched for now
+    // Fetch all posts from all users
     func fetchAllPosts() {
         isLoading = true
         postService.fetchAllPosts { [weak self] result in
@@ -34,6 +36,7 @@ final class ForumViewModel: ObservableObject {
         }
     }
     
+    // For the UI to call
     func createPost(
         userId: String,
         title: String,
@@ -58,7 +61,7 @@ final class ForumViewModel: ObservableObject {
         }
     }
     
-    /// Deletes the given post (only if it has a valid `id`), then removes it from `posts`.
+    // Deletes the given post (only if it has a valid `id`), then removes it from `posts`.
     func deletePost(_ post: Post) {
         guard let postId = post.id else { return }
         isLoading = true

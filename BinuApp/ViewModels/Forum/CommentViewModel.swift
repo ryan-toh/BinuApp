@@ -9,6 +9,9 @@ import Foundation
 import Combine
 import FirebaseFirestore
 
+/**
+ Fetches comments from CommentService so that CommentView can display them, and for ForumView to display the number of comments on each post.
+ */
 final class CommentViewModel: ObservableObject, Identifiable {
     @Published var comments: [Comment] = []
     @Published var isLoading = false
@@ -18,6 +21,7 @@ final class CommentViewModel: ObservableObject, Identifiable {
     private let commentService = CommentService()
     private var cancellables = Set<AnyCancellable>()
     
+    // Display username above the comment (comment only has id of user, not the username)
     func fetchUsername(for userId: String) {
         if usernameMap[userId] != nil { return }  // already cached
 

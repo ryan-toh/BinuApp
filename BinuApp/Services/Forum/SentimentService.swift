@@ -8,9 +8,11 @@
 import Foundation
 import NaturalLanguage
 
-/// Create, Update Support for Sentiment on Posts
+/**
+ Create, Update Support for Sentiment on Posts
+ */
 class SentimentService {
-    /// Analyzes the sentiment of the combined title and text using Apple's Natural Language framework.
+    // Analyzes the sentiment of the combined title and text using Apple's Natural Language framework.
     public static func get(title: String, text: String) -> Sentiment {
         let content = "\(title) \(text)"
         let tagger = NLTagger(tagSchemes: [.sentimentScore])

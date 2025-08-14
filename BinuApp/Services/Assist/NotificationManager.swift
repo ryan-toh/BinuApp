@@ -8,10 +8,14 @@
 import Foundation
 import UserNotifications
 
+/**
+ Delgates & Methods to Support Notification Delegate
+ */
 extension Notification.Name {
     static let openCentralFromNotification = Notification.Name("openCentralFromNotification")
 }
 
+// Requests the user for notification permissions
 enum Notifier {
     @MainActor static func requestAuthorization() {
         let center = UNUserNotificationCenter.current()

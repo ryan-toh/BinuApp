@@ -8,7 +8,9 @@
 import Foundation
 import FirebaseAuth
 
-/// Authentication Interface
+/**
+ Authentication Interface
+ */
 struct AuthService {
     /**
      Creates a new Firebase user with the given email and password.

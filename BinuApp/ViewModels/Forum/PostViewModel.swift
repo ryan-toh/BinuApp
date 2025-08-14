@@ -8,6 +8,9 @@
 import Foundation
 import FirebaseFirestore
 
+/**
+ Logic Handling for CreatePostView
+ */
 class PostViewModel: ObservableObject {
     @Published var usernameMap: [String: String] = [:]
 

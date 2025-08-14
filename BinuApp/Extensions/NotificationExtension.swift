@@ -7,6 +7,6 @@
 
 import Foundation
 
-extension Notification.Name {
-    static let didReceiveCoordinates = Notification.Name("didReceiveCoordinates")
-}
+//extension Notification.Name {
+//    static let didReceiveCoordinates = Notification.Name("didReceiveCoordinates")
+//}

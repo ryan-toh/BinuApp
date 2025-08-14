@@ -1,6 +1,17 @@
+//
+//  LibraryViewModel.swift
+//  BinuApp
+//
+//  Created by Ryan on 1/6/25.
+//
+
 import Foundation
 
+/**
+ Fetches RSS Feeds from UN Women, CNA, and parses them into a HealthSummary object.
+ */
 class LibraryViewModel: NSObject, ObservableObject, XMLParserDelegate {
+    // Allows UI to update
     @Published var summaries: [HealthSummary] = []
     @Published var unWomenCards: [SupportCard] = []
     @Published var cnaCards: [SupportCard] = []

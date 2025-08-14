@@ -9,7 +9,10 @@ import SwiftUI
 import CoreBluetooth
 
 
-// Sender
+/**
+ "Receives" nearby help requests. Runs in the foreground and when app is backgrounded, but not when app is suspended. DO NOT INSTANTIATE MORE THAN 1 INSTANCE of CentralManager.
+ */
+
 enum PeripheralManagerError: Error {
     case invalidManager
     case bluetoothNotAvailable

@@ -6,11 +6,13 @@
 //
 
 import Foundation
-import UIKit                 // For UIImage
+import UIKit
 import FirebaseFirestore
-import FirebaseStorage       // For Firebase Storage
+import FirebaseStorage
 
-/// CRUD Support for Forum Posts.
+/**
+ CRUD Support for Forum Posts
+ */
 class PostService {
     private let db = Firestore.firestore()
     private let storage = Storage.storage()
@@ -90,17 +92,17 @@ class PostService {
                 media: postImages,
                 likes: [],
                 sentiment: sentiment,
-                topics: topics // ✅ add this
+                topics: topics
             )
 
             self.writePostToFirestore(post, completion: completion)
         }
     }
     
-    /// Internal helper: uploads a single UIImage to Firebase Storage as a JPEG,
-    /// then returns a PostImage containing `storagePath` and `downloadURL`.
+    // Internal helper: uploads a single UIImage to Firebase Storage as a JPEG,
+    // then returns a PostImage containing `storagePath` and `downloadURL`.
     private func uploadSingleImage(_ image: UIImage, forUserId userId: String, completion: @escaping (Result<PostImage, Error>) -> Void) {
-        // 1) Convert UIImage to JPEG Data
+        // 1. Convert UIImage to JPEG Data
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             let error = NSError(
                 domain: "PostService.Upload",
@@ -111,21 +113,21 @@ class PostService {
             return
         }
         
-        // 2) Create a unique Storage path: "posts/{userId}/{UUID}.jpg"
+        // 2. Create a unique Storage path: "posts/{userId}/{UUID}.jpg"
         let filename = UUID().uuidString + ".jpg"
         let storagePath = "posts/\(userId)/images/\(filename)"
         let storageRef = storage.reference(withPath: storagePath)
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
         
-        // 3) Upload the data
+        // 3. Upload the data
         storageRef.putData(imageData, metadata: metadata) { _, error in
             if let error = error {
                 completion(.failure(error))
                 return
             }
             
-            // 4) Fetch download URL
+            // 4. Fetch download URL
             storageRef.downloadURL { url, error in
                 if let error = error {
                     completion(.failure(error))
@@ -141,7 +143,7 @@ class PostService {
                     return
                 }
                 
-                // 5) Create and return a PostImage
+                // 5. Create and return a PostImage
                 let postImage = PostImage(
                     id: nil,
                     storagePath: storagePath,
@@ -154,22 +156,22 @@ class PostService {
     
     // MARK: - Internal Firestore Write
     
-    /// Internal helper: writes a Post struct into Firestore under "posts/", letting Firestore generate the document ID.
+    // Internal helper: writes a Post struct into Firestore under "posts/", letting Firestore generate the document ID.
     private func writePostToFirestore(_ post: Post, completion: @escaping (Result<Post, Error>) -> Void) {
-        // 1) Create a new document reference with an auto-generated ID:
+        // 1. Create a new document reference with an auto-generated ID:
         let newRef = db.collection(postsCollection).document()
         
         do {
-            // 2) Make a mutable copy of `post`, inject the generated documentID
+            // 2. Make a mutable copy of `post`, inject the generated documentID
             var postToSave = post
             postToSave.id = newRef.documentID
             
-            // 3) Use `setData(from: )` on that reference
+            // 3. Use `setData(from: )` on that reference
             try newRef.setData(from: postToSave) { error in
                 if let error = error {
                     completion(.failure(error))
                 } else {
-                    // 4) Return the same `postToSave` (with its id) in the completion
+                    // 4. Return the same `postToSave` (with its id) in the completion
                     completion(.success(postToSave))
                 }
             }
@@ -182,7 +184,7 @@ class PostService {
     
     // MARK: - Read
     
-    /// Fetch a single Post by its document ID.
+    // Fetch a single Post by its document ID.
     func fetchPost(withId id: String, completion: @escaping (Result<Post, Error>) -> Void) {
         let docRef = db.collection(postsCollection).document(id)
         docRef.getDocument { snapshot, error in
@@ -212,7 +214,7 @@ class PostService {
     }
 
     
-    /// Fetch all Posts, ordered by `createdAt` descending.
+    // Fetch all Posts, ordered by `createdAt` descending.
     func fetchAllPosts(completion: @escaping (Result<[Post], Error>) -> Void) {
         db.collection(postsCollection)
             .order(by: "createdAt", descending: true)
@@ -235,8 +237,8 @@ class PostService {
     
     // MARK: - Update
     
-    /// Update an existing Post—recomputes sentiment, but does NOT re‐upload images.
-    /// If you need to change images, upload those separately and pass updated `media` array in `post`.
+    // Update an existing Post—recomputes sentiment, but does NOT re‐upload images.
+    // If you need to change images, upload those separately and pass updated `media` array in `post`.
     func updatePost(_ post: Post, completion: @escaping (Result<Void, Error>) -> Void) {
         guard let postId = post.id else {
             completion(.failure(NSError(
@@ -314,7 +316,7 @@ class PostService {
     
     // MARK: - Delete
     
-    /// Delete a Post by its document ID.
+    // Delete a Post by its document ID.
     func deletePost(withId id: String, completion: @escaping (Result<Void, Error>) -> Void) {
         db.collection(postsCollection).document(id).delete { error in
             if let error = error {
