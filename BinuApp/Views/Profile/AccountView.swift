@@ -21,7 +21,6 @@ struct AccountView: View {
         NavigationStack {
             ZStack {
                 Color("BGColor").ignoresSafeArea()
-
                 VStack(spacing: 20) {
                     if let user = authVM.user {
                         VStack(spacing: 8) {
@@ -50,9 +49,7 @@ struct AccountView: View {
                         Text("No Profile Data")
                             .foregroundColor(.gray)
                     }
-
                     Spacer()
-                    
                     // edit profile
                     Button {
                         showingEditProfile = true
@@ -73,8 +70,6 @@ struct AccountView: View {
                         EditProfileView()
                             .environmentObject(authVM)
                     }
-
-                    
                     // sign out
                     Button(action: {
                         isSigningOut = true

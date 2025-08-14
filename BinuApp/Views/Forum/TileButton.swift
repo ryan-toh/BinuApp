@@ -22,7 +22,7 @@ struct TileButton: View {
                     .font(.headline)
             }
             .foregroundColor(.white)
-            .frame(maxWidth: .infinity, minHeight: 50)
+            .frame(maxWidth: .infinity, minHeight: 80)
             .background(
                 RoundedRectangle(cornerRadius: 16)
                     .fill(tint.gradient)

@@ -66,8 +66,14 @@ struct EmergencyView: View {
                 }
                 .padding()
             }
-            .navigationTitle("Emergency")
             .background(Color("BGColor").ignoresSafeArea())
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Emergency Support")
+                        .font(.title.bold())
+                        .foregroundColor(Color("FontColor"))
+                }
+            }
         }
     }
 }

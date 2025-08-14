@@ -20,12 +20,18 @@ struct LibraryView: View {
 
                 ScrollView {
                     LazyVStack(spacing: 24) {
-                        Text("Library For Us")
-                            .font(.largeTitle)
-                            .bold()
-                            .foregroundColor(.black)
-                            .padding(.horizontal)
-
+                        Image("watercolourLogo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: .infinity)
+                            .clipShape(RoundedRectangle(cornerRadius: 22, style: .continuous))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                                    .stroke(Color("FontColor").opacity(0.15), lineWidth: 1)
+                            )
+                            .shadow(radius: 3, y: 2)
+                            .padding()
+                        
                         // WHO Section
                         Text("Understand from WHO...")
                             .font(.title3.bold())
@@ -124,13 +130,19 @@ struct LibraryView: View {
 
                         Spacer(minLength: 40)
                     }
-                    .padding(.top)
                 }
                 .refreshable {
                     viewModel.didLoadUN = false
                     viewModel.didLoadCNA = false
                     viewModel.loadUNFeedIfNeeded()
                     viewModel.loadCNAFeedIfNeeded()
+                }
+            }
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("HeraHub Library")
+                        .font(.title.bold())
+                        .foregroundColor(Color("FontColor"))
                 }
             }
         }

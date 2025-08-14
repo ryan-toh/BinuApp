@@ -54,7 +54,7 @@ struct ForumView: View {
                 Color("BGColor").ignoresSafeArea()
                 
                 VStack(spacing: 0) {
-                    // 🔹 Always-visible Help Buttons
+                    // Always-visible Help Buttons
                     LazyVGrid(columns: columns, spacing: 12) {
                         TileButton(
                             title: "Provide Help",
@@ -70,11 +70,15 @@ struct ForumView: View {
                     }
                     .padding(.horizontal)
                     .padding(.top, 12)
+                    .padding(.bottom)
                     
-                    Text("Forum")
-                        .font(.title.bold())
-                        .foregroundColor(Color("FontColor"))
-                        .padding()
+                    HStack {
+                        Text("Feed")
+                            .font(.title)
+                            .foregroundColor(Color("FontColor"))
+                            .padding()
+                        Spacer()
+                    }
                     
                     // Tab bar
                     Picker("Select Tab", selection: $selectedTab) {

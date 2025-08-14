@@ -38,6 +38,29 @@ struct CreatePostView: View {
             Color("BGColor").ignoresSafeArea()
 
             VStack(alignment: .leading, spacing: 20) {
+                // Action Buttons
+                HStack(spacing: 20) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                    .foregroundColor(.gray)
+
+                    Spacer()
+
+                    Button(action: {
+                        Task { await submitPostAsync() }
+                    }) {
+                        Text("Post")
+                            .fontWeight(.bold)
+                            .padding()
+                            .frame(minWidth: 100)
+                            .background(isSubmitDisabled ? Color.gray : Color("FontColor"))
+                            .foregroundColor(Color("BGColor"))
+                            .cornerRadius(25)
+                    }
+                    .disabled(isSubmitDisabled || isUploading)
+                }
+                
                 Text("New Post")
                     .font(.largeTitle.bold())
                     .foregroundColor(Color("FontColor"))
@@ -142,33 +165,9 @@ struct CreatePostView: View {
                         }
                     }
                 }
-
-
                 Spacer()
-
-                // Action Buttons
-                HStack(spacing: 20) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                    .foregroundColor(.gray)
-
-                    Spacer()
-
-                    Button(action: {
-                        Task { await submitPostAsync() }
-                    }) {
-                        Text("Post")
-                            .fontWeight(.bold)
-                            .padding()
-                            .frame(minWidth: 100)
-                            .background(isSubmitDisabled ? Color.gray : Color("FontColor"))
-                            .foregroundColor(Color("BGColor"))
-                            .cornerRadius(25)
-                    }
-                    .disabled(isSubmitDisabled || isUploading)
-                }
             }
+            .interactiveDismissDisabled(true)
             .padding()
             .disabled(isUploading)
 
@@ -180,6 +179,9 @@ struct CreatePostView: View {
                     .background(.ultraThinMaterial)
                     .cornerRadius(12)
             }
+        }
+        .onTapGesture {
+            hideKeyboard()
         }
         .alert("Upload Error", isPresented: Binding<Bool>(
             get: { errorText != nil },

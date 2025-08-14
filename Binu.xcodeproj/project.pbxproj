@@ -21,6 +21,7 @@
 		31E787D52E338B0800D8AD3F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 31E787D42E338B0800D8AD3F /* GoogleService-Info.plist */; };
 		31EF9E572DFF0000008FD5C7 /* CombinedCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */; };
 		78008D682E4C5258000D91FF /* TileButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78008D672E4C5258000D91FF /* TileButton.swift */; };
+		78008D6A2E4D85DD000D91FF /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78008D692E4D85DD000D91FF /* ViewExtension.swift */; };
 		780B65352DEC102E00F58AF5 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65342DEC102E00F58AF5 /* CommentService.swift */; };
 		780B65372DEC104C00F58AF5 /* SentimentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B65362DEC104C00F58AF5 /* SentimentService.swift */; };
 		780B653F2DEC197600F58AF5 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780B653E2DEC197600F58AF5 /* AuthViewModel.swift */; };
@@ -113,6 +114,7 @@
 		31E787D42E338B0800D8AD3F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		31EF9E562DFF0000008FD5C7 /* CombinedCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedCommentView.swift; sourceTree = "<group>"; };
 		78008D672E4C5258000D91FF /* TileButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TileButton.swift; sourceTree = "<group>"; };
+		78008D692E4D85DD000D91FF /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		780B65342DEC102E00F58AF5 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		780B65362DEC104C00F58AF5 /* SentimentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentimentService.swift; sourceTree = "<group>"; };
 		780B653E2DEC197600F58AF5 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
@@ -152,15 +154,15 @@
 		78EBD2E72E32309A0094CE8C /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		78EBD2E92E3231280094CE8C /* CBCharacteristicPropertiesExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBCharacteristicPropertiesExtension.swift; sourceTree = "<group>"; };
 		78EBD2EB2E3233530094CE8C /* CBCharacteristicExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBCharacteristicExtension.swift; sourceTree = "<group>"; };
-		78F6FB032DE31EDA002D834A /* BinuApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BinuApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		78F6FB032DE31EDA002D834A /* Binu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Binu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F6FB062DE31EDA002D834A /* AppEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEntry.swift; sourceTree = "<group>"; };
 		78F6FB082DE31EDA002D834A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		78F6FB0C2DE31EDB002D834A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		78F6FB0E2DE31EDB002D834A /* BinuApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BinuApp.entitlements; sourceTree = "<group>"; };
 		78F6FB102DE31EDB002D834A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		78F6FB162DE31EDB002D834A /* BinuAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BinuAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		78F6FB162DE31EDB002D834A /* BinuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BinuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F6FB1A2DE31EDB002D834A /* BinuAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinuAppTests.swift; sourceTree = "<group>"; };
-		78F6FB202DE31EDB002D834A /* BinuAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BinuAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		78F6FB202DE31EDB002D834A /* BinuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BinuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		78F6FB242DE31EDB002D834A /* BinuAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinuAppUITests.swift; sourceTree = "<group>"; };
 		78F6FB262DE31EDB002D834A /* BinuAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BinuAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		78F6FB7E2DE33F57002D834A /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
@@ -428,9 +430,9 @@
 		78F6FB042DE31EDA002D834A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				78F6FB032DE31EDA002D834A /* BinuApp.app */,
-				78F6FB162DE31EDB002D834A /* BinuAppTests.xctest */,
-				78F6FB202DE31EDB002D834A /* BinuAppUITests.xctest */,
+				78F6FB032DE31EDA002D834A /* Binu.app */,
+				78F6FB162DE31EDB002D834A /* BinuTests.xctest */,
+				78F6FB202DE31EDB002D834A /* BinuUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -548,6 +550,7 @@
 			children = (
 				78EBD2E42E3230780094CE8C /* Assist */,
 				78F6FBAD2DE358CD002D834A /* UIImageExtension.swift */,
+				78008D692E4D85DD000D91FF /* ViewExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -555,9 +558,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		78F6FB022DE31EDA002D834A /* BinuApp */ = {
+		78F6FB022DE31EDA002D834A /* Binu */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 78F6FB2A2DE31EDB002D834A /* Build configuration list for PBXNativeTarget "BinuApp" */;
+			buildConfigurationList = 78F6FB2A2DE31EDB002D834A /* Build configuration list for PBXNativeTarget "Binu" */;
 			buildPhases = (
 				78F6FAFF2DE31EDA002D834A /* Sources */,
 				78F6FB002DE31EDA002D834A /* Frameworks */,
@@ -567,7 +570,7 @@
 			);
 			dependencies = (
 			);
-			name = BinuApp;
+			name = Binu;
 			packageProductDependencies = (
 				3154129D2DE37ADB00447409 /* FirebaseAuth */,
 				3154129F2DE37ADB00447409 /* FirebaseCore */,
@@ -575,12 +578,12 @@
 				315412A32DE37ADB00447409 /* FirebaseStorage */,
 			);
 			productName = BinuApp;
-			productReference = 78F6FB032DE31EDA002D834A /* BinuApp.app */;
+			productReference = 78F6FB032DE31EDA002D834A /* Binu.app */;
 			productType = "com.apple.product-type.application";
 		};
-		78F6FB152DE31EDB002D834A /* BinuAppTests */ = {
+		78F6FB152DE31EDB002D834A /* BinuTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 78F6FB2D2DE31EDB002D834A /* Build configuration list for PBXNativeTarget "BinuAppTests" */;
+			buildConfigurationList = 78F6FB2D2DE31EDB002D834A /* Build configuration list for PBXNativeTarget "BinuTests" */;
 			buildPhases = (
 				78F6FB122DE31EDB002D834A /* Sources */,
 				78F6FB132DE31EDB002D834A /* Frameworks */,
@@ -591,14 +594,14 @@
 			dependencies = (
 				78F6FB182DE31EDB002D834A /* PBXTargetDependency */,
 			);
-			name = BinuAppTests;
+			name = BinuTests;
 			productName = BinuAppTests;
-			productReference = 78F6FB162DE31EDB002D834A /* BinuAppTests.xctest */;
+			productReference = 78F6FB162DE31EDB002D834A /* BinuTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		78F6FB1F2DE31EDB002D834A /* BinuAppUITests */ = {
+		78F6FB1F2DE31EDB002D834A /* BinuUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 78F6FB302DE31EDB002D834A /* Build configuration list for PBXNativeTarget "BinuAppUITests" */;
+			buildConfigurationList = 78F6FB302DE31EDB002D834A /* Build configuration list for PBXNativeTarget "BinuUITests" */;
 			buildPhases = (
 				78F6FB1C2DE31EDB002D834A /* Sources */,
 				78F6FB1D2DE31EDB002D834A /* Frameworks */,
@@ -609,9 +612,9 @@
 			dependencies = (
 				78F6FB222DE31EDB002D834A /* PBXTargetDependency */,
 			);
-			name = BinuAppUITests;
+			name = BinuUITests;
 			productName = BinuAppUITests;
-			productReference = 78F6FB202DE31EDB002D834A /* BinuAppUITests.xctest */;
+			productReference = 78F6FB202DE31EDB002D834A /* BinuUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -637,7 +640,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 78F6FAFE2DE31EDA002D834A /* Build configuration list for PBXProject "BinuApp" */;
+			buildConfigurationList = 78F6FAFE2DE31EDA002D834A /* Build configuration list for PBXProject "Binu" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -653,9 +656,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				78F6FB022DE31EDA002D834A /* BinuApp */,
-				78F6FB152DE31EDB002D834A /* BinuAppTests */,
-				78F6FB1F2DE31EDB002D834A /* BinuAppUITests */,
+				78F6FB022DE31EDA002D834A /* Binu */,
+				78F6FB152DE31EDB002D834A /* BinuTests */,
+				78F6FB1F2DE31EDB002D834A /* BinuUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -708,6 +711,7 @@
 				780B65522DEC1A8400F58AF5 /* SignUpView.swift in Sources */,
 				78008D682E4C5258000D91FF /* TileButton.swift in Sources */,
 				31EF9E572DFF0000008FD5C7 /* CombinedCommentView.swift in Sources */,
+				78008D6A2E4D85DD000D91FF /* ViewExtension.swift in Sources */,
 				783348312DF6C2DD00207E2C /* EditCommentView.swift in Sources */,
 				780B65502DEC1A7E00F58AF5 /* LoginView.swift in Sources */,
 				78F6FB072DE31EDA002D834A /* AppEntry.swift in Sources */,
@@ -775,12 +779,12 @@
 /* Begin PBXTargetDependency section */
 		78F6FB182DE31EDB002D834A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 78F6FB022DE31EDA002D834A /* BinuApp */;
+			target = 78F6FB022DE31EDA002D834A /* Binu */;
 			targetProxy = 78F6FB172DE31EDB002D834A /* PBXContainerItemProxy */;
 		};
 		78F6FB222DE31EDB002D834A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 78F6FB022DE31EDA002D834A /* BinuApp */;
+			target = 78F6FB022DE31EDA002D834A /* Binu */;
 			targetProxy = 78F6FB212DE31EDB002D834A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1013,7 +1017,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BinuApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BinuApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Binu.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Binu";
 			};
 			name = Debug;
 		};
@@ -1036,7 +1040,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BinuApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/BinuApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Binu.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Binu";
 			};
 			name = Release;
 		};
@@ -1087,7 +1091,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		78F6FAFE2DE31EDA002D834A /* Build configuration list for PBXProject "BinuApp" */ = {
+		78F6FAFE2DE31EDA002D834A /* Build configuration list for PBXProject "Binu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				78F6FB282DE31EDB002D834A /* Debug */,
@@ -1096,7 +1100,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		78F6FB2A2DE31EDB002D834A /* Build configuration list for PBXNativeTarget "BinuApp" */ = {
+		78F6FB2A2DE31EDB002D834A /* Build configuration list for PBXNativeTarget "Binu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				78F6FB2B2DE31EDB002D834A /* Debug */,
@@ -1105,7 +1109,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		78F6FB2D2DE31EDB002D834A /* Build configuration list for PBXNativeTarget "BinuAppTests" */ = {
+		78F6FB2D2DE31EDB002D834A /* Build configuration list for PBXNativeTarget "BinuTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				78F6FB2E2DE31EDB002D834A /* Debug */,
@@ -1114,7 +1118,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		78F6FB302DE31EDB002D834A /* Build configuration list for PBXNativeTarget "BinuAppUITests" */ = {
+		78F6FB302DE31EDB002D834A /* Build configuration list for PBXNativeTarget "BinuUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				78F6FB312DE31EDB002D834A /* Debug */,
