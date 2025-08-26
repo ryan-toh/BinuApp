@@ -46,6 +46,7 @@ struct PostRowView: View {
             }
             
             // username
+
             Text(postVM.usernameMap[post.userId] ?? post.userId)
                 .font(.caption)
                 .foregroundColor(.gray)

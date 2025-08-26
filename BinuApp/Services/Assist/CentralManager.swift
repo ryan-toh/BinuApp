@@ -78,7 +78,7 @@ class CentralManager: NSObject {
     // Dedupe notifications: don't re-alert on the same request content within 3 minutes.
     private var recentRequestTimestamps: [String: Date] = [:]
     // For development, set at 1 second
-    private let requestDedupeWindow: TimeInterval = 1
+    private let requestDedupeWindow: TimeInterval = 10
 
     // CoreBluetooth
     private var centralManager: CBCentralManager?

@@ -26,136 +26,139 @@ struct CentralView2: View {
     @State private var debounceWorkItem: DispatchWorkItem?
 
     var body: some View {
-        ZStack {
-            Color("BGColor").ignoresSafeArea()
-            VStack {
-                // Title bar
-                HStack {
-                    Image(systemName: "person.2.wave.2.fill")
-                        .foregroundColor(.accentColor)
-                        .font(.system(size: 30, weight: .medium))
-                        .padding(.trailing, 5)
-                    Text("Provide Help Nearby")
-                        .font(.largeTitle.bold())
-                        .foregroundColor(.primary)
-                        .shadow(radius: 1)
-                    Spacer()
-                }
-                .padding(.horizontal)
-                .padding(.top, 20)
-
-                // Toggle, with glowing accent
-                HStack {
-                    Label("Enable Scanning", systemImage: scanning ? "dot.radiowaves.left.and.right" : "antenna.radiowaves.left.and.right.slash")
-                        .fontWeight(.medium)
-                        .foregroundColor(scanning ? .accentColor : .gray)
-                    Spacer()
-                    Toggle("", isOn: $scanning)
-                        .toggleStyle(.switch)
-                        .tint(.accentColor)
-                }
-                .padding([.horizontal, .top], 20)
-
-                // Error status
-                if let error = centralManager.error {
+        NavigationStack {
+            ZStack {
+                Color("BGColor").ignoresSafeArea()
+                VStack {
+                    // Title bar
                     HStack {
-                        Image(systemName: "exclamationmark.triangle.fill")
-                            .foregroundColor(.red)
-                        Text("\(error.localizedDescription)")
-                            .foregroundColor(.red)
+                        Image(systemName: "person.2.wave.2.fill")
+                            .foregroundColor(.accentColor)
+                            .font(.system(size: 30, weight: .medium))
+                            .padding(.trailing, 5)
+                        Text("Provide Help Nearby")
+                            .font(.largeTitle.bold())
+                            .foregroundColor(.primary)
+                            .shadow(radius: 1)
+                        Spacer()
                     }
-                    .padding([.horizontal, .bottom], 12)
-                }
+                    .padding(.horizontal)
+                    .padding(.top, 20)
 
-                // Help request list
-                List {
-                    Section {
-                        if stablePeripherals.isEmpty {
-                            VStack {
-                                Image(systemName: "magnifyingglass")
-                                    .font(.system(size: 36))
-                                    .padding(.bottom, 8)
-                                    .foregroundColor(.gray.opacity(0.5))
-                                Text("No help requests nearby.\nLeave scanning on.")
-                                    .foregroundColor(.secondary)
-                                    .multilineTextAlignment(.center)
-                            }
-                            .frame(maxWidth: .infinity, minHeight: 120)
-                            .background(.clear)
-                        } else {
-                            ForEach(stablePeripherals, id: \.identifier) { peripheral in
-                                NavigationLink(destination: PeripheralDetailView(peripheralId: peripheral.identifier)
-                                                .environment(centralManager)) {
-                                    HStack(spacing: 18) {
-                                        // Simple avatar based on hash
-                                        ZStack {
-                                            Circle()
-                                                .fill(LinearGradient(gradient: Gradient(colors: [
-                                                    Color.accentColor.opacity(0.19), Color.accentColor.opacity(0.47)
-                                                ]),
-                                                    startPoint: .topLeading,
-                                                    endPoint: .bottomTrailing))
-                                                .frame(width: 46, height: 46)
-                                            Image(systemName: "person.fill")
-                                                .font(.title2)
-                                                .foregroundColor(.accentColor)
-                                        }
-                                        VStack(alignment: .leading, spacing: 3) {
-                                            Text(centralManager.characteristicDescriptions[peripheral.identifier] ?? "Request Withdrawn")
-                                                .font(.headline)
-                                                .foregroundColor(.primary)
-                                            Text("Tap to view & assist")
-                                                .foregroundColor(.blue)
-                                                .font(.subheadline)
-                                        }
-                                        Spacer()
-                                        // Connection status indicator
-                                        if peripheral.state == .connected {
-                                            Image(systemName: "link.circle.fill")
-                                                .foregroundColor(.green)
-                                        }
-                                    }
-                                    .padding([.vertical], 8)
-                                }
-                                .listRowBackground(Color(.secondarySystemGroupedBackground))
-                            }
+                    // Toggle, with glowing accent
+                    HStack {
+                        Label("Enable Scanning", systemImage: scanning ? "dot.radiowaves.left.and.right" : "antenna.radiowaves.left.and.right.slash")
+                            .fontWeight(.medium)
+                            .foregroundColor(scanning ? .accentColor : .gray)
+                        Spacer()
+                        Toggle("", isOn: $scanning)
+                            .toggleStyle(.switch)
+                            .tint(.accentColor)
+                    }
+                    .padding([.horizontal, .top], 20)
+
+                    // Error status
+                    if let error = centralManager.error {
+                        HStack {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundColor(.red)
+                            Text("\(error.localizedDescription)")
+                                .foregroundColor(.red)
                         }
-                    } header: {
-                        Text("Nearby Help Requests")
-                            .font(.title3)
-                            .foregroundColor(Color("BGColor"))
-                            .padding(.bottom, 4)
+                        .padding([.horizontal, .bottom], 12)
+                    }
+
+                    // Help request list
+                    List {
+                        Section {
+                            if stablePeripherals.isEmpty {
+                                VStack {
+                                    Image(systemName: "magnifyingglass")
+                                        .font(.system(size: 36))
+                                        .padding(.bottom, 8)
+                                        .foregroundColor(.gray.opacity(0.5))
+                                    Text("No help requests nearby.\nLeave scanning on.")
+                                        .foregroundColor(.secondary)
+                                        .multilineTextAlignment(.center)
+                                }
+                                .frame(maxWidth: .infinity, minHeight: 120)
+                                .background(.clear)
+                            } else {
+                                ForEach(stablePeripherals, id: \.identifier) { peripheral in
+                                    NavigationLink(destination: PeripheralDetailView(peripheralId: peripheral.identifier)
+                                                    .environment(centralManager)) {
+                                        HStack(spacing: 18) {
+                                            // Simple avatar based on hash
+                                            ZStack {
+                                                Circle()
+                                                    .fill(LinearGradient(gradient: Gradient(colors: [
+                                                        Color.accentColor.opacity(0.19), Color.accentColor.opacity(0.47)
+                                                    ]),
+                                                        startPoint: .topLeading,
+                                                        endPoint: .bottomTrailing))
+                                                    .frame(width: 46, height: 46)
+                                                Image(systemName: "person.fill")
+                                                    .font(.title2)
+                                                    .foregroundColor(.accentColor)
+                                            }
+                                            VStack(alignment: .leading, spacing: 3) {
+                                                Text(centralManager.characteristicDescriptions[peripheral.identifier] ?? "Request Withdrawn")
+                                                    .font(.headline)
+                                                    .foregroundColor(.primary)
+                                                Text("Tap to view & assist")
+                                                    .foregroundColor(.blue)
+                                                    .font(.subheadline)
+                                            }
+                                            Spacer()
+                                            // Connection status indicator
+                                            if peripheral.state == .connected {
+                                                Image(systemName: "link.circle.fill")
+                                                    .foregroundColor(.green)
+                                            }
+                                        }
+                                        .padding([.vertical], 8)
+                                    }
+                                    .listRowBackground(Color(.secondarySystemGroupedBackground))
+                                }
+                            }
+                        } header: {
+                            Text("Nearby Help Requests")
+                                .font(.title3)
+                                .foregroundColor(Color("BGColor"))
+                                .padding(.bottom, 4)
+                        }
+                    }
+                    .listStyle(.insetGrouped)
+                    .background(.clear)
+                    .onChange(of: centralManager.connectedTargetPeripherals) { newValue in
+                        debounceWorkItem?.cancel()
+                        let workItem = DispatchWorkItem {
+                            stablePeripherals = newValue
+                        }
+                        debounceWorkItem = workItem
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: workItem)
                     }
                 }
-                .listStyle(.insetGrouped)
-                .background(.clear)
-                .onChange(of: centralManager.connectedTargetPeripherals) { newValue in
-                    debounceWorkItem?.cancel()
-                    let workItem = DispatchWorkItem {
-                        stablePeripherals = newValue
-                    }
-                    debounceWorkItem = workItem
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: workItem)
+            }
+            .navigationBarHidden(true)
+            .onChange(of: scanning, initial: true) { _, isNowScanning in
+                if isNowScanning {
+                    centralManager.startScanning(
+                        serviceUUIDs: scanningUUIDs,
+                        allowDuplicateKey: allowDuplicateKey,
+                        solicitedServiceUUIDs: solicitedServiceUUIDs
+                    )
+                } else { centralManager.stopScanning() }
+            }
+            .onChange(of: centralManager.restoredScanningOption, initial: true) { _, opt in
+                if let option = opt {
+                    self.scanningUUIDs = option.serviceUUID
+                    self.allowDuplicateKey = option.allowDuplicates
+                    self.solicitedServiceUUIDs = option.solicitedServiceUUIDs
                 }
             }
         }
-        .navigationBarHidden(true)
-        .onChange(of: scanning, initial: true) { _, isNowScanning in
-            if isNowScanning {
-                centralManager.startScanning(
-                    serviceUUIDs: scanningUUIDs,
-                    allowDuplicateKey: allowDuplicateKey,
-                    solicitedServiceUUIDs: solicitedServiceUUIDs
-                )
-            } else { centralManager.stopScanning() }
-        }
-        .onChange(of: centralManager.restoredScanningOption, initial: true) { _, opt in
-            if let option = opt {
-                self.scanningUUIDs = option.serviceUUID
-                self.allowDuplicateKey = option.allowDuplicates
-                self.solicitedServiceUUIDs = option.solicitedServiceUUIDs
-            }
-        }
+
     }
 }
 
