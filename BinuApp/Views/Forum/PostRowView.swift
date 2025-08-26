@@ -46,7 +46,6 @@ struct PostRowView: View {
             }
             
             // username
-            
             Text(postVM.usernameMap[post.userId] ?? post.userId)
                 .font(.caption)
                 .foregroundColor(.gray)
@@ -57,26 +56,7 @@ struct PostRowView: View {
             // Optional image
             if let firstImage = post.media.first,
                let url = URL(string: firstImage.downloadURL) {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .empty:
-                        ProgressView()
-                            .frame(maxWidth: .infinity, minHeight: 150)
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .scaledToFill()
-                            .frame(maxWidth: .infinity, minHeight: 150)
-                            .clipped()
-                            .cornerRadius(8)
-                    case .failure:
-                        Color.gray
-                            .frame(maxWidth: .infinity, minHeight: 150)
-                            .cornerRadius(8)
-                    @unknown default:
-                        EmptyView()
-                    }
-                }
+                PostImageView(url: url)
             }
 
             // Body text
