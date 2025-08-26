@@ -59,13 +59,13 @@ struct ForumView: View {
                         TileButton(
                             title: "Provide Help",
                             systemImage: "hand.raised.fill",
-                            tint: Color.green
+                            tint: Color("FontColor")
                         ) { showingCentralSheet = true }
 
                         TileButton(
                             title: "Call for Help",
                             systemImage: "megaphone.fill",
-                            tint: Color.blue
+                            tint: Color("FontColor").opacity(0.6) // lighter variation
                         ) { showingPeripheralSheet = true }
                     }
                     .padding(.horizontal)
