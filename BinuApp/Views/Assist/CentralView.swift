@@ -9,7 +9,7 @@ import SwiftUI
 import CoreBluetooth
 
 /**
- Development Receiver View
+ Development Receiver View for Debugging
  */
 struct CentralView: View {
     @State private var centralManager: CentralManager
