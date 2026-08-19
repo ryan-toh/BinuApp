@@ -75,10 +75,11 @@ class CentralManager: NSObject {
     private let alwaysScan = true                 // Keep scanning enabled as soon as BT is on (background-safe).
     private(set) var isScanning = false
 
-    // Dedupe notifications: don't re-alert on the same request content within 3 minutes.
+    // Dedupe per requester and request text. Two people can ask for the same item.
     private var recentRequestTimestamps: [String: Date] = [:]
-    // For development, set at 1 second
-    private let requestDedupeWindow: TimeInterval = 10
+    private let requestDedupeWindow: TimeInterval = 3 * 60
+    /// Avoid duplicate connections while the UI list is still updating asynchronously.
+    private var connectingPeripheralIDs: Set<UUID> = []
 
     // CoreBluetooth
     private var centralManager: CBCentralManager?
@@ -114,10 +115,9 @@ extension CentralManager {
     /// Returns `false` if we've already notified for the exact same request text within the dedupe window.
     /// - Parameters:
     ///   - value: The human-readable request (from the User Description descriptor).
-    ///   - peripheral: The source peripheral (unused in global-dedupe mode).
-    /// - Note: Switch the `key` to per-device if you want dedupe per peripheral instead of globally.
+    ///   - peripheral: The source peripheral.
     private func shouldNotify(forRequest value: String, from peripheral: CBPeripheral) -> Bool {
-        let key = value
+        let key = "\(peripheral.identifier.uuidString)|\(value)"
         let now = Date()
 
         // Drop stale entries to keep the map small.
@@ -205,12 +205,16 @@ extension CentralManager {
     /// Initiates a connection to a peripheral with auto-reconnect enabled.
     func makeConnection(_ peripheral: CBPeripheral) {
         guard checkBluetooth(), let centralManager else { setError(.invalidManager); return }
+        guard peripheral.state == .disconnected,
+              !connectingPeripheralIDs.contains(peripheral.identifier) else { return }
+        connectingPeripheralIDs.insert(peripheral.identifier)
         centralManager.connect(peripheral, options: [CBConnectPeripheralOptionEnableAutoReconnect: true])
     }
 
     /// Cancels connection and performs cleanup (disables notifications / removes from lists).
     func cancelConnection(_ peripheral: CBPeripheral) {
         guard checkBluetooth() else { return }
+        connectingPeripheralIDs.remove(peripheral.identifier)
         cleanup(peripheral)
         updatePeripheral(peripheral)
     }
@@ -364,16 +368,13 @@ extension CentralManager: CBCentralManagerDelegate {
                         rssi RSSI: NSNumber) {
         // Optional: local push notification could be sent here.
 
-        // Avoid duplicate connect attempts when the same peripheral re-appears.
-        let isAlreadyConnecting = discoveredPeripherals.contains {
-            $0.identifier == peripheral.identifier && ($0.state == .connected || $0.state == .connecting)
-        }
-        if !isAlreadyConnecting { makeConnection(peripheral) }
+        makeConnection(peripheral)
         updatePeripheral(peripheral)
     }
 
     /// Successful connection: set delegate, kick off service discovery, and update UI list.
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        connectingPeripheralIDs.remove(peripheral.identifier)
         peripheral.delegate = self
         discoverServices(peripheral, serviceUUIDs: [targetServiceUUID])
         updatePeripheral(peripheral)
@@ -381,6 +382,7 @@ extension CentralManager: CBCentralManagerDelegate {
 
     /// Connection failed: cleanup and surface the error.
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        connectingPeripheralIDs.remove(peripheral.identifier)
         cancelConnection(peripheral)
         if let error { setError(.connectError(error.localizedDescription)) }
     }
@@ -391,6 +393,7 @@ extension CentralManager: CBCentralManagerDelegate {
                         timestamp: CFAbsoluteTime,
                         isReconnecting: Bool,
                         error: (any Error)?) {
+        connectingPeripheralIDs.remove(peripheral.identifier)
         if let error { setError(.disConnectError(error.localizedDescription)) }
         removeConnectedTarget(peripheral)
         if !isReconnecting { self.makeConnection(peripheral) } // simple auto-retry policy
@@ -459,4 +462,3 @@ extension CentralManager: CBPeripheralDelegate {
         updatePeripheral(peripheral)
     }
 }
-

@@ -87,8 +87,7 @@ struct PeripheralView: View {
         .alert("Request “\(selectedItem ?? "")”?", isPresented: $showConfirmation) {
             Button("Yes") {
                 if let item = selectedItem {
-                    let service = peripheralManager.createSingleWritableService(withDescription: item)
-                    peripheralManager.addService(service)
+                    peripheralManager.startHelpRequest(item)
                     isAdvertising = true
                 }
             }
@@ -97,9 +96,7 @@ struct PeripheralView: View {
 
         // Start/stop advertising like before
         .onChange(of: isAdvertising) { _, newValue in
-            if newValue {
-                peripheralManager.startAdvertising()
-            } else {
+            if !newValue {
                 peripheralManager.stopAdvertising()
             }
         }

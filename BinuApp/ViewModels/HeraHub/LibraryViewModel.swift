@@ -64,6 +64,7 @@ class LibraryViewModel: NSObject, ObservableObject, XMLParserDelegate {
             )
         ]
     }
+    
     private func parseFeed(from urlString: String, source: String) {
         guard let url = URL(string: urlString),
               let parser = XMLParser(contentsOf: url) else {

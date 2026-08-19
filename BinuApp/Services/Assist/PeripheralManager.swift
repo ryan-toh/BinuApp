@@ -29,6 +29,8 @@ enum PeripheralManagerError: Error {
 class PeripheralManager: NSObject {
     var lastWrittenValue: String = ""
     private(set) var writableCharacteristic: CBMutableCharacteristic?
+    private var shouldAdvertiseAfterServiceIsAdded = false
+    private var pendingHelpRequest: String?
     
     // Helper Function
     func createSingleWritableService(withDescription description: String) -> CBMutableService {
@@ -74,14 +76,54 @@ class PeripheralManager: NSObject {
         super.init()
         peripheralManager = CBPeripheralManager(delegate: self, queue: nil, options: [
             CBPeripheralManagerOptionShowPowerAlertKey: true,
-            // allow state restore
-//            CBPeripheralManagerOptionRestoreIdentifierKey: managerUID
+            CBPeripheralManagerOptionRestoreIdentifierKey: managerUID
         ])
     }
 
 }
     
 extension PeripheralManager {
+
+    /// Publishes a request and advertises only after CoreBluetooth confirms service
+    /// registration. Service registration is asynchronous.
+    @MainActor
+    func startHelpRequest(_ request: String) {
+        guard peripheralManager != nil else {
+            error = .invalidManager
+            return
+        }
+
+        pendingHelpRequest = request
+        publishPendingHelpRequestIfPossible()
+    }
+
+    /// Retains a request while CoreBluetooth is still starting. This avoids losing a
+    /// tap made during the short `.unknown` / `.resetting` startup window.
+    @MainActor
+    private func publishPendingHelpRequestIfPossible() {
+        guard let peripheralManager else {
+            error = .invalidManager
+            return
+        }
+        guard peripheralManager.state == .poweredOn else {
+            if peripheralManager.state == .poweredOff || peripheralManager.state == .unauthorized || peripheralManager.state == .unsupported {
+                error = .bluetoothNotAvailable
+            }
+            return
+        }
+        guard let request = pendingHelpRequest else { return }
+        pendingHelpRequest = nil
+
+        if peripheralManager.isAdvertising { peripheralManager.stopAdvertising() }
+        peripheralManager.removeAllServices()
+        addedServices.removeAll()
+        writableCharacteristic = nil
+
+        shouldAdvertiseAfterServiceIsAdded = true
+        let service = createSingleWritableService(withDescription: request)
+        addedServices = [service]
+        peripheralManager.add(service)
+    }
     
     private func checkBluetooth() -> Bool {
         if peripheralManager?.state != .poweredOn {
@@ -209,6 +251,8 @@ extension PeripheralManager {
     @MainActor
     func stopAdvertising(removeServices: Bool = true) {
         guard let peripheralManager else { return }
+        shouldAdvertiseAfterServiceIsAdded = false
+        pendingHelpRequest = nil
         if peripheralManager.isAdvertising {
             peripheralManager.stopAdvertising()
         }
@@ -270,35 +314,48 @@ extension PeripheralManager {
 // MARK: - Peripheral Manager Delegate
 extension PeripheralManager: CBPeripheralManagerDelegate {
     func peripheralManagerDidUpdateState(_ peripheral: CBPeripheralManager) {
-        if peripheral.state != .poweredOn {
+        if peripheral.state == .poweredOn {
+            Task { @MainActor in self.publishPendingHelpRequestIfPossible() }
+        } else if peripheral.state == .poweredOff || peripheral.state == .unauthorized || peripheral.state == .unsupported {
             self.error = .bluetoothNotAvailable
         }
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, willRestoreState dict: [String : Any]) {
-        print("will restore: ", dict)
-        
         let perviousServices = dict[CBPeripheralManagerRestoredStateServicesKey] as? [CBMutableService] ?? []
+        let restoredAdvertisement = dict[CBPeripheralManagerRestoredStateAdvertisementDataKey] as? [String: Any]
         
-        DispatchQueue.main.async {
+        Task { @MainActor in
             self.addedServices = perviousServices
             for service in perviousServices {
                 guard let characteristics = service.characteristics else { continue }
                 for characteristic in characteristics {
                     guard let mutable = characteristic as? CBMutableCharacteristic else { continue }
                     self.subscribedCentrals[characteristic] = mutable.subscribedCentrals
+                    if mutable.uuid == CBUUID(string: "E100") {
+                        self.writableCharacteristic = mutable
+                    }
                 }
+            }
+
+            // State restoration gives us the prior advertising payload. Restarting it
+            // keeps an active request reachable after iOS relaunches the app.
+            if let restoredAdvertisement, peripheral.state == .poweredOn {
+                peripheral.startAdvertising(restoredAdvertisement)
             }
         }
     }
     
     func peripheralManager(_ peripheral: CBPeripheralManager, didAdd service: CBService, error: (any Error)?) {
-        DispatchQueue.main.async {
+        Task { @MainActor in
             if let error {
                 self.addedServices.removeAll(where: {$0.uuid == service.uuid})
                 self.error = .addServiceError(error.localizedDescription)
                 return
             }
+            guard self.shouldAdvertiseAfterServiceIsAdded else { return }
+            self.shouldAdvertiseAfterServiceIsAdded = false
+            self.startAdvertising()
         }
     }
     

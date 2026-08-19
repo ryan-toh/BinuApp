@@ -17,6 +17,7 @@ struct Post: Codable, Identifiable {
     var title: String
     var text: String
     var media: [PostImage]
+    
     // Contains id of user who liked it
     var likes: [String]
     var commentCount: Int
